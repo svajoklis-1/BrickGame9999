@@ -15,11 +15,11 @@
 #include "GSRain.h"
 #include "GSMenu.h"
 
-class Tetris
+class BrickGame
 {
 public:
-	Tetris();
-	~Tetris();
+	BrickGame();
+	~BrickGame();
 	void run();
 private:
 	ResourceStore *res;

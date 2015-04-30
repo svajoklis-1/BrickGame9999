@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A08B3231-63B5-4219-9C6D-D6F4D51BAE3A}</ProjectGuid>
     <RootNamespace>Tetris</RootNamespace>
+    <ProjectName>BrickGame9999</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -81,7 +82,7 @@
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ScreenNumber.cpp" />
     <ClCompile Include="ScreenRenderer.cpp" />
-    <ClCompile Include="Tetris.cpp" />
+    <ClCompile Include="BrickGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackgroundRenderer.h" />
@@ -93,7 +94,7 @@
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ScreenNumber.h" />
     <ClInclude Include="ScreenRenderer.h" />
-    <ClInclude Include="Tetris.h" />
+    <ClInclude Include="BrickGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

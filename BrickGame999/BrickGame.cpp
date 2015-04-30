@@ -1,6 +1,6 @@
-#include "Tetris.h"
+#include "BrickGame.h"
 
-Tetris::Tetris() :
+BrickGame::BrickGame() :
 device(14)
 {
 	SDL_Rect scrRect = { 0, 0, 233, 215 };
@@ -59,7 +59,7 @@ device(14)
 	gameState = new GSMenu();
 }
 
-Tetris::~Tetris()
+BrickGame::~BrickGame()
 {
 	delete res;
 	delete bgRenderer;
@@ -72,7 +72,7 @@ Tetris::~Tetris()
 	SDL_Quit();
 }
 
-void Tetris::run()
+void BrickGame::run()
 {
 	bool quitting = false;
 

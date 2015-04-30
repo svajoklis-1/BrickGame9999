@@ -3,17 +3,17 @@
 
 using namespace std;
 
-#include "Tetris.h"
+#include "BrickGame.h"
 
 // main file for the program, runs Tetris
 
 int main(int argc, char* argv[])
 {
-	Tetris t;
+	BrickGame b;
 
 	try
 	{
-		t.run();
+		b.run();
 	}
 	catch (string ex)
 	{
