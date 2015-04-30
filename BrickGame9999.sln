@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BrickGame9999", "BrickGame999\BrickGame.vcxproj", "{A08B3231-63B5-4219-9C6D-D6F4D51BAE3A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BrickGame9999", "BrickGame9999\BrickGame.vcxproj", "{A08B3231-63B5-4219-9C6D-D6F4D51BAE3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
