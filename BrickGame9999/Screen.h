@@ -14,6 +14,8 @@ public:
 	Screen();
 	~Screen();
 
+	void clear();
+
 	class PixelArray
 	{
 	public:

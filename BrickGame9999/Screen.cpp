@@ -8,13 +8,14 @@ speed(1),
 mainArray(10, 20),
 hintArray(4, 4)
 {
-	mainArray.clear();
+	clear();
 }
 
 Screen::PixelArray::PixelArray(int sizeX, int sizeY) :
 sizeX(sizeX), sizeY(sizeY)
 {
 	pixels = new bool[sizeX * sizeY];
+	clear();
 }
 
 Screen::PixelArray::~PixelArray()
@@ -24,6 +25,7 @@ Screen::PixelArray::~PixelArray()
 
 Screen::~Screen()
 {
+	
 }
 
 void Screen::PixelArray::clear()
@@ -56,4 +58,15 @@ bool Screen::PixelArray::getPixel(int x, int y)
 		return false;
 
 	return pixels[xyToIndex(x, y)];
+}
+
+void Screen::clear()
+{
+	score.clear();
+	highScore.clear();
+	level.clear();
+	speed.clear();
+
+	mainArray.clear();
+	hintArray.clear();
 }

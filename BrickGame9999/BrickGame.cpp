@@ -98,6 +98,8 @@ void BrickGame::run()
 			}
 		}
 
+		bool doReset = false;
+
 		while (SDL_PollEvent(&ev) != 0)
 		{
 
@@ -141,6 +143,10 @@ void BrickGame::run()
 					gameState->parseEvent(ACTION);
 					break;
 
+				case SDL_SCANCODE_F1:
+					doReset = true;
+					break;
+
 				}
 			}
 		}
@@ -172,6 +178,13 @@ void BrickGame::run()
 
 			SDL_SetWindowTitle(res->getWindow(), (char*)&title);
 			SDL_Delay((1000 / fps) - (ticksNow - ticksBefore));
+		}
+
+		if (doReset)
+		{
+			doReset = false;
+			gameState->nextState = GS_MENU;
+			device.reset();
 		}
 	}
 }

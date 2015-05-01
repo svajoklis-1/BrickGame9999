@@ -8,6 +8,8 @@ public:
 	Device(int bgCount) : bgCount(bgCount) {};
 	Screen screen;
 
+	void reset();
+
 	int score;
 	int highScore;
 	int level;

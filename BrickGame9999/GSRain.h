@@ -6,8 +6,8 @@ class GSRain : public GameState
 {
 public:
 	GSRain();
-	void tick(Device &dev);
-	void parseEvent(Key k);
+	void tick(Device &dev) override;
+	void parseEvent(Key k) override;
 
 private:
 	int numDrops = 10;

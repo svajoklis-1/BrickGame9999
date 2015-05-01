@@ -20,3 +20,8 @@ void Device::setBG(int i)
 
 	bgIndex = i;
 }
+
+void Device::reset()
+{
+	screen.clear();
+}

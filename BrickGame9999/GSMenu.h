@@ -12,8 +12,8 @@ class GSMenu : public GameState
 public:
 	GSMenu();
 	~GSMenu();
-	void tick(Device &dev);
-	void parseEvent(Key k);
+	void tick(Device &dev) override;
+	void parseEvent(Key k) override;
 
 private:
 
