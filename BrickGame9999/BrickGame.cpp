@@ -160,6 +160,17 @@ void BrickGame::run()
 		int fps = 60;
 		if ((ticksNow - ticksBefore) < (1000 / fps))
 		{
+			char title[255];
+			if (ticksNow - ticksBefore != 0)
+			{
+				sprintf_s(title, "9999-in-1, FPS:%d", int(1000 / (ticksNow - ticksBefore)));
+			}
+			else
+			{
+				sprintf_s(title, "9999-in-1, FPS:1000+");
+			}
+
+			SDL_SetWindowTitle(res->getWindow(), (char*)&title);
 			SDL_Delay((1000 / fps) - (ticksNow - ticksBefore));
 		}
 	}

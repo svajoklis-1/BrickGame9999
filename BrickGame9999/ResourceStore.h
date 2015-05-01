@@ -32,10 +32,9 @@ public:
 	SDL_Renderer *getRenderer();
 	SDL_Texture *img(string name);
 
-
-
 	map<string, coord> location;
 	map<string, SDL_Rect> item;
+
 private:
 	SDL_Window *window = nullptr;
 	SDL_Renderer *renderer = nullptr;

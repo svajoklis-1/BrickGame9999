@@ -16,6 +16,19 @@ public:
 	void parseEvent(Key k);
 
 private:
+
+	// numbers
+	string numbers[10];
+	int numCount = 10;
+	int currentNumber = 0;
+	const int numberH = 5;
+	const int numberW = 3;
+	const int numberX = 1;
+	const int numberY = 15;
+
+	void drawNumber(Device &dev);
+
+	// letter related stuffs
 	string letters[6];
 
 	enum letters
@@ -28,9 +41,11 @@ private:
 		R
 	};
 
-	int letterC = 6;
-	int letterW = 5;
-	int letterH = 5;
+	const int letterX = 2;
+	const int letterY = 0;
+	const int letterCount = 6;
+	const int letterW = 5;
+	const int letterH = 5;
 
 	int currentL = 0;
 
@@ -39,7 +54,7 @@ private:
 	int flipTick = 0;
 	int flipState = 1;
 	int flipDir = 1;
-	int turnDelay = 60;
+	const int turnDelay = 60;
 	int turnDelayTick = 0;
 	bool turning = false;
 };

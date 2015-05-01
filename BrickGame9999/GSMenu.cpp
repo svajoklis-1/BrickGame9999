@@ -2,7 +2,7 @@
 
 GSMenu::GSMenu()
 {
-	for (int i = 0; i < letterC; i++)
+	for (int i = 0; i < letterCount; i++)
 	{
 		letters[i] = "";
 	}
@@ -42,6 +42,72 @@ GSMenu::GSMenu()
 	letters[5].append("*   *");
 	letters[5].append("**** ");
 	letters[5].append("*   *");
+
+
+	for (int i = 0; i < numCount; i++)
+	{
+		numbers[i] = "";
+	}
+
+	numbers[0].append("***");
+	numbers[0].append("* *");
+	numbers[0].append("* *");
+	numbers[0].append("* *");
+	numbers[0].append("***");
+
+	numbers[1].append(" * ");
+	numbers[1].append("** ");
+	numbers[1].append(" * ");
+	numbers[1].append(" * ");
+	numbers[1].append("***");
+
+	numbers[2].append("***");
+	numbers[2].append("  *");
+	numbers[2].append("***");
+	numbers[2].append("*  ");
+	numbers[2].append("***");
+
+	numbers[3].append("***");
+	numbers[3].append("  *");
+	numbers[3].append("***");
+	numbers[3].append("  *");
+	numbers[3].append("***");
+
+	numbers[4].append("* *");
+	numbers[4].append("* *");
+	numbers[4].append("***");
+	numbers[4].append("  *");
+	numbers[4].append("  *");
+
+	numbers[5].append("***");
+	numbers[5].append("*  ");
+	numbers[5].append("***");
+	numbers[5].append("  *");
+	numbers[5].append("***");
+
+	numbers[6].append("***");
+	numbers[6].append("*  ");
+	numbers[6].append("***");
+	numbers[6].append("* *");
+	numbers[6].append("***");
+
+	numbers[7].append("***");
+	numbers[7].append("  *");
+	numbers[7].append("  *");
+	numbers[7].append(" * ");
+	numbers[7].append(" * ");
+
+	numbers[8].append("***");
+	numbers[8].append("* *");
+	numbers[8].append("***");
+	numbers[8].append("* *");
+	numbers[8].append("***");
+
+	numbers[9].append("***");
+	numbers[9].append("* *");
+	numbers[9].append("***");
+	numbers[9].append("  *");
+	numbers[9].append("***");
 }
 
 void GSMenu::parseEvent(Key k)
@@ -51,7 +117,7 @@ void GSMenu::parseEvent(Key k)
 	case LEFT:
 		currentL -= 1;
 		if (currentL < 0)
-			currentL = letterC - 1;
+			currentL = letterCount - 1;
 
 		flipState = 1;
 		turning = false;
@@ -62,7 +128,7 @@ void GSMenu::parseEvent(Key k)
 
 	case RIGHT:
 		currentL += 1;
-		if (currentL >= letterC)
+		if (currentL >= letterCount)
 			currentL = 0;
 
 		flipState = 1;
@@ -70,6 +136,18 @@ void GSMenu::parseEvent(Key k)
 		turnDelayTick = 0;
 		flipTick = 0;
 		flipDir = 1;
+		break;
+	
+	case UP:
+		currentNumber++;
+		if (currentNumber >= 100)
+			currentNumber = 0;
+		break;
+
+	case DOWN:
+		currentNumber--;
+		if (currentNumber < 0)
+			currentNumber = 99;
 		break;
 
 	case ACTION:
@@ -83,12 +161,15 @@ void GSMenu::parseEvent(Key k)
 
 void GSMenu::tick(Device &dev)
 {
+
+
 	dev.screen.mainArray.clear();
 	dev.screen.hintArray.clear();
 
 	dev.screen.score.setNumber(currentL);
 
 	drawLetter(dev);
+	drawNumber(dev);
 }
 
 void GSMenu::drawLetter(Device &dev)
@@ -158,7 +239,7 @@ void GSMenu::drawLetter(Device &dev)
 					}
 
 					if (letters[currentL][y * letterW + x] == '*')
-						dev.screen.mainArray.setPixel(actualX, actualY, ON);
+						dev.screen.mainArray.setPixel(actualX + letterX, actualY + letterY, ON);
 				}
 			}
 			else
@@ -184,7 +265,7 @@ void GSMenu::drawLetter(Device &dev)
 					}
 
 					if (letters[currentL][y * letterW + x] == '*')
-						dev.screen.mainArray.setPixel(actualX, actualY, ON);
+						dev.screen.mainArray.setPixel(actualX + letterX, actualY + letterY, ON);
 				}
 			}
 
@@ -202,12 +283,41 @@ void GSMenu::drawLetter(Device &dev)
 			{
 
 				if (letters[currentL][y * letterW + x] == '*')
-					dev.screen.mainArray.setPixel(x, y, ON);
+					dev.screen.mainArray.setPixel(x + letterX, y + letterY, ON);
 			}
 
 		}
 	}
 }
+
+void GSMenu::drawNumber(Device& dev)
+{
+	int drawX = numberX + numberW + 1;
+
+	int tens = currentNumber / 10;
+	int singles = currentNumber % 10;
+
+	for (int y = 0; y < numberH; y++)
+	{
+		for (int x = 0; x < numberW; x++)
+		{
+			if (numbers[singles][y * numberW + x] == '*')
+				dev.screen.mainArray.setPixel(x + drawX, y + numberY, ON);
+		}
+	}
+
+	drawX = numberX;
+
+	for (int y = 0; y < numberH; y++)
+	{
+		for (int x = 0; x < numberW; x++)
+		{
+			if (numbers[tens][y * numberW + x] == '*')
+				dev.screen.mainArray.setPixel(x + drawX, y + numberY, ON);
+		}
+	}
+}
+
 
 GSMenu::~GSMenu()
 {

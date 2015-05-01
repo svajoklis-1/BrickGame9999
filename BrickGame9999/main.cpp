@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	}
 	catch (string ex)
 	{
-		MessageBox(NULL, ex.c_str(), "Program failed", MB_ICONERROR | MB_OK);
+		MessageBox(nullptr, ex.c_str(), "Program failed", MB_ICONERROR | MB_OK);
 	}
 
 	return 0;
