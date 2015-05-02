@@ -10,26 +10,12 @@ using namespace std;
 class GSMenu : public GameState
 {
 public:
-	GSMenu();
+	GSMenu(Device &dev);
 	~GSMenu();
 	void tick(Device &dev) override;
 	void parseEvent(Key k) override;
 
 private:
-
-	// numbers
-	string numbers[10];
-	int numCount = 10;
-	int currentNumber = 0;
-	const int numberH = 5;
-	const int numberW = 3;
-	const int numberX = 1;
-	const int numberY = 15;
-
-	void drawNumber(Device &dev);
-
-	// letter related stuffs
-	string letters[6];
 
 	enum letters
 	{
@@ -38,16 +24,32 @@ private:
 		C,
 		D,
 		E,
-		R
+		R,
+		S,
+		LETTER_COUNT
 	};
+
+	// numbers
+	string numbers[10];
+	int numCount = 10;
+	static int currentNumber;
+	const int numberH = 5;
+	const int numberW = 3;
+	const int numberX = 1;
+	const int numberY = 15;
+
+	void drawNumber(Device &dev);
+
+	// letter related stuffs
+	string letters[LETTER_COUNT];
 
 	const int letterX = 2;
 	const int letterY = 0;
-	const int letterCount = 6;
+	const int letterCount = LETTER_COUNT;
 	const int letterW = 5;
 	const int letterH = 5;
 
-	int currentL = 0;
+	static int currentL;
 
 	void drawLetter(Device &dev);
 

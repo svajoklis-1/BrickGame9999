@@ -27,6 +27,14 @@ void ScreenNumber::clear()
 	}
 }
 
+void ScreenNumber::dash()
+{
+	for (int i = 0; i < width; i++)
+	{
+		segments[i] = CENTER;
+	}
+}
+
 void ScreenNumber::setNumber(int val)
 {
 	clear();

@@ -45,6 +45,9 @@
     <ClCompile Include="BrickGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GSSnake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResourceStore.h">
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BrickGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GSSnake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

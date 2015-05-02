@@ -10,10 +10,10 @@ public:
 
 	void reset();
 
-	int score;
-	int highScore;
-	int level;
-	int speed;
+	int level = 0;
+	int speed = 0;
+	int score = 0;
+	int highScore = 0;
 
 	int getCurrentBG(){ return bgIndex; };
 	void nextBG();

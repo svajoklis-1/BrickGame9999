@@ -21,12 +21,18 @@ public:
 	~ScreenNumber();
 
 	void clear();
+	void dash();
 
 	void setNumber(int value);
 	void setSegments(int *segments, int segmentCount);
 
+	void setLink(int *value){ this->link = value; };
+	void setLinked() { if (link) setNumber(*link); else setNumber(0); }
+
 	void render(ResourceStore &res, coord where);
 private:
+	int *link = nullptr;
+
 	int width = 0;
 	int *segments;
 };

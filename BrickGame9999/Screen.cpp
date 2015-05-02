@@ -70,3 +70,19 @@ void Screen::clear()
 	mainArray.clear();
 	hintArray.clear();
 }
+
+void Screen::PixelArray::fillLines(int from, int to)
+{
+	if (to <= from)
+		return;
+	if (from < 0 || to >= sizeY)
+		return;
+
+	for (int i = from; i < to; i++)
+	{
+		for (int x = 0; x < sizeX; x++)
+		{
+			pixels[i*sizeX + x] = ON;
+		}
+	}
+}

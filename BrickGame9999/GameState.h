@@ -4,18 +4,19 @@
 
 enum Key
 {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-	ACTION
+	KEY_UP,
+	KEY_DOWN,
+	KEY_LEFT,
+	KEY_RIGHT,
+	KEY_ACTION
 };
 
 enum GameStates
 {
 	GS_NONE,
 	GS_MENU,
-	GS_RAIN
+	GS_RAIN,
+	GS_SNAKE
 };
 
 class GameState

@@ -77,6 +77,7 @@
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="GSMenu.cpp" />
     <ClCompile Include="GSRain.cpp" />
+    <ClCompile Include="GSSnake.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResourceStore.cpp" />
     <ClCompile Include="Screen.cpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GSMenu.h" />
     <ClInclude Include="GSRain.h" />
+    <ClInclude Include="GSSnake.h" />
     <ClInclude Include="ResourceStore.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ScreenNumber.h" />

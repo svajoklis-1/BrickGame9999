@@ -50,13 +50,14 @@ device(14)
 	res->setWindow(w);
 	res->setRenderer(r);
 
-	int dashes[] = { CENTER, CENTER, CENTER, CENTER, CENTER, CENTER };
-	device.screen.highScore.setSegments(dashes, 6);
-	device.screen.score.setSegments(dashes, 6);
-	device.screen.level.setSegments(dashes, 1);
-	device.screen.speed.setSegments(dashes, 1);
+	device.screen.highScore.dash();
+	device.screen.score.dash();
+	device.screen.level.dash();
+	device.screen.level.setLink(&device.level);
+	device.screen.speed.dash();
+	device.screen.level.setLink(&device.level);
 
-	gameState = new GSMenu();
+	gameState = new GSSnake(device);
 }
 
 BrickGame::~BrickGame()
@@ -90,11 +91,20 @@ void BrickGame::run()
 			switch (next)
 			{
 			case GS_MENU:
-				gameState = new GSMenu();
+				gameState = new GSMenu(device);
 				break;
 
 			case GS_RAIN:
-				gameState = new GSRain();
+				gameState = new GSRain(device);
+				break;
+
+			case GS_SNAKE:
+				gameState = new GSSnake(device);
+				break;
+
+			default:
+				gameState = new GSMenu(device);
+				break;
 			}
 		}
 
@@ -102,7 +112,6 @@ void BrickGame::run()
 
 		while (SDL_PollEvent(&ev) != 0)
 		{
-
 			// space - action
 			// arrows - arrows
 
@@ -124,27 +133,30 @@ void BrickGame::run()
 					break;
 
 				case SDL_SCANCODE_UP:
-					gameState->parseEvent(UP);
+					gameState->parseEvent(KEY_UP);
 					break;
 
 				case SDL_SCANCODE_DOWN:
-					gameState->parseEvent(DOWN);
+					gameState->parseEvent(KEY_DOWN);
 					break;
 
 				case SDL_SCANCODE_LEFT:
-					gameState->parseEvent(LEFT);
+					gameState->parseEvent(KEY_LEFT);
 					break;
 
 				case SDL_SCANCODE_RIGHT:
-					gameState->parseEvent(RIGHT);
+					gameState->parseEvent(KEY_RIGHT);
 					break;
 
 				case SDL_SCANCODE_SPACE:
-					gameState->parseEvent(ACTION);
+					gameState->parseEvent(KEY_ACTION);
 					break;
 
 				case SDL_SCANCODE_F1:
 					doReset = true;
+					break;
+
+				default:
 					break;
 
 				}
@@ -182,7 +194,6 @@ void BrickGame::run()
 
 		if (doReset)
 		{
-			doReset = false;
 			gameState->nextState = GS_MENU;
 			device.reset();
 		}

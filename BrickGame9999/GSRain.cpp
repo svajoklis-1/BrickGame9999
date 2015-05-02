@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
-GSRain::GSRain()
+GSRain::GSRain(Device &dev)
 {
 	for (int i = 0; i < 10 * 20; i++)
 		drops[i] = false;
@@ -138,31 +138,31 @@ void GSRain::parseEvent(Key k)
 {
 	switch (k)
 	{
-	case UP:
+	case KEY_UP:
 		frequency++;
 		if (frequency > 100)
 			frequency = 100;
 		break;
 
-	case DOWN:
+	case KEY_DOWN:
 		frequency--;
 		if (frequency < 0)
 			frequency = 0;
 		break;
 
-	case LEFT:
+	case KEY_LEFT:
 		dir--;
 		if (dir < -1)
 			dir = -1;
 		break;
 
-	case RIGHT:
+	case KEY_RIGHT:
 		dir++;
 		if (dir > 1)
 			dir = 1;
 		break;
 
-	case ACTION:
+	case KEY_ACTION:
 		nextState = GS_MENU;
 		break;
 	}

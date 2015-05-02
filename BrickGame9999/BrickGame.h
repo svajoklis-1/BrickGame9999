@@ -14,6 +14,7 @@
 #include "GameState.h"
 #include "GSRain.h"
 #include "GSMenu.h"
+#include "GSSnake.h"
 
 class BrickGame
 {

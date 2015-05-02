@@ -1,47 +1,56 @@
 #include "GSMenu.h"
 
-GSMenu::GSMenu()
+int GSMenu::currentL = 0;
+int GSMenu::currentNumber = 0;
+
+GSMenu::GSMenu(Device &dev)
 {
 	for (int i = 0; i < letterCount; i++)
 	{
 		letters[i] = "";
 	}
 
-	letters[0].append("  *  ");
-	letters[0].append(" * * ");
-	letters[0].append("*   *");
-	letters[0].append("*****");
-	letters[0].append("*   *");
+	letters[A].append("  *  ");
+	letters[A].append(" * * ");
+	letters[A].append("*   *");
+	letters[A].append("*****");
+	letters[A].append("*   *");
+	
+	letters[B].append("**** ");
+	letters[B].append("*   *");
+	letters[B].append("**** ");
+	letters[B].append("*   *");
+	letters[B].append("**** ");
 
-	letters[1].append("**** ");
-	letters[1].append("*   *");
-	letters[1].append("**** ");
-	letters[1].append("*   *");
-	letters[1].append("**** ");
+	letters[C].append(" *** ");
+	letters[C].append("*   *");
+	letters[C].append("*    ");
+	letters[C].append("*   *");
+	letters[C].append(" *** ");
 
-	letters[2].append(" *** ");
-	letters[2].append("*   *");
-	letters[2].append("*    ");
-	letters[2].append("*   *");
-	letters[2].append(" *** ");
+	letters[D].append("**** ");
+	letters[D].append("*   *");
+	letters[D].append("*   *");
+	letters[D].append("*   *");
+	letters[D].append("**** ");
 
-	letters[3].append("**** ");
-	letters[3].append("*   *");
-	letters[3].append("*   *");
-	letters[3].append("*   *");
-	letters[3].append("**** ");
+	letters[E].append("*****");
+	letters[E].append("*    ");
+	letters[E].append("*****");
+	letters[E].append("*    ");
+	letters[E].append("*****");
 
-	letters[4].append("*****");
-	letters[4].append("*    ");
-	letters[4].append("*****");
-	letters[4].append("*    ");
-	letters[4].append("*****");
+	letters[R].append("**** ");
+	letters[R].append("*   *");
+	letters[R].append("*   *");
+	letters[R].append("**** ");
+	letters[R].append("*   *");
 
-	letters[5].append("**** ");
-	letters[5].append("*   *");
-	letters[5].append("*   *");
-	letters[5].append("**** ");
-	letters[5].append("*   *");
+	letters[S].append(" ****");
+	letters[S].append("*    ");
+	letters[S].append(" *** ");
+	letters[S].append("    *");
+	letters[S].append("**** ");
 
 
 	for (int i = 0; i < numCount; i++)
@@ -108,13 +117,36 @@ GSMenu::GSMenu()
 	numbers[9].append("***");
 	numbers[9].append("  *");
 	numbers[9].append("***");
+
+	dev.screen.highScore.dash();
+	dev.screen.score.dash();
+	dev.screen.level.dash();
+	dev.screen.speed.dash();
+
+	dev.screen.hintArray.clear();
+
+	dev.screen.hintArray.setPixel(0, 0, ON);
+	dev.screen.hintArray.setPixel(1, 0, ON);
+	dev.screen.hintArray.setPixel(2, 0, ON);
+	dev.screen.hintArray.setPixel(3, 0, ON);
+
+	dev.screen.hintArray.setPixel(0, 1, ON);
+	dev.screen.hintArray.setPixel(3, 1, ON);
+
+	dev.screen.hintArray.setPixel(0, 2, ON);
+	dev.screen.hintArray.setPixel(3, 2, ON);
+
+	dev.screen.hintArray.setPixel(0, 3, ON);
+	dev.screen.hintArray.setPixel(1, 3, ON);
+	dev.screen.hintArray.setPixel(2, 3, ON);
+	dev.screen.hintArray.setPixel(3, 3, ON);
 }
 
 void GSMenu::parseEvent(Key k)
 {
 	switch (k)
 	{
-	case LEFT:
+	case KEY_LEFT:
 		currentL -= 1;
 		if (currentL < 0)
 			currentL = letterCount - 1;
@@ -126,7 +158,7 @@ void GSMenu::parseEvent(Key k)
 		flipDir = 1;
 		break;
 
-	case RIGHT:
+	case KEY_RIGHT:
 		currentL += 1;
 		if (currentL >= letterCount)
 			currentL = 0;
@@ -138,33 +170,30 @@ void GSMenu::parseEvent(Key k)
 		flipDir = 1;
 		break;
 	
-	case UP:
+	case KEY_UP:
 		currentNumber++;
 		if (currentNumber >= 100)
 			currentNumber = 0;
 		break;
 
-	case DOWN:
+	case KEY_DOWN:
 		currentNumber--;
 		if (currentNumber < 0)
 			currentNumber = 99;
 		break;
 
-	case ACTION:
+	case KEY_ACTION:
 		if (currentL == R)
 			nextState = GS_RAIN;
+		if (currentL == S)
+			nextState = GS_SNAKE;
 		break;
 	}
-
-
 }
 
 void GSMenu::tick(Device &dev)
 {
-
-
 	dev.screen.mainArray.clear();
-	dev.screen.hintArray.clear();
 
 	dev.screen.score.setNumber(currentL);
 
@@ -281,7 +310,6 @@ void GSMenu::drawLetter(Device &dev)
 		{
 			for (int x = 0; x < letterW; x++)
 			{
-
 				if (letters[currentL][y * letterW + x] == '*')
 					dev.screen.mainArray.setPixel(x + letterX, y + letterY, ON);
 			}

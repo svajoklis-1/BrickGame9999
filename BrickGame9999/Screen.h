@@ -29,6 +29,8 @@ public:
 
 		int getSizeX(){ return sizeX; };
 		int getSizeY(){ return sizeY; };
+
+		void fillLines(int from, int to);
 	private:
 		int sizeX, sizeY;
 		bool *pixels;
