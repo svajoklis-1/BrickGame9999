@@ -36,4 +36,5 @@ private:
 	Device device;
 
 	GameState *gameState = nullptr;
+	GameStates currentState;
 };

@@ -20,10 +20,8 @@ GSSnake::GSSnake(Device &dev)
 	dev.screen.mainArray.clear();
 	dev.screen.hintArray.clear();
 
+	reset();
 
-	snakeSegments[0] = { 2, 0 };
-	snakeSegments[1] = { 1, 0 };
-	snakeSegments[2] = { 0, 0 };
 }
 
 GSSnake::~GSSnake()
@@ -31,13 +29,14 @@ GSSnake::~GSSnake()
 	
 }
 
-void GSSnake::parseEvent(Key k)
+void GSSnake::parseEvent(Device &dev, Key k)
 {
 	switch (k)
 	{
 	case KEY_ACTION:
-		nextState = GS_MENU;
+		nextState = GS_GAMEOVER_TOCURRENT;
 		//snakeLength++;
+		//gameRunning = !gameRunning;
 		break;
 
 	case KEY_LEFT:
@@ -118,5 +117,16 @@ void GSSnake::tick(Device& dev)
 
 	snakeTick++;
 	snakeHeadBlinkTick++;
+
 }
 
+void GSSnake::reset()
+{
+	snakeLength = 3;
+	x = 2;
+	y = 0;
+
+	snakeSegments[0] = { 2, 0 };
+	snakeSegments[1] = { 1, 0 };
+	snakeSegments[2] = { 0, 0 };
+}

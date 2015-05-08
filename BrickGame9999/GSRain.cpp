@@ -134,7 +134,7 @@ void GSRain::tick(Device &dev)
 	rainTicks++;
 }
 
-void GSRain::parseEvent(Key k)
+void GSRain::parseEvent(Device &dev, Key k)
 {
 	switch (k)
 	{

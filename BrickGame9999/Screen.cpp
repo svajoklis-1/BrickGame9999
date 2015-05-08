@@ -75,7 +75,7 @@ void Screen::PixelArray::fillLines(int from, int to)
 {
 	if (to <= from)
 		return;
-	if (from < 0 || to >= sizeY)
+	if (from < 0 || to > sizeY)
 		return;
 
 	for (int i = from; i < to; i++)

@@ -1,7 +1,6 @@
 #include "GSMenu.h"
 
 int GSMenu::currentL = 0;
-int GSMenu::currentNumber = 0;
 
 GSMenu::GSMenu(Device &dev)
 {
@@ -29,22 +28,28 @@ GSMenu::GSMenu(Device &dev)
 	letters[C].append(" *** ");
 
 	letters[D].append("**** ");
-	letters[D].append("*   *");
-	letters[D].append("*   *");
-	letters[D].append("*   *");
+	letters[D].append(" *  *");
+	letters[D].append(" *  *");
+	letters[D].append(" *  *");
 	letters[D].append("**** ");
 
 	letters[E].append("*****");
 	letters[E].append("*    ");
-	letters[E].append("*****");
+	letters[E].append("**** ");
 	letters[E].append("*    ");
 	letters[E].append("*****");
 
+	letters[G].append(" ****");
+	letters[G].append("*    ");
+	letters[G].append("* ***");
+	letters[G].append("*   *");
+	letters[G].append(" *** ");
+
 	letters[R].append("**** ");
-	letters[R].append("*   *");
-	letters[R].append("*   *");
+	letters[R].append(" *  *");
+	letters[R].append(" *  *");
 	letters[R].append("**** ");
-	letters[R].append("*   *");
+	letters[R].append(" *  *");
 
 	letters[S].append(" ****");
 	letters[S].append("*    ");
@@ -142,7 +147,7 @@ GSMenu::GSMenu(Device &dev)
 	dev.screen.hintArray.setPixel(3, 3, ON);
 }
 
-void GSMenu::parseEvent(Key k)
+void GSMenu::parseEvent(Device &dev, Key k)
 {
 	switch (k)
 	{
@@ -171,15 +176,15 @@ void GSMenu::parseEvent(Key k)
 		break;
 	
 	case KEY_UP:
-		currentNumber++;
-		if (currentNumber >= 100)
-			currentNumber = 0;
+		dev.stage++;
+		if (dev.stage >= 100)
+			dev.stage = 0;
 		break;
 
 	case KEY_DOWN:
-		currentNumber--;
-		if (currentNumber < 0)
-			currentNumber = 99;
+		dev.stage--;
+		if (dev.stage < 0)
+			dev.stage = 99;
 		break;
 
 	case KEY_ACTION:
@@ -187,6 +192,8 @@ void GSMenu::parseEvent(Key k)
 			nextState = GS_RAIN;
 		if (currentL == S)
 			nextState = GS_SNAKE;
+		if (currentL == G)
+			nextState = GS_GAMEOVER;
 		break;
 	}
 }
@@ -322,8 +329,8 @@ void GSMenu::drawNumber(Device& dev)
 {
 	int drawX = numberX + numberW + 1;
 
-	int tens = currentNumber / 10;
-	int singles = currentNumber % 10;
+	int tens = dev.stage / 10;
+	int singles = dev.stage % 10;
 
 	for (int y = 0; y < numberH; y++)
 	{

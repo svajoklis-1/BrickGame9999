@@ -1,4 +1,5 @@
 #include "BrickGame.h"
+#include "GSGameOver.h"
 
 BrickGame::BrickGame() :
 device(14)
@@ -53,11 +54,12 @@ device(14)
 	device.screen.highScore.dash();
 	device.screen.score.dash();
 	device.screen.level.dash();
-	device.screen.level.setLink(&device.level);
+	device.screen.level.setLink(&device.stage);
 	device.screen.speed.dash();
-	device.screen.level.setLink(&device.level);
+	device.screen.level.setLink(&device.stage);
 
-	gameState = new GSSnake(device);
+	gameState = new GSGameOver(device, GS_MENU);
+	currentState = GS_MENU;
 }
 
 BrickGame::~BrickGame()
@@ -88,24 +90,41 @@ void BrickGame::run()
 			GameStates next = gameState->nextState;
 			delete gameState;
 
+			
+
 			switch (next)
 			{
 			case GS_MENU:
 				gameState = new GSMenu(device);
+				currentState = GS_MENU;
 				break;
 
 			case GS_RAIN:
 				gameState = new GSRain(device);
+				currentState = GS_RAIN;
 				break;
 
 			case GS_SNAKE:
 				gameState = new GSSnake(device);
+				currentState = GS_SNAKE;
+				break;
+
+			case GS_GAMEOVER:
+				gameState = new GSGameOver(device, GS_MENU);
+				currentState = GS_GAMEOVER;
+				break;
+
+			case GS_GAMEOVER_TOCURRENT:
+				gameState = new GSGameOver(device, currentState);
+				currentState = GS_GAMEOVER_TOCURRENT;
 				break;
 
 			default:
 				gameState = new GSMenu(device);
 				break;
 			}
+
+			
 		}
 
 		bool doReset = false;
@@ -133,23 +152,23 @@ void BrickGame::run()
 					break;
 
 				case SDL_SCANCODE_UP:
-					gameState->parseEvent(KEY_UP);
+					gameState->parseEvent(device, KEY_UP);
 					break;
 
 				case SDL_SCANCODE_DOWN:
-					gameState->parseEvent(KEY_DOWN);
+					gameState->parseEvent(device, KEY_DOWN);
 					break;
 
 				case SDL_SCANCODE_LEFT:
-					gameState->parseEvent(KEY_LEFT);
+					gameState->parseEvent(device, KEY_LEFT);
 					break;
 
 				case SDL_SCANCODE_RIGHT:
-					gameState->parseEvent(KEY_RIGHT);
+					gameState->parseEvent(device, KEY_RIGHT);
 					break;
 
 				case SDL_SCANCODE_SPACE:
-					gameState->parseEvent(KEY_ACTION);
+					gameState->parseEvent(device, KEY_ACTION);
 					break;
 
 				case SDL_SCANCODE_F1:

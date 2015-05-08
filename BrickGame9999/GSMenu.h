@@ -13,7 +13,7 @@ public:
 	GSMenu(Device &dev);
 	~GSMenu();
 	void tick(Device &dev) override;
-	void parseEvent(Key k) override;
+	void parseEvent(Device &dev, Key k) override;
 
 private:
 
@@ -24,6 +24,7 @@ private:
 		C,
 		D,
 		E,
+		G,
 		R,
 		S,
 		LETTER_COUNT
@@ -32,11 +33,13 @@ private:
 	// numbers
 	string numbers[10];
 	int numCount = 10;
-	static int currentNumber;
+
 	const int numberH = 5;
 	const int numberW = 3;
 	const int numberX = 1;
 	const int numberY = 15;
+
+	static int currentL;
 
 	void drawNumber(Device &dev);
 
@@ -48,8 +51,6 @@ private:
 	const int letterCount = LETTER_COUNT;
 	const int letterW = 5;
 	const int letterH = 5;
-
-	static int currentL;
 
 	void drawLetter(Device &dev);
 

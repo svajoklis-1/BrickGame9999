@@ -16,7 +16,9 @@ enum GameStates
 	GS_NONE,
 	GS_MENU,
 	GS_RAIN,
-	GS_SNAKE
+	GS_SNAKE,
+	GS_GAMEOVER,
+	GS_GAMEOVER_TOCURRENT
 };
 
 class GameState
@@ -24,7 +26,7 @@ class GameState
 public:
 
 	virtual void tick(Device &dev) = 0;
-	virtual void parseEvent(Key k) = 0;
+	virtual void parseEvent(Device &dev, Key k) = 0;
 
 	GameStates nextState = GS_NONE;
 

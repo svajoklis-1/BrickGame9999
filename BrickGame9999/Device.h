@@ -10,6 +10,7 @@ public:
 
 	void reset();
 
+	int stage = 0;
 	int level = 0;
 	int speed = 0;
 	int score = 0;

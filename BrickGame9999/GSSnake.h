@@ -13,7 +13,7 @@ public:
 	GSSnake(Device &dev);
 	~GSSnake();
 	void tick(Device &dev) override;
-	void parseEvent(Key k) override;
+	void parseEvent(Device &dev, Key k) override;
 
 private:
 
@@ -43,5 +43,7 @@ private:
 	
 	int x = 2, y = 0;
 	int dir = RIGHT;
+
+	void reset();
 	
 };

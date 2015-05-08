@@ -75,6 +75,7 @@
   <ItemGroup>
     <ClCompile Include="BackgroundRenderer.cpp" />
     <ClCompile Include="Device.cpp" />
+    <ClCompile Include="GSGameOver.cpp" />
     <ClCompile Include="GSMenu.cpp" />
     <ClCompile Include="GSRain.cpp" />
     <ClCompile Include="GSSnake.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="BackgroundRenderer.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GSGameOver.h" />
     <ClInclude Include="GSMenu.h" />
     <ClInclude Include="GSRain.h" />
     <ClInclude Include="GSSnake.h" />
