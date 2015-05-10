@@ -25,6 +25,12 @@ void ScreenRenderer::render(Screen &screen, ResourceStore &res)
 	screen.speed.render(res, res.location["speed"]);
 }
 
+void ScreenRenderer::moveShadows()
+{
+	mainScreen.moveShadows();
+	hintScreen.moveShadows();
+}
+
 void ScreenRenderer::renderNum(Screen &screen, ResourceStore &res, int num, coord where, int width)
 {
 	int score = num;
@@ -134,11 +140,11 @@ void ScreenRenderer::ScreenRenderHelper::render(Screen::PixelArray &array, Resou
 	int alpha = 255;
 	for (int i = 0; i < numShadows; i++)
 	{
-		alpha /= 2;
+		alpha -= 255 / (numShadows + 1);
 		renderArray(prevScreen[i], sizeX, sizeY, res, location, item, renderedScreen, alpha);
 	}
 
-	pushPrevs();
+	// was move shadows
 
 	// render main pixel array
 
@@ -176,4 +182,9 @@ void ScreenRenderer::ScreenRenderHelper::pushPrevs()
 			prevScreen[i + 1][n] = prevScreen[i][n];
 		}
 	}
+}
+
+void ScreenRenderer::ScreenRenderHelper::moveShadows()
+{
+	pushPrevs();
 }

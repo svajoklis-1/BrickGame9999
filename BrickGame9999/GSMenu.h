@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameState.h"
+#include "Ticker.h"
 
 #include <string>
 using namespace std;
@@ -14,7 +15,7 @@ public:
 	~GSMenu();
 	void tick(Device &dev) override;
 	void parseEvent(Device &dev, Key k) override;
-	void render(Device &dev) override {};
+	void render(Device &dev) override;
 
 private:
 
@@ -31,9 +32,13 @@ private:
 		LETTER_COUNT
 	};
 
+	void defineGraphics();
+
 	// numbers
 	string numbers[10];
 	int numCount = 10;
+
+	map<int, string[4]> anims;
 
 	const int numberH = 5;
 	const int numberW = 3;
@@ -54,11 +59,16 @@ private:
 	const int letterH = 5;
 
 	void drawLetter(Device &dev);
+	void renderAnim(Device &dev);
 
 	int flipTick = 0;
 	int flipState = 1;
 	int flipDir = 1;
-	const int turnDelay = 60;
+	const int turnDelay = 60; //was60
 	int turnDelayTick = 0;
 	bool turning = false;
+
+	Ticker animTicker;
+	int animFrame = 0;
+	int animW = 8, animH = 8;
 };

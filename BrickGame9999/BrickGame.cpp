@@ -67,8 +67,8 @@ BrickGame::BrickGame()
 	/*gameState = new GSGameOver(device, GS_MENU);
 	currentState = GS_GAMEOVER;*/
 
-	gameState = new GSSnake(device);
-	currentState = GS_SNAKE;
+	gameState = new GSMenu(device);
+	currentState = GS_MENU;
 }
 
 void BrickGame::readSave()
@@ -81,7 +81,9 @@ void BrickGame::readSave()
 	{
 		pt::read_ini("saveData.ini", saveFile);
 		magic = saveFile.get<int>("magic.magic", -1);
-		windowScale = saveFile.get<int>("window.scale");
+
+		windowScale = saveFile.get<int>("window.scale", 1);
+		limitFPS = saveFile.get<int>("window.frameLimit", 1) == 1;
 
 		device.setBGCount(saveFile.get<int>("device.backgroundCount", 14));
 		device.setBG(saveFile.get<int>("device.currentBackground", 1) - 1);
@@ -120,6 +122,7 @@ void BrickGame::writeSave()
 	pt::read_ini("saveData.ini", saveFile);
 
 	saveFile.put("window.scale", windowScale);
+	saveFile.put("window.frameLimit", limitFPS ? 1 : 0);
 
 	saveFile.put("device.currentBackground", device.getCurrentBG() + 1);
 	
@@ -141,6 +144,7 @@ void BrickGame::defaultSave()
 	pt::ptree saveFile;
 
 	saveFile.put("window.scale", windowScale);
+	saveFile.put("window.frameLimit", 0);
 	saveFile.put("magic.magic", magicVal);
 
 	saveFile.put("device.backgroundCount", device.getBGCount());
@@ -170,7 +174,6 @@ void BrickGame::run()
 
 	int tickLimiter = SDL_GetTicks();
 
-	bool limitFPS = true;
 	bool paused = false;
 
 	while (!quitting)
@@ -299,7 +302,10 @@ void BrickGame::run()
 			}
 		}
 
-		if ((SDL_GetTicks() - tickLimiter) > (1000 / 60))
+		// render background
+		bgRenderer->render(*res, device.getCurrentBG());
+
+		if ((SDL_GetTicks() - tickLimiter) > (1000.f / 60.f))
 		{
 			tickLimiter = SDL_GetTicks();
 			if (!paused)
@@ -307,10 +313,9 @@ void BrickGame::run()
 
 			// let the game render on the device
 			gameState->render(device);
-		}
 
-		// render background
-		bgRenderer->render(*res, device.getCurrentBG());
+			scRenderer->moveShadows();
+		}
 
 		scRenderer->render(device.screen, *res);
 
@@ -319,7 +324,7 @@ void BrickGame::run()
 		// framerate limit
 		int ticksNow = SDL_GetTicks();
 
-		int fps = 300;
+		int fps = 250;
 		if ((ticksNow - ticksBefore) < (1000 / fps) && limitFPS)
 		{
 			SDL_Delay((1000 / fps) - (ticksNow - ticksBefore));

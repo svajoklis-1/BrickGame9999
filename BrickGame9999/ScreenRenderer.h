@@ -9,6 +9,7 @@ public:
 	ScreenRenderer();
 	~ScreenRenderer();
 	void render(Screen &screen, ResourceStore &res);
+	void moveShadows();
 
 	class ScreenRenderHelper
 	{
@@ -17,6 +18,7 @@ public:
 		~ScreenRenderHelper();
 
 		void render(Screen::PixelArray &array, ResourceStore &res, string location, string item);
+		void moveShadows();
 
 		int sizeX, sizeY;
 
@@ -32,8 +34,6 @@ public:
 
 private:
 	void renderNum(Screen &screen, ResourceStore &res, int num, coord where, int width);
-
-
 
 	ScreenRenderHelper mainScreen;
 	ScreenRenderHelper hintScreen;

@@ -37,6 +37,9 @@ public:
 
 		void fillLines(int from, int to);
 		void setCount(int c);
+
+		void copyArray(int x, int y, bool *data, int w, int h);
+		void copyString(int x, int y, string data, int w, int h);
 	private:
 		int sizeX, sizeY;
 		bool *pixels;

@@ -52,4 +52,6 @@ private:
 
 	const unsigned int magicVal = 0xE69F3;
 	unsigned int calcMagic();
+
+	bool limitFPS = true;
 };

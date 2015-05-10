@@ -2,126 +2,10 @@
 
 int GSMenu::currentL = 0;
 
-GSMenu::GSMenu(Device &dev)
+GSMenu::GSMenu(Device &dev) :
+animTicker(60)
 {
-	for (int i = 0; i < letterCount; i++)
-	{
-		letters[i] = "";
-	}
-
-	letters[A].append("  *  ");
-	letters[A].append(" * * ");
-	letters[A].append("*   *");
-	letters[A].append("*****");
-	letters[A].append("*   *");
-	
-	letters[B].append("**** ");
-	letters[B].append("*   *");
-	letters[B].append("**** ");
-	letters[B].append("*   *");
-	letters[B].append("**** ");
-
-	letters[C].append(" *** ");
-	letters[C].append("*   *");
-	letters[C].append("*    ");
-	letters[C].append("*   *");
-	letters[C].append(" *** ");
-
-	letters[D].append("**** ");
-	letters[D].append(" *  *");
-	letters[D].append(" *  *");
-	letters[D].append(" *  *");
-	letters[D].append("**** ");
-
-	letters[E].append("*****");
-	letters[E].append("*    ");
-	letters[E].append("**** ");
-	letters[E].append("*    ");
-	letters[E].append("*****");
-
-	letters[G].append(" ****");
-	letters[G].append("*    ");
-	letters[G].append("* ***");
-	letters[G].append("*   *");
-	letters[G].append(" *** ");
-
-	letters[R].append("**** ");
-	letters[R].append(" *  *");
-	letters[R].append(" *  *");
-	letters[R].append("**** ");
-	letters[R].append(" *  *");
-
-	letters[S].append(" ****");
-	letters[S].append("*    ");
-	letters[S].append(" *** ");
-	letters[S].append("    *");
-	letters[S].append("**** ");
-
-
-	for (int i = 0; i < numCount; i++)
-	{
-		numbers[i] = "";
-	}
-
-	numbers[0].append("***");
-	numbers[0].append("* *");
-	numbers[0].append("* *");
-	numbers[0].append("* *");
-	numbers[0].append("***");
-
-	numbers[1].append(" * ");
-	numbers[1].append("** ");
-	numbers[1].append(" * ");
-	numbers[1].append(" * ");
-	numbers[1].append("***");
-
-	numbers[2].append("***");
-	numbers[2].append("  *");
-	numbers[2].append("***");
-	numbers[2].append("*  ");
-	numbers[2].append("***");
-
-	numbers[3].append("***");
-	numbers[3].append("  *");
-	numbers[3].append("***");
-	numbers[3].append("  *");
-	numbers[3].append("***");
-
-	numbers[4].append("* *");
-	numbers[4].append("* *");
-	numbers[4].append("***");
-	numbers[4].append("  *");
-	numbers[4].append("  *");
-
-	numbers[5].append("***");
-	numbers[5].append("*  ");
-	numbers[5].append("***");
-	numbers[5].append("  *");
-	numbers[5].append("***");
-
-	numbers[6].append("***");
-	numbers[6].append("*  ");
-	numbers[6].append("***");
-	numbers[6].append("* *");
-	numbers[6].append("***");
-
-	numbers[7].append("***");
-	numbers[7].append("  *");
-	numbers[7].append("  *");
-	numbers[7].append(" * ");
-	numbers[7].append(" * ");
-
-	numbers[8].append("***");
-	numbers[8].append("* *");
-	numbers[8].append("***");
-	numbers[8].append("* *");
-	numbers[8].append("***");
-
-	numbers[9].append("***");
-	numbers[9].append("* *");
-	numbers[9].append("***");
-	numbers[9].append("  *");
-	numbers[9].append("***");
+	defineGraphics();
 
 	if (!dev.inGame)
 		dev.screen.highScore.dash();
@@ -165,6 +49,8 @@ void GSMenu::parseEvent(Device &dev, Key k)
 		turnDelayTick = 0;
 		flipTick = 0;
 		flipDir = 1;
+		animFrame = 0;
+		animTicker.reset();
 		break;
 
 	case KEY_RIGHT:
@@ -177,6 +63,8 @@ void GSMenu::parseEvent(Device &dev, Key k)
 		turnDelayTick = 0;
 		flipTick = 0;
 		flipDir = 1;
+		animFrame = 0;
+		animTicker.reset();
 		break;
 	
 	case KEY_UP:
@@ -204,10 +92,25 @@ void GSMenu::parseEvent(Device &dev, Key k)
 
 void GSMenu::tick(Device &dev)
 {
-	dev.screen.mainArray.clear();
+	if (animTicker.triggered())
+	{
+		animTicker.reset();
 
-	drawLetter(dev);
-	drawNumber(dev);
+		animFrame++;
+		if (animFrame >= 4)
+			animFrame = 0;
+	}
+
+	animTicker.tick();
+
+	if (turning)
+	{
+		flipTick++;
+	}
+	else
+	{
+		turnDelayTick++;
+	}
 }
 
 void GSMenu::drawLetter(Device &dev)
@@ -309,11 +212,9 @@ void GSMenu::drawLetter(Device &dev)
 
 		}
 
-		flipTick++;
 	}
 	else
 	{
-		turnDelayTick++;
 
 		for (int y = 0; y < letterH; y++)
 		{
@@ -355,7 +256,205 @@ void GSMenu::drawNumber(Device& dev)
 	}
 }
 
+void GSMenu::render(Device &dev)
+{
+	dev.screen.mainArray.clear();
+
+	dev.screen.score.setNumber(animFrame);
+
+	drawLetter(dev);
+	drawNumber(dev);
+
+	renderAnim(dev);
+}
+
+void GSMenu::renderAnim(Device &dev)
+{
+	if (anims.find(currentL) != anims.end())
+		dev.screen.mainArray.copyString(1, 5, anims[currentL][animFrame], animW, animH);
+}
+
 
 GSMenu::~GSMenu()
 {
+}
+
+void GSMenu::defineGraphics()
+{
+	for (int i = 0; i < letterCount; i++)
+	{
+		letters[i] = "";
+	}
+
+	letters[A] =
+		"  *  "
+		" * * "
+		"*   *"
+		"*****"
+		"*   *";
+
+	letters[B] =
+		"**** "
+		"*   *"
+		"**** "
+		"*   *"
+		"**** ";
+
+	letters[C] =
+		" *** "
+		"*   *"
+		"*    "
+		"*   *"
+		" *** ";
+
+	letters[D] =
+		"**** "
+		" *  *"
+		" *  *"
+		" *  *"
+		"**** ";
+
+	letters[E] =
+		"*****"
+		"*    "
+		"**** "
+		"*    "
+		"*****";
+
+	letters[G] =
+		" ****"
+		"*    "
+		"* ***"
+		"*   *"
+		" *** ";
+
+	letters[R] =
+		"**** "
+		" *  *"
+		" *  *"
+		"**** "
+		" *  *";
+
+	letters[S] =
+		" ****"
+		"*    "
+		" *** "
+		"    *"
+		"**** ";
+
+
+	for (int i = 0; i < numCount; i++)
+	{
+		numbers[i] = "";
+	}
+
+	numbers[0] =
+		"***"
+		"* *"
+		"* *"
+		"* *"
+		"***";
+
+	numbers[1] =
+		" * "
+		"** "
+		" * "
+		" * "
+		"***";
+
+	numbers[2] =
+		"***"
+		"  *"
+		"***"
+		"*  "
+		"***";
+
+	numbers[3] =
+		"***"
+		"  *"
+		"***"
+		"  *"
+		"***";
+
+	numbers[4] =
+		"* *"
+		"* *"
+		"***"
+		"  *"
+		"  *";
+
+	numbers[5] =
+		"***"
+		"*  "
+		"***"
+		"  *"
+		"***";
+
+	numbers[6] =
+		"***"
+		"*  "
+		"***"
+		"* *"
+		"***";
+
+	numbers[7] =
+		"***"
+		"  *"
+		"  *"
+		" * "
+		" * ";
+
+	numbers[8] =
+		"***"
+		"* *"
+		"***"
+		"* *"
+		"***";
+
+	numbers[9] =
+		"***"
+		"* *"
+		"***"
+		"  *"
+		"***";
+
+	anims[S][0] =
+		"        "
+		"    *   "
+		"        "
+		"        "
+		"        "
+		"        "
+		"        "
+		"*****   ";
+
+	anims[S][1] =
+		"        "
+		"    *   "
+		"        "
+		"        "
+		"    *   "
+		"    *   "
+		"    *   "
+		"   **   ";
+
+	anims[S][2] =
+		"        "
+		"   **   "
+		"    *   "
+		"    *   "
+		"    *   "
+		"    *   "
+		"        "
+		"        ";
+
+	anims[S][3] =
+		"        "
+		"   **   "
+		"   **   "
+		"   *    "
+		"   *    "
+		"        "
+		"        "
+		"        ";
 }

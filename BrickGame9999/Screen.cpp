@@ -110,3 +110,25 @@ void Screen::PixelArray::setCount(int c)
 		c--;
 	}
 }
+
+void Screen::PixelArray::copyArray(int x, int y, bool* data, int w, int h)
+{
+	for (int i = x; i < x + w && i < sizeX; i++)
+	{
+		for (int j = y; j < x + h && j < sizeY; j++)
+		{
+			pixels[j * sizeX + i] = data[(j - y) * w + (i - x)];
+		}
+	}
+}
+
+void Screen::PixelArray::copyString(int x, int y, string data, int w, int h)
+{
+	for (int i = x; i < x + w && i < sizeX; i++)
+	{
+		for (int j = y; j < y + h && j < sizeY; j++)
+		{
+			pixels[j * sizeX + i] = data[(j - y) * w + (i - x)] != ' ';
+		}
+	}
+}
