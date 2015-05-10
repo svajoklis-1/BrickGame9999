@@ -5,14 +5,11 @@ using namespace std;
 
 GSSnake::GSSnake(Device &dev)
 {
-	dev.screen.score.setNumber(0);
-	dev.screen.highScore.dash();
-
 	dev.score = 0;
 	dev.screen.score.setNumber(dev.score);
 
 	dev.highScore = 0;
-	dev.screen.highScore.setNumber(dev.highScore);
+	dev.screen.highScore.dash();
 
 	dev.screen.speed.setLinked();
 	dev.screen.level.setLinked();
@@ -21,7 +18,6 @@ GSSnake::GSSnake(Device &dev)
 	dev.screen.hintArray.clear();
 
 	reset();
-
 }
 
 GSSnake::~GSSnake()
@@ -31,36 +27,56 @@ GSSnake::~GSSnake()
 
 void GSSnake::parseEvent(Device &dev, Key k)
 {
-	switch (k)
+	if (!didTurn)
 	{
-	case KEY_ACTION:
-		nextState = GS_GAMEOVER_TOCURRENT;
-		//snakeLength++;
-		//gameRunning = !gameRunning;
-		break;
+		int old_dir = dir;
+		switch (k)
+		{
+		case KEY_ACTION:
+			//nextState = GS_GAMEOVER_TOCURRENT;
+			//snakeLength++;
+			//gameRunning = !gameRunning;
+			//genFood();
+			break;
 
-	case KEY_LEFT:
-		dir = LEFT;
-		break;
+		case KEY_LEFT:
+			if (dir != RIGHT)
+				dir = LEFT;
+			break;
 
-	case KEY_RIGHT:
-		dir = RIGHT;
-		break;
+		case KEY_RIGHT:
+			if (dir != LEFT)
+				dir = RIGHT;
+			break;
 
-	case KEY_UP:
-		dir = UP;
-		break;
+		case KEY_UP:
+			if (dir != DOWN)
+				dir = UP;
+			break;
 
-	case KEY_DOWN:
-		dir = DOWN;
-		break;
+		case KEY_DOWN:
+			if (dir != UP)
+				dir = DOWN;
+			break;
+		}
+		if (old_dir != dir)
+		{
+			didTurn = true;
+		}
 	}
 }
 
 void GSSnake::tick(Device& dev)
 {
+	
+	/*******************************************   LOGIC   *********************************/
+	
+	
+	// move snake
 	if (snakeTick >= snakeTickLength)
 	{
+		// reset turn protection
+		didTurn = false;
 		snakeTick = 0;
 
 		// remove last segment
@@ -73,60 +89,113 @@ void GSSnake::tick(Device& dev)
 		switch (dir)
 		{
 		case LEFT:
-			x--;
-			if (x < 0)
-				x = 9;
+			snakeHeadX--;
+			if (snakeHeadX < 0)
+				snakeHeadX = 9;
 			break;
 
 		case UP:
-			y--;
-			if (y < 0)
-				y = 19;
+			snakeHeadY--;
+			if (snakeHeadY < 0)
+				snakeHeadY = 19;
 			break;
 
 		case RIGHT:
-			x++;
-			if (x >= 10)
-				x = 0;
+			snakeHeadX++;
+			if (snakeHeadX >= 10)
+				snakeHeadX = 0;
 			break;
 
 		case DOWN:
-			y++;
-			if (y >= 20)
-				y = 0;
+			snakeHeadY++;
+			if (snakeHeadY >= 20)
+				snakeHeadY = 0;
 			break;
 		}
 
-		snakeSegments[0] = { x, y };
+		snakeSegments[0] = { snakeHeadX, snakeHeadY };
 	}
 
-	if (snakeHeadBlinkTick > snakeHeadBlinkTickLength)
+	// check for collision with itself
+	for (int i = 1; i < snakeLength; i++)
+	{
+		if (snakeSegments[i] == snakeSegments[0])
+		{
+			nextState = GS_GAMEOVER_TOCURRENT;
+		}
+	}
+
+	// check for collision with food
+	if (snakeSegments[0] == food)
+	{
+		dev.score += 10;
+		genFood();
+		snakeLength++;
+	}
+
+	// blink head
+	if (snakeHeadBlinkTick >= snakeHeadBlinkTickLength)
 	{
 		snakeHeadBlinkTick = 0;
-		drawHead = !drawHead;
+		drawBlink = !drawBlink;
 	}
 
-	// draw snake
+	/*******************************************   RENDER   *********************************/
 	dev.screen.mainArray.clear();
+	dev.screen.score.setNumber(dev.score);
 	
 	for (int i = 0; i < snakeLength; i++)
 	{
-		if (i != 0 || drawHead)
-			dev.screen.mainArray.setPixel(snakeSegments[i].x, snakeSegments[i].y, ON);
+		if (i != 0 || drawBlink)
+			dev.screen.mainArray.setPixel(snakeSegments[i], ON);
 	}
 
-	snakeTick++;
+	// draw food
+	dev.screen.mainArray.setPixel(food, ON);
+
+	/*******************************************   TICK   *********************************/
+	// logic tick
+	if (gameTick >= gameDelay)
+	{
+		snakeTick++;
+	}
+
+	// display tick
 	snakeHeadBlinkTick++;
 
+	// game tick
+	gameTick++;
 }
 
 void GSSnake::reset()
 {
 	snakeLength = 3;
-	x = 2;
-	y = 0;
+	snakeHeadX = 2;
+	snakeHeadY = 0;
 
 	snakeSegments[0] = { 2, 0 };
 	snakeSegments[1] = { 1, 0 };
 	snakeSegments[2] = { 0, 0 };
+
+	genFood();
+}
+
+void GSSnake::genFood()
+{
+	bool collides = true;
+	while (collides)
+	{
+		collides = false;
+
+		food.x = rand() % 10;
+		food.y = rand() % 20;
+
+		for (int i = 0; i < snakeLength; i++)
+		{
+			if (food == snakeSegments[i])
+			{
+				collides = true;
+			}
+		}
+	}
 }

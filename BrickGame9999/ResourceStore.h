@@ -6,16 +6,12 @@
 #include <map>
 #include <iostream>
 
+#include "Types.h"
+
 using namespace std;
 
 // a class to store and manage resource loading
 // an easier way to pass down resources
-
-struct coord
-{
-	int x;
-	int y;
-};
 
 class ResourceStore
 {

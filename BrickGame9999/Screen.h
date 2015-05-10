@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Types.h"
 #include "ScreenNumber.h"
 
 enum pixelState
@@ -23,7 +24,11 @@ public:
 		~PixelArray();
 
 		void setPixel(int x, int y, pixelState state);
+		void setPixel(coord c, pixelState state) { setPixel(c.x, c.y, state); };
 		bool getPixel(int x, int y);
+		bool getPixel(coord c){ return getPixel(c.x, c.y); }
+
+		int cToIndex(coord c){ return xyToIndex(c.x, c.y); }
 		int xyToIndex(int x, int y);
 		void clear();
 

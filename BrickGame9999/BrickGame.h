@@ -37,4 +37,6 @@ private:
 
 	GameState *gameState = nullptr;
 	GameStates currentState;
+
+	void setWindowScale(int scale);
 };

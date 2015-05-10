@@ -21,6 +21,7 @@ device(14)
 		throw string("Failed to create SDL window.");
 
 	r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED);
+	
 
 	icon = nullptr;
 	icon = IMG_Load("Resources\\icon.png");
@@ -58,8 +59,10 @@ device(14)
 	device.screen.speed.dash();
 	device.screen.level.setLink(&device.stage);
 
+	setWindowScale(1);
+
 	gameState = new GSGameOver(device, GS_MENU);
-	currentState = GS_MENU;
+	currentState = GS_GAMEOVER;
 }
 
 BrickGame::~BrickGame()
@@ -81,6 +84,9 @@ void BrickGame::run()
 
 	SDL_Event ev;
 
+	int tickLimiter = SDL_GetTicks();
+	int windowScale = 1;
+
 	while (!quitting)
 	{
 		int ticksBefore = SDL_GetTicks();
@@ -89,8 +95,6 @@ void BrickGame::run()
 		{
 			GameStates next = gameState->nextState;
 			delete gameState;
-
-			
 
 			switch (next)
 			{
@@ -175,6 +179,18 @@ void BrickGame::run()
 					doReset = true;
 					break;
 
+				case SDL_SCANCODE_KP_PLUS:
+					windowScale++;
+					cout << windowScale << endl;
+					setWindowScale(windowScale);
+					break;
+
+				case SDL_SCANCODE_KP_MINUS:
+					if (windowScale > 1)
+						windowScale--;
+					setWindowScale(windowScale);
+					break;
+
 				default:
 					break;
 
@@ -182,7 +198,11 @@ void BrickGame::run()
 			}
 		}
 
-		gameState->tick(device);
+		if ((SDL_GetTicks() - tickLimiter) > (1000 / 60))
+		{
+			tickLimiter = SDL_GetTicks();
+			gameState->tick(device);
+		}
 
 		// render background
 		bgRenderer->render(*res, device.getCurrentBG());
@@ -194,22 +214,16 @@ void BrickGame::run()
 		// framerate limit
 		int ticksNow = SDL_GetTicks();
 
-		int fps = 60;
-		if ((ticksNow - ticksBefore) < (1000 / fps))
+		char title[255];
+		if (ticksNow - ticksBefore != 0)
 		{
-			char title[255];
-			if (ticksNow - ticksBefore != 0)
-			{
-				sprintf_s(title, "9999-in-1, FPS:%d", int(1000 / (ticksNow - ticksBefore)));
-			}
-			else
-			{
-				sprintf_s(title, "9999-in-1, FPS:1000+");
-			}
-
-			SDL_SetWindowTitle(res->getWindow(), (char*)&title);
-			SDL_Delay((1000 / fps) - (ticksNow - ticksBefore));
+			sprintf_s(title, "FPS:%d", int(1000.0 / (ticksNow - ticksBefore)));
 		}
+		else
+		{
+			sprintf_s(title, "FPS:1000+");
+		}
+		SDL_SetWindowTitle(res->getWindow(), (char*)&title);
 
 		if (doReset)
 		{
@@ -217,4 +231,10 @@ void BrickGame::run()
 			device.reset();
 		}
 	}
+}
+
+void BrickGame::setWindowScale(int scale)
+{
+	SDL_SetWindowSize(res->getWindow(), res->windowSize.w * scale, res->windowSize.h * scale);
+	SDL_RenderSetScale(r, (float)scale, (float)scale);
 }

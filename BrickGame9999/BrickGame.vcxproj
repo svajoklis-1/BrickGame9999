@@ -99,6 +99,7 @@
     <ClInclude Include="ScreenNumber.h" />
     <ClInclude Include="ScreenRenderer.h" />
     <ClInclude Include="BrickGame.h" />
+    <ClInclude Include="Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -14,7 +14,7 @@ public:
 	void parseEvent(Device &dev, Key k) override;
 
 private:
-	int tickStep = 10;
+	int tickStep = 3;
 	int tickCounter = 0;
 	int lineState = 0;
 

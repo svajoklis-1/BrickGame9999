@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameState.h"
-
+#include "Types.h"
 #include <string>
 using namespace std;
 
@@ -17,12 +17,6 @@ public:
 
 private:
 
-	struct coord
-	{
-		int x;
-		int y;
-	};
-
 	enum dirs
 	{
 		LEFT,
@@ -33,16 +27,23 @@ private:
 
 	coord snakeSegments[256];
 	int snakeLength = 3;
+	bool didTurn = false;
 
 	int snakeTickLength = 10;
 	int snakeTick = 0;
 
-	int snakeHeadBlinkTickLength = 2;
+	int snakeHeadBlinkTickLength = 3;
 	int snakeHeadBlinkTick = 0;
-	bool drawHead = true;
+	bool drawBlink = true;
+
+	coord food;
+	void genFood();
 	
-	int x = 2, y = 0;
+	int snakeHeadX = 2, snakeHeadY = 0;
 	int dir = RIGHT;
+
+	int gameTick = 0;
+	const int gameDelay = 60;
 
 	void reset();
 	
