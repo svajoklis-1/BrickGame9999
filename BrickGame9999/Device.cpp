@@ -23,5 +23,6 @@ void Device::setBG(int i)
 
 void Device::reset()
 {
+	lives = 0;
 	screen.clear();
 }

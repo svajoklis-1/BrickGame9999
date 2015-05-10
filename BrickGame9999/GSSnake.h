@@ -14,6 +14,7 @@ public:
 	~GSSnake();
 	void tick(Device &dev) override;
 	void parseEvent(Device &dev, Key k) override;
+	void render(Device &dev) override;
 
 private:
 

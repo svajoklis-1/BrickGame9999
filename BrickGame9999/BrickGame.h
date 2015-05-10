@@ -16,6 +16,11 @@
 #include "GSMenu.h"
 #include "GSSnake.h"
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+
+namespace pt = boost::property_tree;
+
 class BrickGame
 {
 public:
@@ -38,5 +43,13 @@ private:
 	GameState *gameState = nullptr;
 	GameStates currentState;
 
+	int windowScale = 1;
 	void setWindowScale(int scale);
+
+	void readSave();
+	void defaultSave();
+	void writeSave();
+
+	const unsigned int magicVal = 0xE69F3;
+	unsigned int calcMagic();
 };

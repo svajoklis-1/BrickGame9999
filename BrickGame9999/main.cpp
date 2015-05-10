@@ -9,10 +9,9 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	BrickGame b;
-
 	try
 	{
+		BrickGame b;
 		b.run();
 	}
 	catch (string ex)

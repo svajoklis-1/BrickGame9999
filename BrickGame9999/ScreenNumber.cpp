@@ -29,6 +29,7 @@ void ScreenNumber::clear()
 
 void ScreenNumber::dash()
 {
+	currentType = SEGMENTS;
 	for (int i = 0; i < width; i++)
 	{
 		segments[i] = CENTER;
@@ -37,6 +38,12 @@ void ScreenNumber::dash()
 
 void ScreenNumber::setNumber(int val)
 {
+	if (currentType == NUMBER && val == lastSetNumber)
+		return;
+
+	lastSetNumber = val;
+	currentType = NUMBER;
+
 	clear();
 
 	bool sign;

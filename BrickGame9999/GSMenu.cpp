@@ -123,7 +123,9 @@ GSMenu::GSMenu(Device &dev)
 	numbers[9].append("  *");
 	numbers[9].append("***");
 
-	dev.screen.highScore.dash();
+	if (!dev.inGame)
+		dev.screen.highScore.dash();
+
 	dev.screen.score.dash();
 	dev.screen.level.dash();
 	dev.screen.speed.dash();
@@ -145,6 +147,8 @@ GSMenu::GSMenu(Device &dev)
 	dev.screen.hintArray.setPixel(1, 3, ON);
 	dev.screen.hintArray.setPixel(2, 3, ON);
 	dev.screen.hintArray.setPixel(3, 3, ON);
+
+	dev.inGame = false;
 }
 
 void GSMenu::parseEvent(Device &dev, Key k)
@@ -201,8 +205,6 @@ void GSMenu::parseEvent(Device &dev, Key k)
 void GSMenu::tick(Device &dev)
 {
 	dev.screen.mainArray.clear();
-
-	dev.screen.score.setNumber(currentL);
 
 	drawLetter(dev);
 	drawNumber(dev);

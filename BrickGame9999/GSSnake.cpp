@@ -5,17 +5,25 @@ using namespace std;
 
 GSSnake::GSSnake(Device &dev)
 {
-	dev.score = 0;
+	if (!dev.inGame)
+	{
+		dev.score = 0;
+		dev.lives = 1;
+	}
+
+	dev.inGame = true;
+	
 	dev.screen.score.setNumber(dev.score);
 
-	dev.highScore = 0;
-	dev.screen.highScore.dash();
+	dev.screen.highScore.setNumber(dev.highScore['S']);
 
 	dev.screen.speed.setLinked();
 	dev.screen.level.setLinked();
 
 	dev.screen.mainArray.clear();
 	dev.screen.hintArray.clear();
+
+	dev.screen.hintArray.setCount(dev.lives);
 
 	reset();
 }
@@ -71,7 +79,6 @@ void GSSnake::tick(Device& dev)
 	
 	/*******************************************   LOGIC   *********************************/
 	
-	
 	// move snake
 	if (snakeTick >= snakeTickLength)
 	{
@@ -80,7 +87,7 @@ void GSSnake::tick(Device& dev)
 		snakeTick = 0;
 
 		// remove last segment
-		for (int i = snakeLength - 1; i >= 0; i--)
+		for (int i = snakeLength; i >= 0; i--)
 		{
 			snakeSegments[i] = snakeSegments[i - 1];
 		}
@@ -121,7 +128,15 @@ void GSSnake::tick(Device& dev)
 	{
 		if (snakeSegments[i] == snakeSegments[0])
 		{
-			nextState = GS_GAMEOVER_TOCURRENT;
+			dev.lives--;
+			if (dev.lives == 0)
+			{
+				nextState = GS_GAMEOVER;
+			}
+			else
+			{
+				nextState = GS_GAMEOVER_TOCURRENT;
+			}
 		}
 	}
 
@@ -129,29 +144,15 @@ void GSSnake::tick(Device& dev)
 	if (snakeSegments[0] == food)
 	{
 		dev.score += 10;
+		if (dev.highScore['S'] < dev.score)
+		{
+			dev.highScore['S'] = dev.score;
+		}
+
 		genFood();
 		snakeLength++;
 	}
 
-	// blink head
-	if (snakeHeadBlinkTick >= snakeHeadBlinkTickLength)
-	{
-		snakeHeadBlinkTick = 0;
-		drawBlink = !drawBlink;
-	}
-
-	/*******************************************   RENDER   *********************************/
-	dev.screen.mainArray.clear();
-	dev.screen.score.setNumber(dev.score);
-	
-	for (int i = 0; i < snakeLength; i++)
-	{
-		if (i != 0 || drawBlink)
-			dev.screen.mainArray.setPixel(snakeSegments[i], ON);
-	}
-
-	// draw food
-	dev.screen.mainArray.setPixel(food, ON);
 
 	/*******************************************   TICK   *********************************/
 	// logic tick
@@ -159,9 +160,6 @@ void GSSnake::tick(Device& dev)
 	{
 		snakeTick++;
 	}
-
-	// display tick
-	snakeHeadBlinkTick++;
 
 	// game tick
 	gameTick++;
@@ -198,4 +196,33 @@ void GSSnake::genFood()
 			}
 		}
 	}
+}
+
+void GSSnake::render(Device &dev)
+{
+	// blink head
+	if (snakeHeadBlinkTick >= snakeHeadBlinkTickLength)
+	{
+		snakeHeadBlinkTick = 0;
+		drawBlink = !drawBlink;
+	}
+
+	/*******************************************   RENDER   *********************************/
+	dev.screen.mainArray.clear();
+	dev.screen.score.setNumber(dev.score);
+	dev.screen.highScore.setNumber(dev.highScore['S']);
+
+	dev.screen.hintArray.setCount(dev.lives);
+
+	for (int i = 0; i < snakeLength; i++)
+	{
+		if (i != 0 || drawBlink)
+			dev.screen.mainArray.setPixel(snakeSegments[i], ON);
+	}
+
+	// draw food
+	dev.screen.mainArray.setPixel(food, ON);
+
+	// display tick
+	snakeHeadBlinkTick++;
 }

@@ -1,9 +1,14 @@
 #include "BrickGame.h"
 #include "GSGameOver.h"
 
-BrickGame::BrickGame() :
-device(14)
+BrickGame::BrickGame()
 {
+	/***************************************************************** LOAD SETTINGS */
+
+	readSave();
+
+	/****************************/
+
 	SDL_Rect scrRect = { 0, 0, 233, 215 };
 
 	res = new ResourceStore(scrRect);
@@ -16,12 +21,12 @@ device(14)
 	if(IMG_Init(IMG_INIT_PNG) < 0)
 		throw string("Failed to init SDL_Image!");
 
-	w = SDL_CreateWindow("9999-in-1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, res->windowSize.w, res->windowSize.h, SDL_WINDOW_SHOWN);
+	w = SDL_CreateWindow("9999-in-1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, res->windowSize.w * windowScale, res->windowSize.h * windowScale, SDL_WINDOW_SHOWN);
 	if (!w)
 		throw string("Failed to create SDL window.");
 
 	r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED);
-	
+	SDL_RenderSetScale(r, windowScale, windowScale);
 
 	icon = nullptr;
 	icon = IMG_Load("Resources\\icon.png");
@@ -59,10 +64,89 @@ device(14)
 	device.screen.speed.dash();
 	device.screen.level.setLink(&device.stage);
 
-	setWindowScale(1);
+	/*gameState = new GSGameOver(device, GS_MENU);
+	currentState = GS_GAMEOVER;*/
 
-	gameState = new GSGameOver(device, GS_MENU);
-	currentState = GS_GAMEOVER;
+	gameState = new GSSnake(device);
+	currentState = GS_SNAKE;
+}
+
+void BrickGame::readSave()
+{
+	pt::ptree saveFile;
+	
+	int magic;
+
+	try
+	{
+		pt::read_ini("saveData.ini", saveFile);
+		magic = saveFile.get<int>("magic.magic", -1);
+		windowScale = saveFile.get<int>("window.scale");
+
+		device.setBGCount(saveFile.get<int>("device.backgroundCount", 14));
+		device.setBG(saveFile.get<int>("device.currentBackground", 1) - 1);
+
+		device.highScore['S'] = saveFile.get<int>("highScore.S", 0);
+	}
+	catch (...)
+	{
+		defaultSave();
+		throw string("saveData read failed, reverting to defaults...\nRestart and try again");
+	}
+	
+	if (magic != calcMagic())
+	{
+		defaultSave();
+		throw string("saveData corrupted, reverting...\nRestart and try again");
+	}
+}
+
+unsigned int BrickGame::calcMagic()
+{
+	unsigned int magic = magicVal;
+
+	for (auto iterator = device.highScore.begin(); iterator != device.highScore.end(); ++iterator)
+	{
+		if ((unsigned)iterator->second != 0)
+			magic *= (unsigned)iterator->second;
+	}
+
+	return magic;
+}
+
+void BrickGame::writeSave()
+{
+	pt::ptree saveFile;
+	pt::read_ini("saveData.ini", saveFile);
+
+	saveFile.put("window.scale", windowScale);
+
+	saveFile.put("device.currentBackground", device.getCurrentBG() + 1);
+	
+	for (auto iterator = device.highScore.begin(); iterator != device.highScore.end(); ++iterator)
+	{
+		string key;
+		key.append("highScore.");
+		key.push_back(iterator->first);
+		saveFile.put<int>(key, device.highScore[iterator->first]);
+	}
+
+	saveFile.put("magic.magic", calcMagic());
+
+	pt::write_ini("saveData.ini", saveFile);
+}
+
+void BrickGame::defaultSave()
+{
+	pt::ptree saveFile;
+
+	saveFile.put("window.scale", windowScale);
+	saveFile.put("magic.magic", magicVal);
+
+	saveFile.put("device.backgroundCount", device.getBGCount());
+	saveFile.put("device.currentBackground", device.getCurrentBG() + 1);
+
+	pt::write_ini("saveData.ini", saveFile);
 }
 
 BrickGame::~BrickGame()
@@ -85,7 +169,9 @@ void BrickGame::run()
 	SDL_Event ev;
 
 	int tickLimiter = SDL_GetTicks();
-	int windowScale = 1;
+
+	bool limitFPS = true;
+	bool paused = false;
 
 	while (!quitting)
 	{
@@ -128,7 +214,6 @@ void BrickGame::run()
 				break;
 			}
 
-			
 		}
 
 		bool doReset = false;
@@ -146,7 +231,7 @@ void BrickGame::run()
 			case SDL_KEYDOWN:
 				switch (ev.key.keysym.scancode)
 				{
-					// background changing keys
+				// background changing keys
 				case SDL_SCANCODE_F8:
 					device.nextBG();
 					break;
@@ -155,33 +240,13 @@ void BrickGame::run()
 					device.prevBG();
 					break;
 
-				case SDL_SCANCODE_UP:
-					gameState->parseEvent(device, KEY_UP);
-					break;
-
-				case SDL_SCANCODE_DOWN:
-					gameState->parseEvent(device, KEY_DOWN);
-					break;
-
-				case SDL_SCANCODE_LEFT:
-					gameState->parseEvent(device, KEY_LEFT);
-					break;
-
-				case SDL_SCANCODE_RIGHT:
-					gameState->parseEvent(device, KEY_RIGHT);
-					break;
-
-				case SDL_SCANCODE_SPACE:
-					gameState->parseEvent(device, KEY_ACTION);
-					break;
-
+				// technical keys
 				case SDL_SCANCODE_F1:
 					doReset = true;
 					break;
 
 				case SDL_SCANCODE_KP_PLUS:
 					windowScale++;
-					cout << windowScale << endl;
 					setWindowScale(windowScale);
 					break;
 
@@ -191,17 +256,57 @@ void BrickGame::run()
 					setWindowScale(windowScale);
 					break;
 
-				default:
+				case SDL_SCANCODE_KP_MULTIPLY:
+					limitFPS = !limitFPS;
 					break;
 
+				case SDL_SCANCODE_KP_DIVIDE:
+					paused = !paused;
+					break;
+
+				default:
+					break;
 				}
+
+				if (!paused)
+				switch (ev.key.keysym.scancode)
+				{
+					// actual device keys
+					case SDL_SCANCODE_UP:
+						gameState->parseEvent(device, KEY_UP);
+						break;
+
+					case SDL_SCANCODE_DOWN:
+						gameState->parseEvent(device, KEY_DOWN);
+						break;
+
+					case SDL_SCANCODE_LEFT:
+						gameState->parseEvent(device, KEY_LEFT);
+						break;
+
+					case SDL_SCANCODE_RIGHT:
+						gameState->parseEvent(device, KEY_RIGHT);
+						break;
+
+					case SDL_SCANCODE_SPACE:
+						gameState->parseEvent(device, KEY_ACTION);
+						break;
+
+					default: break;
+				}
+
+				break;
 			}
 		}
 
 		if ((SDL_GetTicks() - tickLimiter) > (1000 / 60))
 		{
 			tickLimiter = SDL_GetTicks();
-			gameState->tick(device);
+			if (!paused)
+				gameState->tick(device);
+
+			// let the game render on the device
+			gameState->render(device);
 		}
 
 		// render background
@@ -214,10 +319,18 @@ void BrickGame::run()
 		// framerate limit
 		int ticksNow = SDL_GetTicks();
 
+		int fps = 300;
+		if ((ticksNow - ticksBefore) < (1000 / fps) && limitFPS)
+		{
+			SDL_Delay((1000 / fps) - (ticksNow - ticksBefore));
+			ticksNow = SDL_GetTicks();
+		}
+
+		// form window title
 		char title[255];
 		if (ticksNow - ticksBefore != 0)
 		{
-			sprintf_s(title, "FPS:%d", int(1000.0 / (ticksNow - ticksBefore)));
+			sprintf_s(title, "FPS:%d, limit:%d", int(1000.0 / (ticksNow - ticksBefore)), limitFPS);
 		}
 		else
 		{
@@ -231,6 +344,17 @@ void BrickGame::run()
 			device.reset();
 		}
 	}
+
+	try
+	{
+		writeSave();
+	}
+	catch (...)
+	{
+		defaultSave();
+		throw string("Writing save data failed, reverting to default...\nYour highscores are gone (and probably were gone to start with).");
+	}
+	
 }
 
 void BrickGame::setWindowScale(int scale)

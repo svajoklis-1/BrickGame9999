@@ -86,3 +86,27 @@ void Screen::PixelArray::fillLines(int from, int to)
 		}
 	}
 }
+
+void Screen::PixelArray::setCount(int c)
+{
+	clear();
+
+	if (c < 0)
+		return;
+
+	if (c > sizeX * sizeY)
+		c = sizeX * sizeY;
+
+	int curX = 0, curY = 0;
+	while (c > 0)
+	{
+		setPixel(curX, curY, ON);
+		curX++;
+		if (curX == sizeX)
+		{
+			curX = 0; curY++;
+		}
+
+		c--;
+	}
+}

@@ -33,6 +33,16 @@ public:
 private:
 	int *link = nullptr;
 
+	enum types
+	{
+		NUMBER,
+		SEGMENTS,
+		LINK
+	};
+
+	int lastSetNumber = 0;
+	int currentType = SEGMENTS;
+
 	int width = 0;
 	int *segments;
 };

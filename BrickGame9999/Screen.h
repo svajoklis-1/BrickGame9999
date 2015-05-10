@@ -36,6 +36,7 @@ public:
 		int getSizeY(){ return sizeY; };
 
 		void fillLines(int from, int to);
+		void setCount(int c);
 	private:
 		int sizeX, sizeY;
 		bool *pixels;
