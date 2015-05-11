@@ -90,5 +90,8 @@
     <ClInclude Include="Ticker.h">
       <Filter>Source files</Filter>
     </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

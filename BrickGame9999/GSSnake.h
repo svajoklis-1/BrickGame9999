@@ -1,10 +1,8 @@
 #pragma once
 
 #include "GameState.h"
-#include "Types.h"
+#include "Global.h"
 #include <string>
-using namespace std;
-
 using namespace std;
 
 class GSSnake : public GameState

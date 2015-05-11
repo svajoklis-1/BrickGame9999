@@ -1,5 +1,9 @@
 #include "BrickGame.h"
 #include "GSGameOver.h"
+#include <boost/foreach.hpp>
+#include <vector>
+
+using namespace std;
 
 BrickGame::BrickGame()
 {
@@ -8,8 +12,6 @@ BrickGame::BrickGame()
 	readSave();
 
 	/****************************/
-
-	SDL_Rect scrRect = { 0, 0, 233, 215 };
 
 	res = new ResourceStore(scrRect);
 	bgRenderer = new BackgroundRenderer(scrRect);
@@ -25,8 +27,16 @@ BrickGame::BrickGame()
 	if (!w)
 		throw string("Failed to create SDL window.");
 
-	r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED);
-	SDL_RenderSetScale(r, windowScale, windowScale);
+	if (framerateControl == FRC_VSYNC)
+	{
+		r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		SDL_RenderSetScale(r, windowScale, windowScale);
+	}
+	else
+	{
+		r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED);
+		SDL_RenderSetScale(r, windowScale, windowScale);
+	}
 
 	icon = nullptr;
 	icon = IMG_Load("Resources\\icon.png");
@@ -64,31 +74,56 @@ BrickGame::BrickGame()
 	device.screen.speed.dash();
 	device.screen.level.setLink(&device.stage);
 
-	/*gameState = new GSGameOver(device, GS_MENU);
-	currentState = GS_GAMEOVER;*/
+	// switch which gamestate is the startup one
+#ifdef DEBUG_9999
+		gameState = new GSMenu(device);
+		currentState = GS_MENU;
+#else
+		gameState = new GSMenu(device);
+		currentState = GS_MENU;
+#endif
+}
 
-	gameState = new GSMenu(device);
-	currentState = GS_MENU;
+template <typename T>
+std::vector<T> as_vector(pt::ptree const& pt, pt::ptree::key_type const& key)
+{
+	std::vector<T> r;
+	for (auto& item : pt.get_child(key))
+		r.push_back(item.second.get_value<T>());
+	return r;
 }
 
 void BrickGame::readSave()
 {
 	pt::ptree saveFile;
 	
-	int magic;
+	unsigned int magic;
 
 	try
 	{
 		pt::read_ini("saveData.ini", saveFile);
-		magic = saveFile.get<int>("magic.magic", -1);
+		magic = saveFile.get<unsigned int>("magic.magic", magicVal);
 
 		windowScale = saveFile.get<int>("window.scale", 1);
-		limitFPS = saveFile.get<int>("window.frameLimit", 1) == 1;
+		framerateControl = saveFile.get<int>("window.frameControl", 2);
 
 		device.setBGCount(saveFile.get<int>("device.backgroundCount", 14));
 		device.setBG(saveFile.get<int>("device.currentBackground", 1) - 1);
 
-		device.highScore['S'] = saveFile.get<int>("highScore.S", 0);
+		try
+		{
+			BOOST_FOREACH(pt::ptree::value_type &v, saveFile.get_child("highScore"))
+			{
+				cout << v.first.c_str()[0] << " : " << v.second.get_value<int>();
+				device.highScore[v.first.c_str()[0]] = v.second.get_value<int>();
+			}
+		}
+		catch (...)
+		{
+			cout << "highScore not found!" << endl;
+		}
+
+		cout << endl;
 	}
 	catch (...)
 	{
@@ -96,6 +131,7 @@ void BrickGame::readSave()
 		throw string("saveData read failed, reverting to defaults...\nRestart and try again");
 	}
 	
+	cout << "Magic: " << magic << endl;
 	if (magic != calcMagic())
 	{
 		defaultSave();
@@ -110,7 +146,7 @@ unsigned int BrickGame::calcMagic()
 	for (auto iterator = device.highScore.begin(); iterator != device.highScore.end(); ++iterator)
 	{
 		if ((unsigned)iterator->second != 0)
-			magic *= (unsigned)iterator->second;
+			magic ^= (unsigned)iterator->second;
 	}
 
 	return magic;
@@ -122,7 +158,7 @@ void BrickGame::writeSave()
 	pt::read_ini("saveData.ini", saveFile);
 
 	saveFile.put("window.scale", windowScale);
-	saveFile.put("window.frameLimit", limitFPS ? 1 : 0);
+	saveFile.put("window.frameControl", framerateControl);
 
 	saveFile.put("device.currentBackground", device.getCurrentBG() + 1);
 	
@@ -131,6 +167,7 @@ void BrickGame::writeSave()
 		string key;
 		key.append("highScore.");
 		key.push_back(iterator->first);
+		cout << iterator->first << " : " << iterator->second << endl;
 		saveFile.put<int>(key, device.highScore[iterator->first]);
 	}
 
@@ -144,9 +181,8 @@ void BrickGame::defaultSave()
 	pt::ptree saveFile;
 
 	saveFile.put("window.scale", windowScale);
-	saveFile.put("window.frameLimit", 0);
-	saveFile.put("magic.magic", magicVal);
-
+	saveFile.put("window.frameControl", framerateControl);
+	
 	saveFile.put("device.backgroundCount", device.getBGCount());
 	saveFile.put("device.currentBackground", device.getCurrentBG() + 1);
 
@@ -223,9 +259,6 @@ void BrickGame::run()
 
 		while (SDL_PollEvent(&ev) != 0)
 		{
-			// space - action
-			// arrows - arrows
-
 			switch (ev.type)
 			{
 			case SDL_QUIT:
@@ -257,10 +290,6 @@ void BrickGame::run()
 					if (windowScale > 1)
 						windowScale--;
 					setWindowScale(windowScale);
-					break;
-
-				case SDL_SCANCODE_KP_MULTIPLY:
-					limitFPS = !limitFPS;
 					break;
 
 				case SDL_SCANCODE_KP_DIVIDE:
@@ -305,7 +334,8 @@ void BrickGame::run()
 		// render background
 		bgRenderer->render(*res, device.getCurrentBG());
 
-		if ((SDL_GetTicks() - tickLimiter) > (1000.f / 60.f))
+		// if tick is ok or framerate is vsynced
+		if ((SDL_GetTicks() - tickLimiter) > (1000.f / 60.f) || (framerateControl == FRC_VSYNC))
 		{
 			tickLimiter = SDL_GetTicks();
 			if (!paused)
@@ -325,7 +355,7 @@ void BrickGame::run()
 		int ticksNow = SDL_GetTicks();
 
 		int fps = 250;
-		if ((ticksNow - ticksBefore) < (1000 / fps) && limitFPS)
+		if ((ticksNow - ticksBefore) < (1000 / fps) && (framerateControl == FRC_250))
 		{
 			SDL_Delay((1000 / fps) - (ticksNow - ticksBefore));
 			ticksNow = SDL_GetTicks();
@@ -335,11 +365,11 @@ void BrickGame::run()
 		char title[255];
 		if (ticksNow - ticksBefore != 0)
 		{
-			sprintf_s(title, "FPS:%d, limit:%d", int(1000.0 / (ticksNow - ticksBefore)), limitFPS);
+			sprintf_s(title, "BrickGame-9999 FPS:%d, limit:%d", int(1000.0 / (ticksNow - ticksBefore)), framerateControl);
 		}
 		else
 		{
-			sprintf_s(title, "FPS:1000+");
+			sprintf_s(title, "BrickGame-9999 FPS:1000+, limit:%d", framerateControl);
 		}
 		SDL_SetWindowTitle(res->getWindow(), (char*)&title);
 

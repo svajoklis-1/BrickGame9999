@@ -2,18 +2,12 @@
 
 void ResourceStore::setWindow(SDL_Window *w)
 {
-	if (window == nullptr)
-	{
-		window = w;
-	}
+	window = w;
 }
 
 void ResourceStore::setRenderer(SDL_Renderer *r)
 {
-	if (renderer == nullptr)
-	{
-		renderer = r;
-	}
+	renderer = r;
 }
 
 SDL_Window *ResourceStore::getWindow()

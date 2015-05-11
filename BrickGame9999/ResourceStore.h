@@ -6,7 +6,7 @@
 #include <map>
 #include <iostream>
 
-#include "Types.h"
+#include "Global.h"
 
 using namespace std;
 

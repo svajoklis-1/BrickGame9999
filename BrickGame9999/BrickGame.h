@@ -10,6 +10,7 @@
 #include "Screen.h"
 #include "ScreenRenderer.h"
 #include "Device.h"
+#include "Global.h"
 
 #include "GameState.h"
 #include "GSRain.h"
@@ -28,6 +29,13 @@ public:
 	~BrickGame();
 	void run();
 private:
+	enum frControl
+	{
+		FRC_NONE,
+		FRC_250,
+		FRC_VSYNC
+	};
+
 	ResourceStore *res;
 
 	SDL_Window *w;
@@ -50,8 +58,9 @@ private:
 	void defaultSave();
 	void writeSave();
 
-	const unsigned int magicVal = 0xE69F3;
+	const unsigned int magicVal = 0xFFFFFFFF;
 	unsigned int calcMagic();
 
-	bool limitFPS = true;
+	// 0 - nothing, 1 - limit to 250, 2 - vsync
+	int framerateControl = 2;
 };

@@ -35,6 +35,17 @@ animTicker(60)
 	dev.inGame = false;
 }
 
+void GSMenu::resetAnim()
+{
+	flipState = 1;
+	turning = false;
+	turnDelayTick = 0;
+	flipTick = 0;
+	flipDir = 1;
+	animFrame = 0;
+	animTicker.reset();
+}
+
 void GSMenu::parseEvent(Device &dev, Key k)
 {
 	switch (k)
@@ -44,13 +55,7 @@ void GSMenu::parseEvent(Device &dev, Key k)
 		if (currentL < 0)
 			currentL = letterCount - 1;
 
-		flipState = 1;
-		turning = false;
-		turnDelayTick = 0;
-		flipTick = 0;
-		flipDir = 1;
-		animFrame = 0;
-		animTicker.reset();
+		resetAnim();
 		break;
 
 	case KEY_RIGHT:
@@ -58,13 +63,7 @@ void GSMenu::parseEvent(Device &dev, Key k)
 		if (currentL >= letterCount)
 			currentL = 0;
 
-		flipState = 1;
-		turning = false;
-		turnDelayTick = 0;
-		flipTick = 0;
-		flipDir = 1;
-		animFrame = 0;
-		animTicker.reset();
+		resetAnim();
 		break;
 	
 	case KEY_UP:
@@ -235,25 +234,11 @@ void GSMenu::drawNumber(Device& dev)
 	int tens = dev.stage / 10;
 	int singles = dev.stage % 10;
 
-	for (int y = 0; y < numberH; y++)
-	{
-		for (int x = 0; x < numberW; x++)
-		{
-			if (numbers[singles][y * numberW + x] == '*')
-				dev.screen.mainArray.setPixel(x + drawX, y + numberY, ON);
-		}
-	}
+	dev.screen.mainArray.copyString(drawX, numberY, numbers[singles], numberW, numberH);
 
 	drawX = numberX;
 
-	for (int y = 0; y < numberH; y++)
-	{
-		for (int x = 0; x < numberW; x++)
-		{
-			if (numbers[tens][y * numberW + x] == '*')
-				dev.screen.mainArray.setPixel(x + drawX, y + numberY, ON);
-		}
-	}
+	dev.screen.mainArray.copyString(drawX, numberY, numbers[tens], numberW, numberH);
 }
 
 void GSMenu::render(Device &dev)

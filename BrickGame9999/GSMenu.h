@@ -4,7 +4,6 @@
 #include "Ticker.h"
 
 #include <string>
-using namespace std;
 
 using namespace std;
 
@@ -60,6 +59,7 @@ private:
 
 	void drawLetter(Device &dev);
 	void renderAnim(Device &dev);
+	void resetAnim();
 
 	int flipTick = 0;
 	int flipState = 1;
