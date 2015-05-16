@@ -1,4 +1,5 @@
 #include "ResourceStore.h"
+#include <SDL_image.h>
 
 void ResourceStore::setWindow(SDL_Window *w)
 {
@@ -32,16 +33,16 @@ SDL_Texture *ResourceStore::img(string name)
 
 SDL_Texture *ResourceStore::loadTexture(string path)
 {
-	SDL_Texture* newTexture = NULL;
+	SDL_Texture* newTexture;
 
 	// load image
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	if (loadedSurface == NULL)
+	if (loadedSurface == nullptr)
 		throw string("Unable to load image " + path + "!\nSDL_image Error: " + IMG_GetError());
 
 	// create texture from surface
 	newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-	if (newTexture == NULL)
+	if (newTexture == nullptr)
 		throw string("Unable to create texture from " + path + "!\nSDL Error: " + IMG_GetError());
 
 	// free old surface (no longer needed)

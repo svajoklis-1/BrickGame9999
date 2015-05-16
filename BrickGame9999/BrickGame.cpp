@@ -1,17 +1,20 @@
 #include "BrickGame.h"
+
+#include "GSRain.h"
+#include "GSMenu.h"
+#include "GSSnake.h"
 #include "GSGameOver.h"
+
 #include <boost/foreach.hpp>
-#include <vector>
+#include <boost/property_tree/ini_parser.hpp>
+#include <SDL_image.h>
+#include <iostream>
 
 using namespace std;
 
 BrickGame::BrickGame()
 {
-	/***************************************************************** LOAD SETTINGS */
-
 	readSave();
-
-	/****************************/
 
 	res = new ResourceStore(scrRect);
 	bgRenderer = new BackgroundRenderer(scrRect);
@@ -57,9 +60,13 @@ BrickGame::BrickGame()
 	res->location["level"] = { 161, 149 };
 	res->location["speed"] = { 161, 131 };
 
+	res->location["note"] = { 147, 181 };
+	res->location["cup"] = { 167, 182 };
+
 	res->item["screenPixel"] = { 1, 1, 8, 8 };
 	res->item["hintPixel"] = { 10, 1, 7, 7 };
 	res->item["note"] = { 18, 1, 11, 14 };
+	res->item["cup"] = { 31, 1, 15, 12 };
 	res->item["screenPixelShadow"] = { 1, 10, 8, 8 };
 
 	res->item["digit"] = { 0, 0, 7, 15 };
@@ -76,21 +83,22 @@ BrickGame::BrickGame()
 
 	// switch which gamestate is the startup one
 #ifdef DEBUG_9999
-		gameState = new GSMenu(device);
-		currentState = GS_MENU;
+	gameState = new GSMenu(device);
+	currentState = GS_MENU;
 #else
-		gameState = new GSMenu(device);
-		currentState = GS_MENU;
+	gameState = new GSMenu(device);
+	currentState = GS_MENU;
 #endif
-}
 
-template <typename T>
-std::vector<T> as_vector(pt::ptree const& pt, pt::ptree::key_type const& key)
-{
-	std::vector<T> r;
-	for (auto& item : pt.get_child(key))
-		r.push_back(item.second.get_value<T>());
-	return r;
+	keyMap[KEY_UP] = SDL_SCANCODE_UP;
+	keyMap[KEY_DOWN] = SDL_SCANCODE_DOWN;
+	keyMap[KEY_LEFT] = SDL_SCANCODE_LEFT;
+	keyMap[KEY_RIGHT] = SDL_SCANCODE_RIGHT;
+	keyMap[KEY_ACTION] = SDL_SCANCODE_SPACE;
+
+	keyMap[KEY_START] = SDL_SCANCODE_RETURN;
+	keyMap[KEY_SOUND] = SDL_SCANCODE_KP_DIVIDE;
+	keyMap[KEY_RESET] = SDL_SCANCODE_F1;
 }
 
 void BrickGame::readSave()
@@ -114,7 +122,6 @@ void BrickGame::readSave()
 		{
 			BOOST_FOREACH(pt::ptree::value_type &v, saveFile.get_child("highScore"))
 			{
-				cout << v.first.c_str()[0] << " : " << v.second.get_value<int>();
 				device.highScore[v.first.c_str()[0]] = v.second.get_value<int>();
 			}
 		}
@@ -131,7 +138,6 @@ void BrickGame::readSave()
 		throw string("saveData read failed, reverting to defaults...\nRestart and try again");
 	}
 	
-	cout << "Magic: " << magic << endl;
 	if (magic != calcMagic())
 	{
 		defaultSave();
@@ -145,8 +151,8 @@ unsigned int BrickGame::calcMagic()
 
 	for (auto iterator = device.highScore.begin(); iterator != device.highScore.end(); ++iterator)
 	{
-		if ((unsigned)iterator->second != 0)
-			magic ^= (unsigned)iterator->second;
+		if (static_cast<unsigned>(iterator->second) != 0)
+			magic ^= static_cast<unsigned>(iterator->second);
 	}
 
 	return magic;
@@ -167,7 +173,6 @@ void BrickGame::writeSave()
 		string key;
 		key.append("highScore.");
 		key.push_back(iterator->first);
-		cout << iterator->first << " : " << iterator->second << endl;
 		saveFile.put<int>(key, device.highScore[iterator->first]);
 	}
 
@@ -234,8 +239,13 @@ void BrickGame::run()
 				break;
 
 			case GS_SNAKE:
-				gameState = new GSSnake(device);
+				gameState = new GSSnake(device, GSSNAKE_NORMAL);
 				currentState = GS_SNAKE;
+				break;
+
+			case GS_SNAKEINF:
+				gameState = new GSSnake(device, GSSNAKE_INFINITE);
+				currentState = GS_SNAKEINF;
 				break;
 
 			case GS_GAMEOVER:
@@ -268,74 +278,63 @@ void BrickGame::run()
 				switch (ev.key.keysym.scancode)
 				{
 				// background changing keys
-				case SDL_SCANCODE_F8:
-					device.nextBG();
-					break;
-
-				case SDL_SCANCODE_F7:
-					device.prevBG();
-					break;
-
-				// technical keys
-				case SDL_SCANCODE_F1:
-					doReset = true;
-					break;
-
-				case SDL_SCANCODE_KP_PLUS:
-					windowScale++;
-					setWindowScale(windowScale);
-					break;
-
-				case SDL_SCANCODE_KP_MINUS:
-					if (windowScale > 1)
-						windowScale--;
-					setWindowScale(windowScale);
-					break;
-
-				case SDL_SCANCODE_KP_DIVIDE:
-					paused = !paused;
-					break;
-
-				default:
-					break;
+				case SDL_SCANCODE_F8: device.nextBG(); break;
+				case SDL_SCANCODE_F7: device.prevBG(); break;
+				case SDL_SCANCODE_KP_PLUS: windowScale++; setWindowScale(windowScale); break;
+				case SDL_SCANCODE_KP_MINUS: if (windowScale > 1) windowScale--; setWindowScale(windowScale); break;
+				default: break;
 				}
 
-				if (!paused)
-				switch (ev.key.keysym.scancode)
+				// device keys
+
+				if (ev.key.keysym.scancode == keyMap[KEY_RESET])
 				{
-					// actual device keys
-					case SDL_SCANCODE_UP:
-						gameState->parseEvent(device, KEY_UP);
-						break;
-
-					case SDL_SCANCODE_DOWN:
-						gameState->parseEvent(device, KEY_DOWN);
-						break;
-
-					case SDL_SCANCODE_LEFT:
-						gameState->parseEvent(device, KEY_LEFT);
-						break;
-
-					case SDL_SCANCODE_RIGHT:
-						gameState->parseEvent(device, KEY_RIGHT);
-						break;
-
-					case SDL_SCANCODE_SPACE:
-						gameState->parseEvent(device, KEY_ACTION);
-						break;
-
-					default: break;
+					doReset = true;
+				}
+				else if (ev.key.keysym.scancode == keyMap[KEY_START])
+				{
+					if (currentState == GS_MENU)
+					{
+						gameState->nextState = static_cast<GSMenu*>(gameState)->getSelectedState();
+					}
+					else
+					{
+						if (device.inGame)
+						{
+							paused = !paused;
+							device.screen.paused = !device.screen.paused;
+						}
+					}
 				}
 
 				break;
 			}
 		}
 
+		// parse game keys
+
+		if (!paused)
+		{
+			const Uint8 *keyboardState = SDL_GetKeyboardState(nullptr);
+
+			for (int i = KEY_UP; i <= KEY_ACTION; i++)
+			{
+				if (keyboardState[keyMap[i]] != prevKeyboardState[i])
+				{
+					gameState->parseEvent(device, static_cast<Key>(i), (keyboardState[keyMap[i]] == 0 ? STATE_UP : STATE_DOWN));
+				}
+					
+				prevKeyboardState[i] = keyboardState[keyMap[i]];
+			}
+		}
+
+
 		// render background
 		bgRenderer->render(*res, device.getCurrentBG());
 
 		// if tick is ok or framerate is vsynced
-		if ((SDL_GetTicks() - tickLimiter) > (1000.f / 60.f) || (framerateControl == FRC_VSYNC))
+		int tickFPS = 60;
+		if ((SDL_GetTicks() - tickLimiter) > (1000.f / static_cast<float>(tickFPS)) || (framerateControl == FRC_VSYNC))
 		{
 			tickLimiter = SDL_GetTicks();
 			if (!paused)
@@ -371,11 +370,13 @@ void BrickGame::run()
 		{
 			sprintf_s(title, "BrickGame-9999 FPS:1000+, limit:%d", framerateControl);
 		}
-		SDL_SetWindowTitle(res->getWindow(), (char*)&title);
+		SDL_SetWindowTitle(res->getWindow(), reinterpret_cast<char*>(&title));
 
 		if (doReset)
 		{
 			gameState->nextState = GS_MENU;
+			paused = false;
+			device.screen.paused = false;
 			device.reset();
 		}
 	}
@@ -395,5 +396,5 @@ void BrickGame::run()
 void BrickGame::setWindowScale(int scale)
 {
 	SDL_SetWindowSize(res->getWindow(), res->windowSize.w * scale, res->windowSize.h * scale);
-	SDL_RenderSetScale(r, (float)scale, (float)scale);
+	SDL_RenderSetScale(r, static_cast<float>(scale), static_cast<float>(scale));
 }

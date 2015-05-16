@@ -1,24 +1,17 @@
 #pragma once
 
 #include <SDL.h>
-#include <SDL_image.h>
 
 // main class of the simulator
 
 #include "ResourceStore.h"
 #include "BackgroundRenderer.h"
-#include "Screen.h"
 #include "ScreenRenderer.h"
 #include "Device.h"
-#include "Global.h"
 
 #include "GameState.h"
-#include "GSRain.h"
-#include "GSMenu.h"
-#include "GSSnake.h"
 
 #include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/ini_parser.hpp>
 
 namespace pt = boost::property_tree;
 
@@ -63,4 +56,7 @@ private:
 
 	// 0 - nothing, 1 - limit to 250, 2 - vsync
 	int framerateControl = 2;
+
+	int prevKeyboardState[KEY_TOTAL];
+	int keyMap[KEY_TOTAL];
 };

@@ -16,11 +16,22 @@ struct coord
 
 enum Key
 {
-	KEY_UP,
+	KEY_UP = 0,
 	KEY_DOWN,
 	KEY_LEFT,
 	KEY_RIGHT,
-	KEY_ACTION
+	KEY_ACTION,
+
+	KEY_START,
+	KEY_SOUND,
+	KEY_RESET,
+	KEY_TOTAL
+};
+
+enum KeyState
+{
+	STATE_UP = true,
+	STATE_DOWN = false
 };
 
 enum GameStates
@@ -29,6 +40,7 @@ enum GameStates
 	GS_MENU,
 	GS_RAIN,
 	GS_SNAKE,
+	GS_SNAKEINF,
 	GS_GAMEOVER,
 	GS_GAMEOVER_TOCURRENT
 };

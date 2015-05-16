@@ -4,6 +4,7 @@
 #include "Ticker.h"
 
 #include <string>
+#include "Explosion.h"
 
 using namespace std;
 
@@ -13,21 +14,19 @@ public:
 	GSMenu(Device &dev);
 	~GSMenu();
 	void tick(Device &dev) override;
-	void parseEvent(Device &dev, Key k) override;
+	void parseEvent(Device &dev, Key k, KeyState state) override;
 	void render(Device &dev) override;
+
+	GameStates getSelectedState();
 
 private:
 
 	enum letters
 	{
-		A = 0,
+		A,
 		B,
 		C,
-		D,
-		E,
-		G,
 		R,
-		S,
 		LETTER_COUNT
 	};
 

@@ -118,6 +118,8 @@
   <ItemGroup>
     <ClCompile Include="BackgroundRenderer.cpp" />
     <ClCompile Include="Device.cpp" />
+    <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="GSArkanoid.cpp" />
     <ClCompile Include="GSGameOver.cpp" />
     <ClCompile Include="GSMenu.cpp" />
     <ClCompile Include="GSRain.cpp" />
@@ -132,8 +134,10 @@
   <ItemGroup>
     <ClInclude Include="BackgroundRenderer.h" />
     <ClInclude Include="Device.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="GSArkanoid.h" />
     <ClInclude Include="GSGameOver.h" />
     <ClInclude Include="GSMenu.h" />
     <ClInclude Include="GSRain.h" />

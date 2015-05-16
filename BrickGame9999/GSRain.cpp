@@ -3,14 +3,15 @@
 #include <cstdlib>
 #include <ctime>
 
-GSRain::GSRain(Device &dev)
+GSRain::GSRain(Device &dev) :
+inputTick(60/4)
 {
 	for (int i = 0; i < 10 * 20; i++)
 		drops[i] = false;
 
 	drops[0] = true;
 
-	srand((unsigned int)time(0));
+	srand(static_cast<unsigned int>(time(nullptr)));
 }
 
 void GSRain::tick(Device &dev)
@@ -132,38 +133,78 @@ void GSRain::tick(Device &dev)
 
 	ticks++;
 	rainTicks++;
-}
 
-void GSRain::parseEvent(Device &dev, Key k)
-{
-	switch (k)
+
+
+	inputTick.tick();
+
+	if (inputTick.triggered())
 	{
-	case KEY_UP:
-		frequency++;
+		inputTick.reset();
+		frequency += dfrequency;
 		if (frequency > 100)
 			frequency = 100;
-		break;
-
-	case KEY_DOWN:
-		frequency--;
 		if (frequency < 0)
 			frequency = 0;
-		break;
-
-	case KEY_LEFT:
-		dir--;
-		if (dir < -1)
-			dir = -1;
-		break;
-
-	case KEY_RIGHT:
-		dir++;
-		if (dir > 1)
-			dir = 1;
-		break;
-
-	case KEY_ACTION:
-		nextState = GS_MENU;
-		break;
 	}
+}
+
+void GSRain::parseEvent(Device &/*dev*/, Key k, KeyState state)
+{
+	if (state == STATE_DOWN)
+	{
+		switch (k)
+		{
+		case KEY_UP:
+			dfrequency = 1;
+			inputTick.forceTrigger();
+			break;
+
+		case KEY_DOWN:
+			inputTick.forceTrigger();
+			dfrequency = -1;
+			break;
+
+		case KEY_LEFT:
+			dir--;
+			if (dir < -1)
+				dir = -1;
+			break;
+
+		case KEY_RIGHT:
+			dir++;
+			if (dir > 1)
+				dir = 1;
+			break;
+
+		case KEY_ACTION:
+			nextState = GS_MENU;
+			break;
+
+		case KEY_START: break;
+		case KEY_SOUND: break;
+		case KEY_RESET: break;
+		case KEY_TOTAL: break;
+		default: break;
+		}
+	}
+	else if (state == STATE_UP)
+	{
+		switch (k)
+		{
+		case KEY_UP: 
+		case KEY_DOWN: 
+			dfrequency = 0;
+			break;
+		case KEY_LEFT: break;
+		case KEY_RIGHT: break;
+		case KEY_ACTION: break;
+		case KEY_START: break;
+		case KEY_SOUND: break;
+		case KEY_RESET: break;
+		case KEY_TOTAL: break;
+		default: break;
+		}
+	}
+
 }

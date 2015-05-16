@@ -34,6 +34,7 @@ public:
 
 private:
 	void renderNum(Screen &screen, ResourceStore &res, int num, coord where, int width);
+	void renderItem(ResourceStore &res, string item);
 
 	ScreenRenderHelper mainScreen;
 	ScreenRenderHelper hintScreen;

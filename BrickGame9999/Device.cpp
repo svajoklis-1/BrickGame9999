@@ -24,5 +24,6 @@ void Device::setBG(int i)
 void Device::reset()
 {
 	lives = 0;
+	inGame = false;
 	screen.clear();
 }

@@ -1,16 +1,34 @@
 #include "GSGameOver.h"
 
-GSGameOver::GSGameOver(Device &dev, GameStates nextState) :
-stateAfter(nextState)
+GSGameOver::GSGameOver(Device &/*dev*/, GameStates nextState) :
+stateAfter(nextState),
+lineTicker(3)
 {
 	
 }
 
+GSGameOver::~GSGameOver()
+{
+}
+
 void GSGameOver::tick(Device &dev)
 {
-	if (tickCounter >= tickStep)
+	switch (transitionState)
 	{
-		tickCounter = 0;
+	case 0:
+		tickCurtain(dev);
+		break;
+	case 1:
+		nextState = stateAfter;
+		break;
+	}
+}
+
+void GSGameOver::tickCurtain(Device &dev)
+{
+	if (lineTicker.triggered())
+	{
+		lineTicker.reset();
 		lineState++;
 	}
 
@@ -25,13 +43,13 @@ void GSGameOver::tick(Device &dev)
 	}
 	else
 	{
-		nextState = stateAfter;
+		transitionState++;
 	}
 
-	tickCounter++;
+	lineTicker.tick();
 }
 
-void GSGameOver::parseEvent(::Device& dev, Key k)
+void GSGameOver::parseEvent(Device& /*dev*/, Key /*k*/, KeyState /*state*/)
 {
 	
 }

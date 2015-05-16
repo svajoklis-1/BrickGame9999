@@ -40,12 +40,14 @@ public:
 
 		void copyArray(int x, int y, bool *data, int w, int h);
 		void copyString(int x, int y, string data, int w, int h);
+
 	private:
 		int sizeX, sizeY;
 		bool *pixels;
 	};
 
-	bool music = false;
+	bool sound = false;
+	bool paused = false;
 
 	ScreenNumber score;
 	ScreenNumber highScore;
@@ -54,6 +56,4 @@ public:
 
 	PixelArray mainArray;
 	PixelArray hintArray;
-
-private:
 };

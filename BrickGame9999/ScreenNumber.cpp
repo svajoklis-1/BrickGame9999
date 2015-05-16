@@ -38,8 +38,8 @@ void ScreenNumber::dash()
 
 void ScreenNumber::setNumber(int val)
 {
-	if (currentType == NUMBER && val == lastSetNumber)
-		return;
+	/*if (currentType == NUMBER && val == lastSetNumber)
+		return;*/
 
 	lastSetNumber = val;
 	currentType = NUMBER;

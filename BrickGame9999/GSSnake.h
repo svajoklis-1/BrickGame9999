@@ -3,15 +3,24 @@
 #include "GameState.h"
 #include "Global.h"
 #include <string>
+#include "Ticker.h"
+#include "Explosion.h"
+
 using namespace std;
+
+enum GSSnakeVariant
+{
+	GSSNAKE_NORMAL,
+	GSSNAKE_INFINITE
+};
 
 class GSSnake : public GameState
 {
 public:
-	GSSnake(Device &dev);
+	GSSnake(Device &dev, GSSnakeVariant variant);
 	~GSSnake();
 	void tick(Device &dev) override;
-	void parseEvent(Device &dev, Key k) override;
+	void parseEvent(Device &dev, Key k, KeyState state) override;
 	void render(Device &dev) override;
 
 private:
@@ -24,26 +33,42 @@ private:
 		DOWN
 	};
 
+	GSSnakeVariant currentVariant;
+	char highScoreLetter;
+
 	coord snakeSegments[256];
 	int snakeLength = 3;
+	int snakeLengthRequired;
 	bool didTurn = false;
+	bool speeding = false;
 
-	int snakeTickLength = 10;
-	int snakeTick = 0;
+	Ticker snakeTicker;
 
-	int snakeHeadBlinkTickLength = 3;
-	int snakeHeadBlinkTick = 0;
-	bool drawBlink = true;
+	Ticker snakeHeadBlinkTicker;
 
 	coord food;
-	void genFood();
+	void genFood(int level);
 	
-	int snakeHeadX = 2, snakeHeadY = 0;
+	int snakeHeadX, snakeHeadY;
 	int dir = RIGHT;
 
 	int gameTick = 0;
 	const int gameDelay = 60;
 
-	void reset();
-	
+	void reset(Device &dev);
+
+	map<int, string> levels;
+	void defineLevels();
+
+	Ticker foodTicker;
+
+	int stateSegment = 0;
+
+	void renderSnake(Device &dev);
+
+	void tickSnake(Device &dev);
+	void tickPause(Device &dev);
+	void tickExplosion(Device &dev);
+
+	Explosion explosion;
 };

@@ -23,6 +23,35 @@ void ScreenRenderer::render(Screen &screen, ResourceStore &res)
 	screen.highScore.render(res, res.location["hiscore"]);
 	screen.level.render(res, res.location["level"]);
 	screen.speed.render(res, res.location["speed"]);
+
+	// render icons
+
+	
+
+	if (screen.sound)
+	{
+		renderItem(res, "note");
+	}
+
+	if (screen.paused)
+	{
+		renderItem(res, "cup");
+	}
+
+}
+
+void ScreenRenderer::renderItem(ResourceStore &res, string item)
+{
+	SDL_Rect dest;
+	dest.x = res.location[item].x;
+	dest.y = res.location[item].y;
+	dest.w = res.item[item].w;
+	dest.h = res.item[item].h;
+	SDL_RenderCopy(
+		res.getRenderer(),
+		res.img("items.png"),
+		&res.item[item],
+		&dest);
 }
 
 void ScreenRenderer::moveShadows()
@@ -31,7 +60,7 @@ void ScreenRenderer::moveShadows()
 	hintScreen.moveShadows();
 }
 
-void ScreenRenderer::renderNum(Screen &screen, ResourceStore &res, int num, coord where, int width)
+void ScreenRenderer::renderNum(Screen &/*screen*/, ResourceStore &res, int num, coord where, int width)
 {
 	int score = num;
 	int x = where.x;
@@ -68,7 +97,7 @@ void ScreenRenderer::renderNum(Screen &screen, ResourceStore &res, int num, coor
 
 // --------------------------------- SCREEN RENDER HELPER ---------------------------------------------------------------
 
-void ScreenRenderer::ScreenRenderHelper::renderArray(bool *data, int sizeX, int sizeY, ResourceStore &res, string location, string item, bool *renderMask, int opacity)
+void ScreenRenderer::ScreenRenderHelper::renderArray(bool *data, int sizeX, int sizeY, ResourceStore &res, string location, string item, bool */*renderMask*/, int opacity)
 {
 	for (int x = 0; x < sizeX; x++)
 	{

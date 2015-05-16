@@ -4,13 +4,12 @@
 using namespace std;
 
 #include "BrickGame.h"
-#include "Global.h"
 
 // main file for the program, runs Tetris
 // catches all string exceptions
 // catches all exceptions when not in debug
 
-int main(int argc, char* argv[])
+int main(int /*argc*/, char* /*argv*/[])
 {
 	try
 	{

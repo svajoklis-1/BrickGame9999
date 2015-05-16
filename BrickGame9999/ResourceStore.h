@@ -1,12 +1,9 @@
 #pragma once
 
 #include <SDL.h>
-#include <SDL_image.h>
-#include <string>
 #include <map>
-#include <iostream>
 
-#include "Global.h"
+#include "Types.h"
 
 using namespace std;
 

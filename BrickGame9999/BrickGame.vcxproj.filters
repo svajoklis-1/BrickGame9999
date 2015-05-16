@@ -8,6 +8,15 @@
     <Filter Include="Source files\GameStates">
       <UniqueIdentifier>{794ffb2d-6eff-449b-af46-7fe2a671f564}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\Rendering">
+      <UniqueIdentifier>{ee2bfa8a-96ac-4b74-9832-1f680e4e6246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\System">
+      <UniqueIdentifier>{0376180f-718d-4936-a958-de662d990bbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Objects">
+      <UniqueIdentifier>{e7613a55-a1a3-41be-b6a4-aa40635ad3ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GSGameOver.cpp">
@@ -25,26 +34,32 @@
     <ClCompile Include="main.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceStore.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="Screen.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScreenNumber.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScreenRenderer.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="BackgroundRenderer.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="BrickGame.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="BackgroundRenderer.cpp">
+      <Filter>Source files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenRenderer.cpp">
+      <Filter>Source files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceStore.cpp">
+      <Filter>Source files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenNumber.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="GSArkanoid.cpp">
+      <Filter>Source files\GameStates</Filter>
+    </ClCompile>
     <ClCompile Include="Device.cpp">
-      <Filter>Source files</Filter>
+      <Filter>Source files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Source files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -66,24 +81,6 @@
     <ClInclude Include="Types.h">
       <Filter>Source files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceStore.h">
-      <Filter>Source files</Filter>
-    </ClInclude>
-    <ClInclude Include="Screen.h">
-      <Filter>Source files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScreenNumber.h">
-      <Filter>Source files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScreenRenderer.h">
-      <Filter>Source files</Filter>
-    </ClInclude>
-    <ClInclude Include="Device.h">
-      <Filter>Source files</Filter>
-    </ClInclude>
-    <ClInclude Include="BackgroundRenderer.h">
-      <Filter>Source files</Filter>
-    </ClInclude>
     <ClInclude Include="BrickGame.h">
       <Filter>Source files</Filter>
     </ClInclude>
@@ -92,6 +89,30 @@
     </ClInclude>
     <ClInclude Include="Global.h">
       <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundRenderer.h">
+      <Filter>Source files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenRenderer.h">
+      <Filter>Source files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceStore.h">
+      <Filter>Source files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>Source files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenNumber.h">
+      <Filter>Source files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Source files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="GSArkanoid.h">
+      <Filter>Source files\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Source files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

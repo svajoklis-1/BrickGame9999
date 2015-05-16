@@ -11,26 +11,20 @@ animTicker(60)
 		dev.screen.highScore.dash();
 
 	dev.screen.score.dash();
-	dev.screen.level.dash();
-	dev.screen.speed.dash();
+	dev.screen.level.setLink(&dev.level);
+	dev.screen.level.setLinked();
+	dev.screen.speed.setLink(&dev.speed);
+	dev.screen.speed.setLinked();
 
 	dev.screen.hintArray.clear();
 
-	dev.screen.hintArray.setPixel(0, 0, ON);
-	dev.screen.hintArray.setPixel(1, 0, ON);
-	dev.screen.hintArray.setPixel(2, 0, ON);
-	dev.screen.hintArray.setPixel(3, 0, ON);
+	string square =
+		"****"
+		"*  *"
+		"*  *"
+		"****";
 
-	dev.screen.hintArray.setPixel(0, 1, ON);
-	dev.screen.hintArray.setPixel(3, 1, ON);
-
-	dev.screen.hintArray.setPixel(0, 2, ON);
-	dev.screen.hintArray.setPixel(3, 2, ON);
-
-	dev.screen.hintArray.setPixel(0, 3, ON);
-	dev.screen.hintArray.setPixel(1, 3, ON);
-	dev.screen.hintArray.setPixel(2, 3, ON);
-	dev.screen.hintArray.setPixel(3, 3, ON);
+	dev.screen.hintArray.copyString(0, 0, square, 4, 4);
 
 	dev.inGame = false;
 }
@@ -46,50 +40,89 @@ void GSMenu::resetAnim()
 	animTicker.reset();
 }
 
-void GSMenu::parseEvent(Device &dev, Key k)
+void GSMenu::parseEvent(Device &dev, Key k, KeyState state)
 {
-	switch (k)
+	if (state == STATE_DOWN)
 	{
-	case KEY_LEFT:
-		currentL -= 1;
-		if (currentL < 0)
-			currentL = letterCount - 1;
+		switch (k)
+		{
+		case KEY_LEFT:
+			/*currentL -= 1;
+			if (currentL < 0)
+				currentL = letterCount - 1;
 
-		resetAnim();
-		break;
+			resetAnim();*/
 
-	case KEY_RIGHT:
-		currentL += 1;
-		if (currentL >= letterCount)
+
+			dev.speed--;
+			if (dev.speed == -1)
+				dev.speed = 9;
+			break;
+
+		case KEY_RIGHT:
+			/*currentL += 1;
+			if (currentL >= letterCount)
+				currentL = 0;
+
+			resetAnim();*/
+			dev.speed++;
+			if (dev.speed == 10)
+				dev.speed = 0;
+			break;
+
+		case KEY_UP:
+			/*dev.stage++;
+			if (dev.stage >= 100)
+				dev.stage = 0;*/
+			dev.level++;
+			if (dev.level == 10)
+				dev.level = 0;
+			break;
+
+		case KEY_DOWN:
+			/*dev.stage--;
+			if (dev.stage < 0)
+				dev.stage = 99;*/
+			dev.level--;
+			if (dev.level == -1)
+				dev.level = 9;
+			break;
+
+		case KEY_ACTION:
+			currentL += 1;
+			if (currentL >= letterCount)
 			currentL = 0;
 
-		resetAnim();
-		break;
-	
-	case KEY_UP:
-		dev.stage++;
-		if (dev.stage >= 100)
-			dev.stage = 0;
-		break;
+			resetAnim();
+			break;
+		case KEY_START: break;
+		case KEY_SOUND: break;
+		case KEY_RESET: break;
+		case KEY_TOTAL: break;
 
-	case KEY_DOWN:
-		dev.stage--;
-		if (dev.stage < 0)
-			dev.stage = 99;
-		break;
-
-	case KEY_ACTION:
-		if (currentL == R)
-			nextState = GS_RAIN;
-		if (currentL == S)
-			nextState = GS_SNAKE;
-		if (currentL == G)
-			nextState = GS_GAMEOVER;
-		break;
+		default: break;
+		}
 	}
+	else
+	{
+		
+	}
+
 }
 
-void GSMenu::tick(Device &dev)
+GameStates GSMenu::getSelectedState()
+{
+	if (currentL == R)
+		return GS_RAIN;
+	if (currentL == A)
+		return GS_SNAKE;
+	if (currentL == B)
+		return GS_SNAKEINF;
+
+	return GS_NONE;
+}
+
+void GSMenu::tick(Device &/*dev*/)
 {
 	if (animTicker.triggered())
 	{
@@ -143,7 +176,7 @@ void GSMenu::drawLetter(Device &dev)
 		}
 
 		int middle = int(letterW / 2);
-		int actualX = 0, actualY = 0;
+		int actualX, actualY;
 		for (int y = 0; y < letterH; y++)
 		{
 			actualY = y;
@@ -245,7 +278,8 @@ void GSMenu::render(Device &dev)
 {
 	dev.screen.mainArray.clear();
 
-	dev.screen.score.setNumber(animFrame);
+	dev.screen.level.setLinked();
+	dev.screen.speed.setLinked();
 
 	drawLetter(dev);
 	drawNumber(dev);
@@ -256,7 +290,7 @@ void GSMenu::render(Device &dev)
 void GSMenu::renderAnim(Device &dev)
 {
 	if (anims.find(currentL) != anims.end())
-		dev.screen.mainArray.copyString(1, 5, anims[currentL][animFrame], animW, animH);
+		dev.screen.mainArray.copyString(1, 6, anims[currentL][animFrame], animW, animH);
 }
 
 
@@ -292,41 +326,12 @@ void GSMenu::defineGraphics()
 		"*   *"
 		" *** ";
 
-	letters[D] =
-		"**** "
-		" *  *"
-		" *  *"
-		" *  *"
-		"**** ";
-
-	letters[E] =
-		"*****"
-		"*    "
-		"**** "
-		"*    "
-		"*****";
-
-	letters[G] =
-		" ****"
-		"*    "
-		"* ***"
-		"*   *"
-		" *** ";
-
 	letters[R] =
 		"**** "
 		" *  *"
 		" *  *"
 		"**** "
 		" *  *";
-
-	letters[S] =
-		" ****"
-		"*    "
-		" *** "
-		"    *"
-		"**** ";
-
 
 	for (int i = 0; i < numCount; i++)
 	{
@@ -403,7 +408,50 @@ void GSMenu::defineGraphics()
 		"  *"
 		"***";
 
-	anims[S][0] =
+
+	anims[A][0] =
+		"        "
+		"    *   "
+		"        "
+		"        "
+		"   *    "
+		"   *    "
+		" ***    "
+		"*****   ";
+
+	anims[A][1] =
+		"        "
+		"    *   "
+		"        "
+		"        "
+		"   **   "
+		"   **   "
+		" ****   "
+		"   **   ";
+
+	anims[A][2] =
+		"        "
+		"   **   "
+		"    *   "
+		"    *   "
+		"   **   "
+		"   **   "
+		" ***    "
+		"        ";
+
+	anims[A][3] =
+		"        "
+		" ****   "
+		" *  *   "
+		"        "
+		"   *    "
+		"   *    "
+		" ***    "
+		"        ";
+
+
+
+	anims[B][0] =
 		"        "
 		"    *   "
 		"        "
@@ -413,7 +461,7 @@ void GSMenu::defineGraphics()
 		"        "
 		"*****   ";
 
-	anims[S][1] =
+	anims[B][1] =
 		"        "
 		"    *   "
 		"        "
@@ -423,23 +471,104 @@ void GSMenu::defineGraphics()
 		"    *   "
 		"   **   ";
 
-	anims[S][2] =
+	anims[B][2] =
 		"        "
 		"   **   "
 		"    *   "
 		"    *   "
 		"    *   "
 		"    *   "
+		"        "
+		"        ";
+	
+	anims[B][3] =
+		"        "
+		"   **   "
+		"   **   "
+		"   *    "
+		"   *    "
+		"        "
 		"        "
 		"        ";
 
-	anims[S][3] =
+	anims[C][0] =
 		"        "
-		"   **   "
-		"   **   "
+		" ****** "
+		" ****** "
+		" ****** "
+		"        "
+		"        "
 		"   *    "
+		" ****   ";
+
+	anims[C][1] =
+		"        "
+		" ****** "
+		" ****** "
+		" **** * "
+		"     *  "
+		"        "
+		"        "
+		"  ****  ";
+
+	anims[C][2] =
+		"        "
+		" ****** "
+		" ****** "
+		" **** * "
+		"        "
+		"        "
+		"       *"
+		"    ****";
+
+	anims[C][3] =
+		"        "
+		" ****** "
+		" ****** "
+		" **** * "
+		"     *  "
+		"        "
+		"        "
+		"    ****";
+
+
+	anims[R][0] =
+		"  *   * "
+		" *  *   "
 		"   *    "
-		"        "
-		"        "
-		"        ";
+		" *   *  "
+		"  *     "
+		"     *  "
+		"   *    "
+		" *    * ";
+
+	anims[R][1] =
+		"     *  "
+		"*  *   *"
+		"  *  *  "
+		"*   *   "
+		"  *   * "
+		"   *    "
+		"*     * "
+		"    *   ";
+
+	anims[R][2] =
+		"  *  *  "
+		"      * "
+		" *  *   "
+		"   *  * "
+		" *   *  "
+		"   *   *"
+		"*   *   "
+		" *     *";
+
+	anims[R][3] =
+		"*    *  "
+		"   *  * "
+		"*      *"
+		"  *  *  "
+		"    *  *"
+		"  *   * "
+		"*   *   "
+		" *   *  ";
 }
