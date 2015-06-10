@@ -1,14 +1,15 @@
 #include "GSGameOver.h"
 
-GSGameOver::GSGameOver(Device &/*dev*/, GameStates nextState) :
+GSGameOver::GSGameOver(Device &dev, GameStates nextState) :
 stateAfter(nextState),
 lineTicker(3)
 {
-	
+	dev.pauseable = false;
 }
 
 GSGameOver::~GSGameOver()
 {
+
 }
 
 void GSGameOver::tick(Device &dev)
@@ -19,6 +20,7 @@ void GSGameOver::tick(Device &dev)
 		tickCurtain(dev);
 		break;
 	case 1:
+		dev.pauseable = true;
 		nextState = stateAfter;
 		break;
 	}

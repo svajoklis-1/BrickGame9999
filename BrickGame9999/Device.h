@@ -19,6 +19,7 @@ public:
 	int level = 0;
 	int speed = 0;
 	int score = 0;
+	void increaseScore(int amount, char hiScoreLetter);
 	map<char, int> highScore;
 
 	int getCurrentBG(){ return bgIndex; };
@@ -31,6 +32,9 @@ public:
 
 	int lives = 0;
 	bool inGame = false;
+
+	bool paused = false;
+	bool pauseable = true;
 
 private:
 	int bgCount = 14;

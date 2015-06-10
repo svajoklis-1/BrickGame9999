@@ -5,6 +5,7 @@ class Ticker
 public:
 	Ticker(int length)
 		{ tickLength = length; };
+	Ticker() = default;
 	bool triggered()
 		{ return tickCount >= tickLength; }
 	void forceTrigger() 

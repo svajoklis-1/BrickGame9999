@@ -9,6 +9,7 @@
 #include <boost/property_tree/ini_parser.hpp>
 #include <SDL_image.h>
 #include <iostream>
+#include "GSArkanoid.h"
 
 using namespace std;
 
@@ -33,12 +34,12 @@ BrickGame::BrickGame()
 	if (framerateControl == FRC_VSYNC)
 	{
 		r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		SDL_RenderSetScale(r, windowScale, windowScale);
+		SDL_RenderSetScale(r, static_cast<float>(windowScale), static_cast<float>(windowScale));
 	}
 	else
 	{
 		r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED);
-		SDL_RenderSetScale(r, windowScale, windowScale);
+		SDL_RenderSetScale(r, static_cast<float>(windowScale), static_cast<float>(windowScale));
 	}
 
 	icon = nullptr;
@@ -215,8 +216,6 @@ void BrickGame::run()
 
 	int tickLimiter = SDL_GetTicks();
 
-	bool paused = false;
-
 	while (!quitting)
 	{
 		int ticksBefore = SDL_GetTicks();
@@ -246,6 +245,11 @@ void BrickGame::run()
 			case GS_SNAKEINF:
 				gameState = new GSSnake(device, GSSNAKE_INFINITE);
 				currentState = GS_SNAKEINF;
+				break;
+
+			case GS_ARKANOID:
+				gameState = new GSArkanoid(device, GSARKANOID_NORMAL);
+				currentState = GS_ARKANOID;
 				break;
 
 			case GS_GAMEOVER:
@@ -299,9 +303,9 @@ void BrickGame::run()
 					}
 					else
 					{
-						if (device.inGame)
+						if (device.inGame && device.pauseable)
 						{
-							paused = !paused;
+							device.paused = !device.paused;
 							device.screen.paused = !device.screen.paused;
 						}
 					}
@@ -313,7 +317,7 @@ void BrickGame::run()
 
 		// parse game keys
 
-		if (!paused)
+		if (!device.paused)
 		{
 			const Uint8 *keyboardState = SDL_GetKeyboardState(nullptr);
 
@@ -337,7 +341,7 @@ void BrickGame::run()
 		if ((SDL_GetTicks() - tickLimiter) > (1000.f / static_cast<float>(tickFPS)) || (framerateControl == FRC_VSYNC))
 		{
 			tickLimiter = SDL_GetTicks();
-			if (!paused)
+			if (!device.paused)
 				gameState->tick(device);
 
 			// let the game render on the device
@@ -364,18 +368,18 @@ void BrickGame::run()
 		char title[255];
 		if (ticksNow - ticksBefore != 0)
 		{
-			sprintf_s(title, "BrickGame-9999 FPS:%d, limit:%d", int(1000.0 / (ticksNow - ticksBefore)), framerateControl);
+			sprintf_s(title, "BrickGame-9999 FPS:%d", int(1000.0 / (ticksNow - ticksBefore)));
 		}
 		else
 		{
-			sprintf_s(title, "BrickGame-9999 FPS:1000+, limit:%d", framerateControl);
+			sprintf_s(title, "BrickGame-9999 FPS:1000+");
 		}
 		SDL_SetWindowTitle(res->getWindow(), reinterpret_cast<char*>(&title));
 
 		if (doReset)
 		{
 			gameState->nextState = GS_MENU;
-			paused = false;
+			device.paused = false;
 			device.screen.paused = false;
 			device.reset();
 		}

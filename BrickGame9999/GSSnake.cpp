@@ -21,6 +21,9 @@ snakeHeadBlinkTicker(3)
 		{
 			dev.lives = 1;
 		}
+
+		if (dev.level > 7)
+			dev.level = 7;
 	}
 
 	if (variant == GSSNAKE_NORMAL)
@@ -203,7 +206,7 @@ void GSSnake::tickSnake(Device &dev)
 			{
 				dev.score += 50;
 				dev.level++;
-				if (dev.level == 10)
+				if (dev.level == 8)
 					dev.level = 0;
 				dev.speed++;
 				if (dev.speed == 10)
@@ -226,8 +229,11 @@ void GSSnake::tickSnake(Device &dev)
 		explosion.setCoord(snakeSegments[0]);
 		gameTick = 0;
 		stateSegment++;
+		dev.pauseable = false;
 	}
 }
+
+
 
 void GSSnake::tickPause(Device &dev)
 {
@@ -250,6 +256,8 @@ void GSSnake::tickExplosion(Device &dev)
 		{
 			nextState = GS_GAMEOVER_TOCURRENT;
 		}
+
+		dev.pauseable = true;
 	}
 
 	gameTick++;
@@ -529,52 +537,6 @@ void GSSnake::defineLevels()
 		"***    ***";
 
 	level++; // 7
-	levels[level] =
-		"***    ***"
-		"*        *"
-		"*        *"
-		"          "
-		"  ******  "
-		"  *    *  "
-		"          "
-		"  ******  "
-		"          "
-		"          "
-		"          "
-		"  ******  "
-		"          "
-		"  *    *  "
-		"  ******  "
-		"          "
-		"          "
-		"*        *"
-		"*        *"
-		"***    ***";
-
-	level++; // 8
-	levels[level] =
-		"***    ***"
-		"*        *"
-		"*        *"
-		"          "
-		"  ******  "
-		"  *    *  "
-		"          "
-		"  ******  "
-		"          "
-		"          "
-		"          "
-		"  ******  "
-		"          "
-		"  *    *  "
-		"  ******  "
-		"          "
-		"          "
-		"*        *"
-		"*        *"
-		"***    ***";
-
-	level++; // 9
 	levels[level] =
 		"***    ***"
 		"*        *"

@@ -39,12 +39,12 @@ void Screen::PixelArray::clear()
 	}
 }
 
-void Screen::PixelArray::setPixel(int x, int y, pixelState state)
+void Screen::PixelArray::setPixel(int x, int y, bool state)
 {
 	if (x < 0 || x >= sizeX || y < 0 || y >= sizeY)
 		return;
 	
-	pixels[xyToIndex(x, y)] = static_cast<bool>(state);
+	pixels[xyToIndex(x, y)] = state;
 }
 
 int Screen::PixelArray::xyToIndex(int x, int y)
@@ -122,14 +122,17 @@ void Screen::PixelArray::copyArray(int x, int y, bool* data, int w, int h)
 	}
 }
 
-void Screen::PixelArray::copyString(int x, int y, string data, int w, int h)
+void Screen::PixelArray::copyString(int x, int y, string data, int w, int h, bool withWhitespace)
 {
 	for (int i = (x >= 0 ? x : 0); (i < x + w) && (i < sizeX); i++)
 	{
 		for (int j = (y >= 0 ? y : 0); (j < y + h) && (j < sizeY); j++)
 		{
 			if (data[(j - y) * w + (i - x)] != ' ')
-				pixels[j * sizeX + i] = true;
+				pixels[j * sizeX + i] = ON;
+
+			if (withWhitespace && data[(j - y) * w + (i - x)] == ' ')
+				pixels[j * sizeX + i] = OFF;
 		}
 	}
 }

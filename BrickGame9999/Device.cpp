@@ -27,3 +27,9 @@ void Device::reset()
 	inGame = false;
 	screen.clear();
 }
+
+void Device::increaseScore(int amount, char hiScoreLetter)
+{
+	score += amount;
+	if (highScore[hiScoreLetter] < score) highScore[hiScoreLetter] = score;
+}

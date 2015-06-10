@@ -97,7 +97,7 @@ void ScreenRenderer::renderNum(Screen &/*screen*/, ResourceStore &res, int num, 
 
 // --------------------------------- SCREEN RENDER HELPER ---------------------------------------------------------------
 
-void ScreenRenderer::ScreenRenderHelper::renderArray(bool *data, int sizeX, int sizeY, ResourceStore &res, string location, string item, bool */*renderMask*/, int opacity)
+void ScreenRenderer::ScreenRenderHelper::renderArray(bool *data, int sizeX, int sizeY, ResourceStore &res, string location, string item, bool * /*renderMask*/, int opacity)
 {
 	for (int x = 0; x < sizeX; x++)
 	{

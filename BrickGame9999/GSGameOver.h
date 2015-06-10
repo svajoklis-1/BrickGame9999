@@ -12,7 +12,7 @@ public:
 	~GSGameOver();
 	void tick(Device &dev) override;
 	void parseEvent(Device &dev, Key k, KeyState state) override;
-	void render(Device &/*dev*/) override {};
+	void render(Device &dev) override {};
 
 private:
 	Ticker lineTicker;

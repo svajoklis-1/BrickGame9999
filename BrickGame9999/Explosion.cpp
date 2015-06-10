@@ -27,7 +27,7 @@ void Explosion::render(Device& dev)
 		currentFrame++; if (currentFrame == 2) currentFrame = 0;
 	}
 
-	dev.screen.mainArray.copyString(explosionPosition.x, explosionPosition.y, frames[currentFrame], 4, 4);
+	dev.screen.mainArray.copyString(explosionPosition.x, explosionPosition.y, frames[currentFrame], 4, 4, true);
 
 	displayTicker.tick();
 }

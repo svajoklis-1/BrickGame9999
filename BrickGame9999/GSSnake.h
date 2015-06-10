@@ -1,8 +1,6 @@
 #pragma once
 
 #include "GameState.h"
-#include "Global.h"
-#include <string>
 #include "Ticker.h"
 #include "Explosion.h"
 
@@ -43,7 +41,6 @@ private:
 	bool speeding = false;
 
 	Ticker snakeTicker;
-
 	Ticker snakeHeadBlinkTicker;
 
 	coord food;

@@ -18,13 +18,13 @@ animTicker(60)
 
 	dev.screen.hintArray.clear();
 
-	string square =
+	/*string square =
 		"****"
 		"*  *"
 		"*  *"
 		"****";
 
-	dev.screen.hintArray.copyString(0, 0, square, 4, 4);
+	dev.screen.hintArray.copyString(0, 0, square, 4, 4);*/
 
 	dev.inGame = false;
 }
@@ -95,6 +95,7 @@ void GSMenu::parseEvent(Device &dev, Key k, KeyState state)
 
 			resetAnim();
 			break;
+
 		case KEY_START: break;
 		case KEY_SOUND: break;
 		case KEY_RESET: break;
@@ -118,6 +119,8 @@ GameStates GSMenu::getSelectedState()
 		return GS_SNAKE;
 	if (currentL == B)
 		return GS_SNAKEINF;
+	if (currentL == C)
+		return GS_ARKANOID;
 
 	return GS_NONE;
 }
