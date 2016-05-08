@@ -22,7 +22,7 @@ public:
 	~BrickGame();
 	void run();
 private:
-	enum frControl
+	enum frControl 
 	{
 		FRC_NONE,
 		FRC_250,

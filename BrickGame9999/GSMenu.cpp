@@ -250,7 +250,6 @@ void GSMenu::drawLetter(Device &dev)
 	}
 	else
 	{
-
 		for (int y = 0; y < letterH; y++)
 		{
 			for (int x = 0; x < letterW; x++)

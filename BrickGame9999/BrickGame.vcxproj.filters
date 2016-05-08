@@ -17,20 +17,23 @@
     <Filter Include="Source files\Objects">
       <UniqueIdentifier>{e7613a55-a1a3-41be-b6a4-aa40635ad3ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\GameStates\GSSnake">
+      <UniqueIdentifier>{23588b26-bb81-4211-844e-9e3db7f86e51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\GameStates\GSMenu">
+      <UniqueIdentifier>{0620b282-9ea0-473e-8b2f-03457686e276}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\GameStates\GSGameOver">
+      <UniqueIdentifier>{7d8895e1-6efa-469d-aa91-aaf35038cc59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\GameStates\GSArkanoid">
+      <UniqueIdentifier>{86b3c922-543d-4b2c-b157-22bc5bb252ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\GameStates\GSRain">
+      <UniqueIdentifier>{1badf575-2009-4348-a704-b43385b638cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GSGameOver.cpp">
-      <Filter>Source files\GameStates</Filter>
-    </ClCompile>
-    <ClCompile Include="GSMenu.cpp">
-      <Filter>Source files\GameStates</Filter>
-    </ClCompile>
-    <ClCompile Include="GSRain.cpp">
-      <Filter>Source files\GameStates</Filter>
-    </ClCompile>
-    <ClCompile Include="GSSnake.cpp">
-      <Filter>Source files\GameStates</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
@@ -52,30 +55,30 @@
     <ClCompile Include="Screen.cpp">
       <Filter>Source files\System</Filter>
     </ClCompile>
-    <ClCompile Include="GSArkanoid.cpp">
-      <Filter>Source files\GameStates</Filter>
-    </ClCompile>
     <ClCompile Include="Device.cpp">
       <Filter>Source files\System</Filter>
     </ClCompile>
     <ClCompile Include="Explosion.cpp">
       <Filter>Source files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="GSSnake.cpp">
+      <Filter>Source files\GameStates\GSSnake</Filter>
+    </ClCompile>
+    <ClCompile Include="GSMenu.cpp">
+      <Filter>Source files\GameStates\GSMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="GSGameOver.cpp">
+      <Filter>Source files\GameStates\GSGameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="GSArkanoid.cpp">
+      <Filter>Source files\GameStates\GSArkanoid</Filter>
+    </ClCompile>
+    <ClCompile Include="GSRain.cpp">
+      <Filter>Source files\GameStates\GSRain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
-      <Filter>Source files\GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="GSGameOver.h">
-      <Filter>Source files\GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="GSMenu.h">
-      <Filter>Source files\GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="GSRain.h">
-      <Filter>Source files\GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="GSSnake.h">
       <Filter>Source files\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="Types.h">
@@ -108,11 +111,23 @@
     <ClInclude Include="Screen.h">
       <Filter>Source files\System</Filter>
     </ClInclude>
-    <ClInclude Include="GSArkanoid.h">
-      <Filter>Source files\GameStates</Filter>
-    </ClInclude>
     <ClInclude Include="Explosion.h">
       <Filter>Source files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GSSnake.h">
+      <Filter>Source files\GameStates\GSSnake</Filter>
+    </ClInclude>
+    <ClInclude Include="GSMenu.h">
+      <Filter>Source files\GameStates\GSMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="GSGameOver.h">
+      <Filter>Source files\GameStates\GSGameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="GSArkanoid.h">
+      <Filter>Source files\GameStates\GSArkanoid</Filter>
+    </ClInclude>
+    <ClInclude Include="GSRain.h">
+      <Filter>Source files\GameStates\GSRain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

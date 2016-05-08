@@ -7,9 +7,9 @@ GSRain::GSRain(Device &dev) :
 inputTick(60/4)
 {
 	for (int i = 0; i < 10 * 20; i++)
-		drops[i] = false;
+		this->drops[i] = false;
 
-	drops[0] = true;
+	this->drops[0] = true;
 
 	srand(static_cast<unsigned int>(time(nullptr)));
 }
@@ -19,13 +19,13 @@ void GSRain::tick(Device &dev)
 	dev.screen.mainArray.clear();
 	dev.screen.hintArray.clear();
 
-	dev.screen.score.setNumber(frequency);
-	dev.screen.highScore.setNumber(dir);
+	dev.screen.score.setNumber(this->frequency);
+	dev.screen.highScore.setNumber(this->dir);
 
 	// tick drops
-	if (rainTicks >= 3)
+	if (this->rainTicks >= 3)
 	{
-		switch (dir)
+		switch (this->dir)
 		{
 		case 1:
 			// pull down
@@ -33,20 +33,20 @@ void GSRain::tick(Device &dev)
 			{
 				for (int x = 1; x < 10; x++)
 				{
-					drops[(y)* 10 + (x)] = drops[(y - 1) * 10 + (x - 1)];
+					this->drops[(y)* 10 + (x)] = drops[(y - 1) * 10 + (x - 1)];
 				}
 			}
 
 			// fill top row
 			for (int i = 0; i < 10; i++)
 			{
-				drops[i] = (rand() % 100 + 1 <= frequency);
+				this->drops[i] = (rand() % 100 + 1 <= this->frequency);
 			}
 
 			// fill left clm
 			for (int i = 0; i < 20; i++)
 			{
-				drops[i * 10] = (rand() % 100 + 1 <= frequency);
+				this->drops[i * 10] = (rand() % 100 + 1 <= this->frequency);
 			}
 			break;
 
@@ -56,14 +56,14 @@ void GSRain::tick(Device &dev)
 			{
 				for (int x = 0; x < 10; x++)
 				{
-					drops[(y)* 10 + (x)] = drops[(y - 1) * 10 + (x)];
+					this->drops[(y)* 10 + (x)] = this->drops[(y - 1) * 10 + (x)];
 				}
 			}
 
 			// fill top row
 			for (int i = 0; i < 10; i++)
 			{
-				drops[i] = (rand() % 100 + 1 <= frequency);
+				this->drops[i] = (rand() % 100 + 1 <= this->frequency);
 			}
 
 			break;
@@ -74,37 +74,55 @@ void GSRain::tick(Device &dev)
 			{
 				for (int x = 0; x < 9; x++)
 				{
-					drops[(y)* 10 + (x)] = drops[(y - 1) * 10 + (x + 1)];
+					this->drops[(y)* 10 + (x)] = this->drops[(y - 1) * 10 + (x + 1)];
 				}
 			}
 
 			// fill top row
 			for (int i = 0; i < 10; i++)
 			{
-				drops[i] = (rand() % 100 + 1 <= frequency);
+				this->drops[i] = (rand() % 100 + 1 <= this->frequency);
 			}
 
 			// fill left clm
 			for (int i = 0; i < 20; i++)
 			{
-				drops[i * 10 + 9] = (rand() % 100 + 1 <= frequency);
+				this->drops[i * 10 + 9] = (rand() % 100 + 1 <= this->frequency);
 			}
 			break;
 		}
 
 		
-		rainTicks = 0;
+		this->rainTicks = 0;
 	}
 
+	this->ticks++;
+	this->rainTicks++;
+
+	this->inputTick.tick();
+
+	if (this->inputTick.triggered())
+	{
+		this->inputTick.reset();
+		this->frequency += this->dfrequency;
+		if (this->frequency > 100)
+			this->frequency = 100;
+		if (this->frequency < 0)
+			this->frequency = 0;
+	}
+}
+
+void GSRain::render(Device &dev)
+{
 	// render drops
 	for (int i = 0; i < 10 * 20; i++)
 	{
-		if (drops[i])
+		if (this->drops[i])
 			dev.screen.mainArray.setPixel(i % 10, i / 10, ON);
 	}
 
 	// do hint
-	if ((ticks / 20) % 2 == 0)
+	if ((this->ticks / 20) % 2 == 0)
 	{
 		dev.screen.hintArray.setPixel(0, 0, ON);
 		dev.screen.hintArray.setPixel(3, 0, ON);
@@ -130,55 +148,38 @@ void GSRain::tick(Device &dev)
 		dev.screen.hintArray.setPixel(1, 3, ON);
 		dev.screen.hintArray.setPixel(2, 3, ON);
 	}
-
-	ticks++;
-	rainTicks++;
-
-
-
-	inputTick.tick();
-
-	if (inputTick.triggered())
-	{
-		inputTick.reset();
-		frequency += dfrequency;
-		if (frequency > 100)
-			frequency = 100;
-		if (frequency < 0)
-			frequency = 0;
-	}
 }
 
-void GSRain::parseEvent(Device &/*dev*/, Key k, KeyState state)
+void GSRain::parseEvent(Device &dev, Key k, KeyState state)
 {
 	if (state == STATE_DOWN)
 	{
 		switch (k)
 		{
 		case KEY_UP:
-			dfrequency = 1;
-			inputTick.forceTrigger();
+			this->dfrequency = 1;
+			this->inputTick.forceTrigger();
 			break;
 
 		case KEY_DOWN:
-			inputTick.forceTrigger();
-			dfrequency = -1;
+			this->inputTick.forceTrigger();
+			this->dfrequency = -1;
 			break;
 
 		case KEY_LEFT:
-			dir--;
-			if (dir < -1)
-				dir = -1;
+			this->dir--;
+			if (this->dir < -1)
+				this->dir = -1;
 			break;
 
 		case KEY_RIGHT:
-			dir++;
-			if (dir > 1)
-				dir = 1;
+			this->dir++;
+			if (this->dir > 1)
+				this->dir = 1;
 			break;
 
 		case KEY_ACTION:
-			nextState = GS_MENU;
+			this->nextState = GS_MENU;
 			break;
 
 		case KEY_START: break;
@@ -194,7 +195,7 @@ void GSRain::parseEvent(Device &/*dev*/, Key k, KeyState state)
 		{
 		case KEY_UP: 
 		case KEY_DOWN: 
-			dfrequency = 0;
+			this->dfrequency = 0;
 			break;
 		case KEY_LEFT: break;
 		case KEY_RIGHT: break;

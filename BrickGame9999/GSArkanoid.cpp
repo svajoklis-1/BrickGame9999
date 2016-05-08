@@ -177,8 +177,8 @@ void GSArkanoid::tickGame(Device &dev)
 
 				// collision with level
 				bool collidedWithLevel = false;
-				bool clearedSquare = false;
 				// on y
+
 				if (currentLevel[(ballY + ballDY) * 10 + ballX] != ' ')
 				{
 					currentLevel[(ballY + ballDY) * 10 + ballX] = ' ';
@@ -197,6 +197,8 @@ void GSArkanoid::tickGame(Device &dev)
 					collidedWithLevel = true;
 				}
 
+				// only collide diagonally if clear on vertical/horizontal
+
 				if (!collidedWithLevel && currentLevel[(ballY + ballDY) * 10 + ballX + ballDX] != ' ')
 				{
 					currentLevel[(ballY + ballDY) * 10 + ballX + ballDX] = ' ';
@@ -205,7 +207,6 @@ void GSArkanoid::tickGame(Device &dev)
 					newBallDY = -ballDY;
 					newBallDX = -ballDX;
 				}
-
 
 			} while (newBallDX != ballDX || newBallDY != ballDY);
 
