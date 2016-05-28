@@ -3,9 +3,10 @@
 #include <cstdlib>
 #include <ctime>
 
-GSRain::GSRain(Device &dev) :
-inputTick(60/4)
+GSRain::GSRain(Device &dev)
 {
+	this->inputTick = Ticker(60 / 4);
+
 	for (int i = 0; i < 10 * 20; i++)
 		this->drops[i] = false;
 
@@ -20,78 +21,25 @@ void GSRain::tick(Device &dev)
 	dev.screen.hintArray.clear();
 
 	dev.screen.score.setNumber(this->frequency);
-	dev.screen.highScore.setNumber(this->dir);
+	dev.screen.highScore.setNumber(this->direction);
 
 	// tick drops
 	if (this->rainTicks >= 3)
 	{
-		switch (this->dir)
+		switch (this->direction)
 		{
 		case 1:
-			// pull down
-			for (int y = 20 - 1; y >= 1; y--)
-			{
-				for (int x = 1; x < 10; x++)
-				{
-					this->drops[(y)* 10 + (x)] = drops[(y - 1) * 10 + (x - 1)];
-				}
-			}
-
-			// fill top row
-			for (int i = 0; i < 10; i++)
-			{
-				this->drops[i] = (rand() % 100 + 1 <= this->frequency);
-			}
-
-			// fill left clm
-			for (int i = 0; i < 20; i++)
-			{
-				this->drops[i * 10] = (rand() % 100 + 1 <= this->frequency);
-			}
+			this->rainFromLeft();
 			break;
 
 		case 0:
-			// pull down
-			for (int y = 20 - 1; y >= 0; y--)
-			{
-				for (int x = 0; x < 10; x++)
-				{
-					this->drops[(y)* 10 + (x)] = this->drops[(y - 1) * 10 + (x)];
-				}
-			}
-
-			// fill top row
-			for (int i = 0; i < 10; i++)
-			{
-				this->drops[i] = (rand() % 100 + 1 <= this->frequency);
-			}
-
+			this->rainDown();
 			break;
 
 		case -1:
-			// pull down
-			for (int y = 20 - 1; y >= 0; y--)
-			{
-				for (int x = 0; x < 9; x++)
-				{
-					this->drops[(y)* 10 + (x)] = this->drops[(y - 1) * 10 + (x + 1)];
-				}
-			}
-
-			// fill top row
-			for (int i = 0; i < 10; i++)
-			{
-				this->drops[i] = (rand() % 100 + 1 <= this->frequency);
-			}
-
-			// fill left clm
-			for (int i = 0; i < 20; i++)
-			{
-				this->drops[i * 10 + 9] = (rand() % 100 + 1 <= this->frequency);
-			}
+			this->rainFromRight();
 			break;
 		}
-
 		
 		this->rainTicks = 0;
 	}
@@ -100,15 +48,85 @@ void GSRain::tick(Device &dev)
 	this->rainTicks++;
 
 	this->inputTick.tick();
-
 	if (this->inputTick.triggered())
 	{
 		this->inputTick.reset();
-		this->frequency += this->dfrequency;
-		if (this->frequency > 100)
-			this->frequency = 100;
-		if (this->frequency < 0)
-			this->frequency = 0;
+		this->onInputTick();
+	}
+}
+
+void GSRain::onInputTick()
+{
+	this->frequency += this->dfrequency;
+	if (this->frequency > 100)
+		this->frequency = 100;
+	if (this->frequency < 0)
+		this->frequency = 0;
+}
+
+void GSRain::rainDown()
+{
+	// pull down
+	for (int y = 20 - 1; y >= 0; y--)
+	{
+		for (int x = 0; x < 10; x++)
+		{
+			this->drops[(y)* 10 + (x)] = this->drops[(y - 1) * 10 + (x)];
+		}
+	}
+
+	// fill top row
+	for (int i = 0; i < 10; i++)
+	{
+		this->drops[i] = (rand() % 100 + 1 <= this->frequency);
+	}
+}
+
+void GSRain::rainFromLeft()
+{
+	// pull down
+	for (int y = 20 - 1; y >= 1; y--)
+	{
+		for (int x = 1; x < 10; x++)
+		{
+			this->drops[(y)* 10 + (x)] = drops[(y - 1) * 10 + (x - 1)];
+		}
+	}
+
+	// fill top row
+	for (int i = 0; i < 10; i++)
+	{
+		this->drops[i] = (rand() % 100 + 1 <= this->frequency);
+	}
+
+	// fill left clm
+	for (int i = 0; i < 20; i++)
+	{
+		this->drops[i * 10] = (rand() % 100 + 1 <= this->frequency);
+	}
+}
+
+void GSRain::rainFromRight()
+{
+	// pull down
+	for (int y = 20 - 1; y >= 0; y--)
+	{
+		for (int x = 0; x < 9; x++)
+		{
+			this->drops[(y)* 10 + (x)] = this->drops[(y - 1) * 10 + (x + 1)];
+		}
+	}
+
+	// fill top row
+	for (int i = 0; i < 10; i++)
+	{
+		this->drops[i] = (rand() % 100 + 1 <= this->frequency);
+	}
+
+	// fill right column
+	for (int i = 0; i < 20; i++)
+	{
+		this->drops[i * 10 + 9] = (rand() % 100 + 1 <= this->frequency);
 	}
 }
 
@@ -118,7 +136,9 @@ void GSRain::render(Device &dev)
 	for (int i = 0; i < 10 * 20; i++)
 	{
 		if (this->drops[i])
+		{
 			dev.screen.mainArray.setPixel(i % 10, i / 10, ON);
+		}
 	}
 
 	// do hint
@@ -167,15 +187,15 @@ void GSRain::parseEvent(Device &dev, Key k, KeyState state)
 			break;
 
 		case KEY_LEFT:
-			this->dir--;
-			if (this->dir < -1)
-				this->dir = -1;
+			this->direction--;
+			if (this->direction < -1)
+				this->direction = -1;
 			break;
 
 		case KEY_RIGHT:
-			this->dir++;
-			if (this->dir > 1)
-				this->dir = 1;
+			this->direction++;
+			if (this->direction > 1)
+				this->direction = 1;
 			break;
 
 		case KEY_ACTION:
