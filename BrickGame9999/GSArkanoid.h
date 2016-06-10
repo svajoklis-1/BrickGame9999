@@ -46,8 +46,6 @@ private:
 	Ticker ballTicker;
 	Ticker paddleTicker;
 
-
-
 	int paddleX = 3;
 	int paddleW = 4;
 	int paddleDX = 0;
@@ -63,8 +61,6 @@ private:
 	Ticker pauseTicker;
 
 	Explosion explosion;
-
-
 
 	struct level
 	{
