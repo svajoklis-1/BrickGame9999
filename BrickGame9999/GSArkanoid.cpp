@@ -227,6 +227,10 @@ void GSArkanoid::tickGame(Device &dev)
 			if (currentCount == 0)
 			{
 				dev.level++;
+				if (dev.level >= levelCount) {
+					dev.level = 0;
+				}
+
 				resetLevel(dev);
 				reset(dev);
 			}
@@ -376,22 +380,70 @@ void GSArkanoid::defineLevels()
 	levelCount++;
 
 	levels[levelCount].data =
-		"  *   *  *"
-		"  * *  *  "
-		"*   * *   "
-		" ******** "
-		"  ******  "
-		"  ******  "
-		" ******** "
-		"   * * *  "
-		"     * *  "
-		"  **   *  "
-		"    **    "
-		"      *   "
-		" *        "
+		"          "
+		"          "
+		" *      * "
 		"  *    *  "
-		"   *      "
-		"      *   "
+		"  ******  "
+		" * **** * "
+		" ******** "
+		"  *    *  "
+		"   *  *   "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          ";
+	levels[levelCount].count = countStarsInData(levels[levelCount].data);
+	levelCount++;
+
+	levels[levelCount].data =
+		"          "
+		"          "
+		"          "
+		" * **** * "
+		"  ******  "
+		" ******** "
+		"    **    "
+		"    **    "
+		"    **    "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          ";
+	levels[levelCount].count = countStarsInData(levels[levelCount].data);
+	levelCount++;
+
+	levels[levelCount].data =
+		"          "
+		"          "
+		"   ****   "
+		"  **  **  "
+		"  * ** *  "
+		"  **  **  "
+		"  ******  "
+		" ***  *** "
+		"  * ** *  "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
+		"          "
 		"          "
 		"          "
 		"          "
