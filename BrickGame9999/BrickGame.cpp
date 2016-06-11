@@ -344,6 +344,8 @@ void BrickGame::run()
 			if (!device.paused)
 				gameState->tick(device);
 
+			scRenderer->preRender();
+
 			// let the game render on the device
 			gameState->render(device);
 

@@ -21,9 +21,6 @@ snakeHeadBlinkTicker(3)
 		{
 			dev.lives = 1;
 		}
-
-		if (dev.level > 7)
-			dev.level = 7;
 	}
 
 	if (variant == GSSNAKE_NORMAL)
@@ -186,7 +183,7 @@ void GSSnake::tickSnake(Device &dev)
 		// check for collision with itself and walls
 		for (int i = 1; i < snakeLength; i++)
 		{
-			if ((snakeSegments[i] == snakeSegments[0]) || (levels[dev.level % levels.size()][snakeHeadY * 10 + snakeHeadX] != ' '))
+			if ((snakeSegments[i] == snakeSegments[0]) || (levels[dev.level % levelCount][snakeHeadY * 10 + snakeHeadX] != ' '))
 			{
 				dev.lives--;
 				movingOn = true;
@@ -199,15 +196,15 @@ void GSSnake::tickSnake(Device &dev)
 		{
 			dev.score += 10;
 
-			genFood(dev.level);
+			genFood(dev.level % levelCount);
 			snakeLength++;
 
 			if (snakeLength == snakeLengthRequired)
 			{
 				dev.score += 50;
 				dev.level++;
-				if (dev.level == 8)
-					dev.level = 0;
+				if (dev.level == 10)
+					dev.level = 9;
 				dev.speed++;
 				if (dev.speed == 10)
 					dev.speed = 9;
@@ -273,7 +270,7 @@ void GSSnake::reset(Device &dev)
 	snakeSegments[1] = { snakeHeadX - 1, snakeHeadY };
 	snakeSegments[2] = { snakeHeadX - 2, snakeHeadY };
 
-	genFood(dev.level);
+	genFood(dev.level % levelCount);
 
 	snakeHeadBlinkTicker.reset();
 	snakeTicker.reset();
@@ -347,7 +344,7 @@ void GSSnake::renderSnake(Device &dev)
 		snakeHeadBlinkTicker.reset();
 	}
 
-	dev.screen.mainArray.copyString(0, 0, levels[dev.level % levels.size()], 10, 20);
+	dev.screen.mainArray.copyString(0, 0, levels[dev.level % levelCount], 10, 20);
 
 	for (int i = 0; i < snakeLength; i++)
 	{
@@ -373,10 +370,10 @@ void GSSnake::renderSnake(Device &dev)
 
 void GSSnake::defineLevels()
 {
-	int level = -1;
+	levelCount = -1;
 
-	level++; // 0
-	levels[level] =
+	levelCount++; // 0
+	levels[levelCount] =
 		"          "
 		"          "
 		"          "
@@ -398,8 +395,8 @@ void GSSnake::defineLevels()
 		"          "
 		"          ";
 
-	level++; // 1
-	levels[level] =
+	levelCount++; // 1
+	levels[levelCount] =
 		"          "
 		"          "
 		"  ******  "
@@ -421,8 +418,8 @@ void GSSnake::defineLevels()
 		"          "
 		"          ";
 
-	level++; // 2
-	levels[level] =
+	levelCount++; // 2
+	levels[levelCount] =
 		"          "
 		"          "
 		"          "
@@ -444,8 +441,8 @@ void GSSnake::defineLevels()
 		"          "
 		"          ";
 
-	level++; // 3
-	levels[level] =
+	levelCount++; // 3
+	levels[levelCount] =
 		"          "
 		" ***  *** "
 		" *      * "
@@ -467,8 +464,8 @@ void GSSnake::defineLevels()
 		" ***  *** "
 		"          ";
 
-	level++; // 4
-	levels[level] =
+	levelCount++; // 4
+	levels[levelCount] =
 		"***    ***"
 		"*        *"
 		"*        *"
@@ -490,8 +487,8 @@ void GSSnake::defineLevels()
 		"*        *"
 		"***    ***";
 
-	level++; // 5
-	levels[level] =
+	levelCount++; // 5
+	levels[levelCount] =
 		"***    ***"
 		"*        *"
 		"*        *"
@@ -513,8 +510,8 @@ void GSSnake::defineLevels()
 		"*        *"
 		"***    ***";
 
-	level++; // 6
-	levels[level] =
+	levelCount++; // 6
+	levels[levelCount] =
 		"***    ***"
 		"*        *"
 		"*        *"
@@ -536,8 +533,8 @@ void GSSnake::defineLevels()
 		"*        *"
 		"***    ***";
 
-	level++; // 7
-	levels[level] =
+	levelCount++; // 7
+	levels[levelCount] =
 		"***    ***"
 		"*        *"
 		"*        *"

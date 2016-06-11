@@ -24,9 +24,6 @@ GSArkanoid::GSArkanoid(Device &dev, GSArkanoidVariant variant)
 
 	if (!dev.inGame)
 	{
-		if (dev.level >= levelCount)
-			dev.level = levelCount;
-
 		dev.score = 0;
 		dev.lives = 3;
 	}
@@ -65,8 +62,8 @@ void GSArkanoid::reset(Device &dev)
 
 void GSArkanoid::resetLevel(Device &dev)
 {
-	currentLevel = levels[dev.level].data;
-	currentCount = levels[dev.level].count;
+	currentLevel = levels[dev.level % levelCount].data;
+	currentCount = levels[dev.level % levelCount].count;
 }
 
 void GSArkanoid::tick(Device& dev)
@@ -227,9 +224,6 @@ void GSArkanoid::tickGame(Device &dev)
 			if (currentCount == 0)
 			{
 				dev.level++;
-				if (dev.level >= levelCount) {
-					dev.level = 0;
-				}
 
 				resetLevel(dev);
 				reset(dev);
@@ -237,6 +231,7 @@ void GSArkanoid::tickGame(Device &dev)
 
 			if (ballY == 19)
 			{
+				dev.pauseable = false;
 				dev.lives--;
 				explosion.setCoord({ ballX, ballY });
 				stateSegment = SEG_EXPLOSION;

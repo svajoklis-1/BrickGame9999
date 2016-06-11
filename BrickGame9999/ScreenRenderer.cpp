@@ -26,8 +26,6 @@ void ScreenRenderer::render(Screen &screen, ResourceStore &res)
 
 	// render icons
 
-	
-
 	if (screen.sound)
 	{
 		renderItem(res, "note");
@@ -54,13 +52,18 @@ void ScreenRenderer::renderItem(ResourceStore &res, string item)
 		&dest);
 }
 
-void ScreenRenderer::postRender()
+void ScreenRenderer::preRender()
 {
-	mainScreen.moveShadows();
-	hintScreen.moveShadows();
+
 }
 
-void ScreenRenderer::renderNum(Screen &/*screen*/, ResourceStore &res, int num, coord where, int width)
+void ScreenRenderer::postRender()
+{
+	mainScreen.pushPrevs();
+	hintScreen.pushPrevs();
+}
+
+void ScreenRenderer::renderNum(Screen &screen, ResourceStore &res, int num, coord where, int width)
 {
 	int score = num;
 	int x = where.x;
@@ -211,9 +214,4 @@ void ScreenRenderer::ScreenRenderHelper::pushPrevs()
 			prevScreen[i + 1][n] = prevScreen[i][n];
 		}
 	}
-}
-
-void ScreenRenderer::ScreenRenderHelper::moveShadows()
-{
-	pushPrevs();
 }

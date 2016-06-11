@@ -55,6 +55,7 @@ private:
 	void reset(Device &dev);
 
 	map<int, string> levels;
+	int levelCount;
 	void defineLevels();
 
 	Ticker foodTicker;
