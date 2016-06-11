@@ -347,7 +347,7 @@ void BrickGame::run()
 			// let the game render on the device
 			gameState->render(device);
 
-			scRenderer->moveShadows();
+			scRenderer->postRender();
 		}
 
 		scRenderer->render(device.screen, *res);

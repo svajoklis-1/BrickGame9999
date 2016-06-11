@@ -54,7 +54,7 @@ void ScreenRenderer::renderItem(ResourceStore &res, string item)
 		&dest);
 }
 
-void ScreenRenderer::moveShadows()
+void ScreenRenderer::postRender()
 {
 	mainScreen.moveShadows();
 	hintScreen.moveShadows();

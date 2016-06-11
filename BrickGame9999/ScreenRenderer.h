@@ -9,7 +9,7 @@ public:
 	ScreenRenderer();
 	~ScreenRenderer();
 	void render(Screen &screen, ResourceStore &res);
-	void moveShadows();
+	void postRender();
 
 	class ScreenRenderHelper
 	{
