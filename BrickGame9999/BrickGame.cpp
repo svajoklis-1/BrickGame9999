@@ -6,8 +6,8 @@
 #include "GSArkanoid.h"
 #include "GSGameOver.h"
 
-#include <boost/foreach.hpp>
-#include <boost/property_tree/ini_parser.hpp>
+#include "SaveManager.h"
+
 #include <SDL_image.h>
 #include <iostream>
 
@@ -15,7 +15,7 @@ using namespace std;
 
 BrickGame::BrickGame()
 {
-	readSave();
+	SaveManager::readSave(windowScale, framerateControl, device);
 
 	res = new ResourceStore(scrRect);
 	bgRenderer = new BackgroundRenderer(scrRect);
@@ -102,98 +102,7 @@ BrickGame::BrickGame()
 	keyMap[KEY_RESET] = SDL_SCANCODE_F1;
 }
 
-void BrickGame::readSave()
-{
-	pt::ptree saveFile;
-	
-	unsigned int magic;
 
-	try
-	{
-		pt::read_ini("saveData.ini", saveFile);
-		magic = saveFile.get<unsigned int>("magic.magic", magicVal);
-
-		windowScale = saveFile.get<int>("window.scale", 1);
-		framerateControl = saveFile.get<int>("window.frameControl", 2);
-
-		device.setBGCount(saveFile.get<int>("device.backgroundCount", 14));
-		device.setBG(saveFile.get<int>("device.currentBackground", 1) - 1);
-
-		try
-		{
-			BOOST_FOREACH(pt::ptree::value_type &v, saveFile.get_child("highScore"))
-			{
-				device.highScore[v.first.c_str()[0]] = v.second.get_value<int>();
-			}
-		}
-		catch (...)
-		{
-			cout << "highScore not found!" << endl;
-		}
-
-		cout << endl;
-	}
-	catch (...)
-	{
-		defaultSave();
-		throw string("saveData read failed, reverting to defaults...\nRestart and try again");
-	}
-	
-	if (magic != calcMagic())
-	{
-		defaultSave();
-		throw string("saveData corrupted, reverting...\nRestart and try again");
-	}
-}
-
-unsigned int BrickGame::calcMagic()
-{
-	unsigned int magic = magicVal;
-
-	for (auto iterator = device.highScore.begin(); iterator != device.highScore.end(); ++iterator)
-	{
-		if (static_cast<unsigned>(iterator->second) != 0)
-			magic ^= static_cast<unsigned>(iterator->second);
-	}
-
-	return magic;
-}
-
-void BrickGame::writeSave()
-{
-	pt::ptree saveFile;
-	pt::read_ini("saveData.ini", saveFile);
-
-	saveFile.put("window.scale", windowScale);
-	saveFile.put("window.frameControl", framerateControl);
-
-	saveFile.put("device.currentBackground", device.getCurrentBG() + 1);
-	
-	for (auto iterator = device.highScore.begin(); iterator != device.highScore.end(); ++iterator)
-	{
-		string key;
-		key.append("highScore.");
-		key.push_back(iterator->first);
-		saveFile.put<int>(key, device.highScore[iterator->first]);
-	}
-
-	saveFile.put("magic.magic", calcMagic());
-
-	pt::write_ini("saveData.ini", saveFile);
-}
-
-void BrickGame::defaultSave()
-{
-	pt::ptree saveFile;
-
-	saveFile.put("window.scale", windowScale);
-	saveFile.put("window.frameControl", framerateControl);
-	
-	saveFile.put("device.backgroundCount", device.getBGCount());
-	saveFile.put("device.currentBackground", device.getCurrentBG() + 1);
-
-	pt::write_ini("saveData.ini", saveFile);
-}
 
 BrickGame::~BrickGame()
 {
@@ -389,11 +298,11 @@ void BrickGame::run()
 
 	try
 	{
-		writeSave();
+		SaveManager::writeSave(windowScale, framerateControl, device);
 	}
 	catch (...)
 	{
-		defaultSave();
+		SaveManager::defaultSave(windowScale, framerateControl, device);
 		throw string("Writing save data failed, reverting to default...\nYour highscores are gone (and probably were gone to start with).");
 	}
 	

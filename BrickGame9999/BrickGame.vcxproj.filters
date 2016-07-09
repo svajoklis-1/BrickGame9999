@@ -76,6 +76,9 @@
     <ClCompile Include="GSRain.cpp">
       <Filter>Source files\GameStates\GSRain</Filter>
     </ClCompile>
+    <ClCompile Include="SaveManager.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="GSRain.h">
       <Filter>Source files\GameStates\GSRain</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveManager.h">
+      <Filter>Source files\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
