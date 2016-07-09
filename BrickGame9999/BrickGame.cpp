@@ -3,13 +3,13 @@
 #include "GSRain.h"
 #include "GSMenu.h"
 #include "GSSnake.h"
+#include "GSArkanoid.h"
 #include "GSGameOver.h"
 
 #include <boost/foreach.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 #include <SDL_image.h>
 #include <iostream>
-#include "GSArkanoid.h"
 
 using namespace std;
 

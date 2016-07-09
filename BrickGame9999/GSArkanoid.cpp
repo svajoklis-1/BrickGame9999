@@ -26,6 +26,7 @@ GSArkanoid::GSArkanoid(Device &dev, GSArkanoidVariant variant)
 	{
 		dev.score = 0;
 		dev.lives = 3;
+		resetLevel(dev);
 	}
 
 	dev.screen.level.setLink(&dev.level);
@@ -36,9 +37,6 @@ GSArkanoid::GSArkanoid(Device &dev, GSArkanoidVariant variant)
 	explosion.setCoord({ 5, 10 });
 
 	reset(dev);
-
-	if (!dev.inGame)
-		resetLevel(dev);
 
 	dev.inGame = true;
 }
