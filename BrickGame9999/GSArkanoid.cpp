@@ -6,7 +6,7 @@ int GSArkanoid::currentCount;
 GSArkanoid::GSArkanoid(Device &dev, GSArkanoidVariant variant)
 {
 	pauseTicker.setLength(60);
-	paddleTicker.setLength(10);
+	paddleTicker.setLength(4);
 	ballTicker.setLength(5);
 
 	switch(variant)
@@ -272,10 +272,15 @@ void GSArkanoid::parseEvent(Device& dev, Key k, KeyState state)
 		case KEY_LEFT:
 			paddleTicker.forceTrigger();
 			paddleDX = -1;
+			directionChanged = true;
 			break;
 		case KEY_RIGHT:
 			paddleTicker.forceTrigger();
 			paddleDX = 1;
+			directionChanged = true;
+			break;
+		case KEY_ACTION:
+			speeding = true;
 			break;
 		}
 	}
@@ -286,10 +291,30 @@ void GSArkanoid::parseEvent(Device& dev, Key k, KeyState state)
 		{
 		case KEY_LEFT:
 		case KEY_RIGHT:
-			paddleDX = 0;
+			if (!directionChanged)
+			{
+				paddleDX = 0;
+			}
+			break;
+		case KEY_ACTION:
+			speeding = false;
 			break;
 		}
 	}
+
+	if (speeding)
+	{
+		ballTicker.setLength(2);
+	}
+	else
+	{
+		ballTicker.setLength(5);
+	}
+}
+
+void GSArkanoid::postEvents(Device &device)
+{
+	directionChanged = false;
 }
 
 void GSArkanoid::render(Device& dev)

@@ -239,6 +239,8 @@ void BrickGame::run()
 					
 				prevKeyboardState[i] = keyboardState[keyMap[i]];
 			}
+
+			gameState->postEvents(device);
 		}
 
 

@@ -43,6 +43,8 @@ private:
 	void tickExplosion(Device &dev);
 	void renderGame(Device &dev);
 
+	void postEvents(Device &device) override;
+
 	Ticker ballTicker;
 	Ticker paddleTicker;
 
@@ -55,6 +57,8 @@ private:
 	int ballDX = 1;
 	int ballDY = -1;
 	bool slid = false;
+	bool speeding = false;
+	bool directionChanged = false;
 
 	int levelCount = 0;
 

@@ -237,7 +237,6 @@ void GSSnake::tickPause(Device &dev)
 	if (gameTick >= gameDelay)
 		stateSegment++;
 
-	// game tick
 	gameTick++;
 }
 
