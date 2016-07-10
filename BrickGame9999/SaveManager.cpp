@@ -51,7 +51,7 @@ void SaveManager::readSave(int &windowScale, int &framerateControl, Device &devi
 	}
 }
 
-unsigned int SaveManager::calcMagic(map<char,int> highScore)
+unsigned int SaveManager::calcMagic(map<char,int> &highScore)
 {
 	unsigned int magic = magicVal;
 
@@ -64,7 +64,7 @@ unsigned int SaveManager::calcMagic(map<char,int> highScore)
 	return magic;
 }
 
-void SaveManager::writeSave(int windowScale, int framerateControl, Device device)
+void SaveManager::writeSave(int windowScale, int framerateControl, const Device &device)
 {
 	pt::ptree saveFile;
 	pt::read_ini("saveData.ini", saveFile);
@@ -74,20 +74,20 @@ void SaveManager::writeSave(int windowScale, int framerateControl, Device device
 
 	saveFile.put("device.currentBackground", device.getCurrentBG() + 1);
 
-	for (auto iterator = device.highScore.begin(); iterator != device.highScore.end(); ++iterator)
+	for (auto iterator = device.getHighScores().begin(); iterator != device.getHighScores().end(); ++iterator)
 	{
 		string key;
 		key.append("highScore.");
 		key.push_back(iterator->first);
-		saveFile.put<int>(key, device.highScore[iterator->first]);
+		saveFile.put<int>(key, device.getHighScores()[iterator->first]);
 	}
 
-	saveFile.put("magic.magic", calcMagic(device.highScore));
+	saveFile.put("magic.magic", calcMagic(device.getHighScores()));
 
 	pt::write_ini("saveData.ini", saveFile);
 }
 
-void SaveManager::defaultSave(int windowScale, int framerateControl, Device device)
+void SaveManager::defaultSave(int windowScale, int framerateControl, const Device &device)
 {
 	pt::ptree saveFile;
 

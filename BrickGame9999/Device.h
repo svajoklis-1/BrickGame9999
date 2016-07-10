@@ -21,14 +21,15 @@ public:
 	int score = 0;
 	void increaseScore(int amount, char hiScoreLetter);
 	map<char, int> highScore;
+	map<char, int> getHighScores() const { return highScore; };
 
-	int getCurrentBG(){ return bgIndex; };
+	int getCurrentBG() const { return bgIndex; };
 	void nextBG();
 	void prevBG();
 	void setBG(int i);
 
 	void setBGCount(int c){ bgCount = c; };
-	int getBGCount(){ return bgCount; }
+	int getBGCount() const { return bgCount; };
 
 	int lives = 0;
 	bool inGame = false;
