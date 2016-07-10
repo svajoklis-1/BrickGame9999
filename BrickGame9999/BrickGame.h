@@ -11,10 +11,6 @@
 
 #include "GameState.h"
 
-#include <boost/property_tree/ptree.hpp>
-
-namespace pt = boost::property_tree;
-
 class BrickGame
 {
 public:
@@ -46,13 +42,6 @@ private:
 
 	int windowScale = 1;
 	void setWindowScale(int scale);
-
-	void readSave();
-	void defaultSave();
-	void writeSave();
-
-	const unsigned int magicVal = 0xFFFFFFFF;
-	unsigned int calcMagic();
 
 	// 0 - nothing, 1 - limit to 250, 2 - vsync
 	int framerateControl = 2;
