@@ -58,7 +58,6 @@ private:
 	int ballDY = -1;
 	bool slid = false;
 	bool speeding = false;
-	bool directionChanged = false;
 
 	int levelCount = 0;
 

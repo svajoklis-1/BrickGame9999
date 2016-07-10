@@ -272,12 +272,10 @@ void GSArkanoid::parseEvent(Device& dev, Key k, KeyState state)
 		case KEY_LEFT:
 			paddleTicker.forceTrigger();
 			paddleDX = -1;
-			directionChanged = true;
 			break;
 		case KEY_RIGHT:
 			paddleTicker.forceTrigger();
 			paddleDX = 1;
-			directionChanged = true;
 			break;
 		case KEY_ACTION:
 			speeding = true;
@@ -290,9 +288,12 @@ void GSArkanoid::parseEvent(Device& dev, Key k, KeyState state)
 		switch (k)
 		{
 		case KEY_LEFT:
+			if (paddleDX == -1) {
+				paddleDX = 0;
+			}
+			break;
 		case KEY_RIGHT:
-			if (!directionChanged)
-			{
+			if (paddleDX == 1) {
 				paddleDX = 0;
 			}
 			break;
@@ -314,7 +315,6 @@ void GSArkanoid::parseEvent(Device& dev, Key k, KeyState state)
 
 void GSArkanoid::postEvents(Device &device)
 {
-	directionChanged = false;
 }
 
 void GSArkanoid::render(Device& dev)
