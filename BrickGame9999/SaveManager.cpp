@@ -74,7 +74,8 @@ void SaveManager::writeSave(int windowScale, int framerateControl, const Device 
 
 	saveFile.put("device.currentBackground", device.getCurrentBG() + 1);
 
-	for (auto iterator = device.getHighScores().begin(); iterator != device.getHighScores().end(); ++iterator)
+	auto highScores = device.getHighScores();
+	for (auto iterator = highScores.begin(); iterator != highScores.end(); ++iterator)
 	{
 		string key;
 		key.append("highScore.");
