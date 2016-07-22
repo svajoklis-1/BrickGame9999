@@ -16,8 +16,12 @@ public:
 	// from main menu
 	int stage = 0;
 
-	int level = 0;
-	int speed = 0;
+	int getLevel() { return level; };
+	int getSpeed() { return speed; };
+	int &getLevelRef() { return this->level; };
+	int &getSpeedRef() { return this->speed; };
+	void setLevel(int level);
+	void setSpeed(int speed);
 	int score = 0;
 	void increaseScore(int amount, char hiScoreLetter);
 	map<char, int> highScore;
@@ -38,6 +42,9 @@ public:
 	bool pauseable = true;
 
 private:
-	int bgCount = 14;
+	int level = 0;
+	int speed = 0;
+
+	int bgCount = 1;
 	int bgIndex = 0;
 };

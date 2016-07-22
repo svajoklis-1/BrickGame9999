@@ -7,7 +7,6 @@ GSArkanoid::GSArkanoid(Device &dev, GSArkanoidVariant variant)
 {
 	pauseTicker.setLength(60);
 	paddleTicker.setLength(4);
-	ballTicker.setLength(5);
 
 	switch(variant)
 	{
@@ -29,8 +28,8 @@ GSArkanoid::GSArkanoid(Device &dev, GSArkanoidVariant variant)
 		resetLevel(dev);
 	}
 
-	dev.screen.level.setLink(&dev.level);
-	dev.screen.speed.setLink(&dev.speed);
+	dev.screen.level.setLink(&dev.getLevelRef());
+	dev.screen.speed.setLink(&dev.getSpeedRef());
 	dev.screen.score.setLink(&dev.score);
 	dev.screen.highScore.setLink(&dev.highScore[highScoreLetter]);
 
@@ -51,6 +50,9 @@ void GSArkanoid::reset(Device &dev)
 	ballDY = -1;
 	slid = false;
 
+	ballSpeed = 10 - dev.getSpeed();
+	ballTicker.setLength(ballSpeed);
+
 	stateSegment = 0;
 
 	pauseTicker.reset();
@@ -60,8 +62,8 @@ void GSArkanoid::reset(Device &dev)
 
 void GSArkanoid::resetLevel(Device &dev)
 {
-	currentLevel = levels[dev.level % levelCount].data;
-	currentCount = levels[dev.level % levelCount].count;
+	currentLevel = levels[dev.getLevel() % levelCount].data;
+	currentCount = levels[dev.getLevel() % levelCount].count;
 }
 
 void GSArkanoid::tick(Device& dev)
@@ -221,7 +223,8 @@ void GSArkanoid::tickGame(Device &dev)
 
 			if (currentCount == 0)
 			{
-				dev.level++;
+				dev.setLevel(dev.getLevel() + 1);
+				dev.setSpeed(dev.getSpeed() + 1);
 
 				resetLevel(dev);
 				reset(dev);
@@ -309,7 +312,7 @@ void GSArkanoid::parseEvent(Device& dev, Key k, KeyState state)
 	}
 	else
 	{
-		ballTicker.setLength(5);
+		ballTicker.setLength(this->ballSpeed);
 	}
 }
 

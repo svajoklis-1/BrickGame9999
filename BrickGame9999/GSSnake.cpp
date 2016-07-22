@@ -5,7 +5,7 @@ using namespace std;
 
 GSSnake::GSSnake(Device &dev, GSSnakeVariant variant) :
 foodTicker(20),
-snakeTicker(15 - dev.speed),
+snakeTicker(15 - dev.getSpeed()),
 snakeHeadBlinkTicker(3)
 {
 	currentVariant = variant;
@@ -40,9 +40,9 @@ snakeHeadBlinkTicker(3)
 
 	dev.screen.highScore.setNumber(dev.highScore[highScoreLetter]);
 
-	dev.screen.speed.setLink(&dev.speed);
+	dev.screen.speed.setLink(&dev.getSpeedRef());
 	dev.screen.speed.setLinked();
-	dev.screen.level.setLink(&dev.level);
+	dev.screen.level.setLink(&dev.getLevelRef());
 	dev.screen.level.setLinked();
 
 	dev.screen.mainArray.clear();
@@ -114,7 +114,7 @@ void GSSnake::parseEvent(Device &dev, Key k, KeyState state)
 	if (speeding)
 		snakeTicker.setLength(3);
 	else
-		snakeTicker.setLength(15 - dev.speed);
+		snakeTicker.setLength(15 - dev.getSpeed());
 }
 
 void GSSnake::tick(Device& dev)
@@ -183,7 +183,7 @@ void GSSnake::tickSnake(Device &dev)
 		// check for collision with itself and walls
 		for (int i = 1; i < snakeLength; i++)
 		{
-			if ((snakeSegments[i] == snakeSegments[0]) || (levels[dev.level % levelCount][snakeHeadY * 10 + snakeHeadX] != ' '))
+			if ((snakeSegments[i] == snakeSegments[0]) || (levels[dev.getLevel() % levelCount][snakeHeadY * 10 + snakeHeadX] != ' '))
 			{
 				dev.lives--;
 				movingOn = true;
@@ -196,18 +196,14 @@ void GSSnake::tickSnake(Device &dev)
 		{
 			dev.score += 10;
 
-			genFood(dev.level % levelCount);
+			genFood(dev.getLevel() % levelCount);
 			snakeLength++;
 
 			if (snakeLength == snakeLengthRequired)
 			{
 				dev.score += 50;
-				dev.level++;
-				if (dev.level == 10)
-					dev.level = 9;
-				dev.speed++;
-				if (dev.speed == 10)
-					dev.speed = 9;
+				dev.setLevel(dev.getLevel() + 1);
+				dev.setSpeed(dev.getSpeed() + 1);
 				reset(dev);
 			}
 		}
@@ -269,7 +265,7 @@ void GSSnake::reset(Device &dev)
 	snakeSegments[1] = { snakeHeadX - 1, snakeHeadY };
 	snakeSegments[2] = { snakeHeadX - 2, snakeHeadY };
 
-	genFood(dev.level % levelCount);
+	genFood(dev.getLevel() % levelCount);
 
 	snakeHeadBlinkTicker.reset();
 	snakeTicker.reset();
@@ -277,7 +273,7 @@ void GSSnake::reset(Device &dev)
 	stateSegment = 0;
 	dir = RIGHT;
 
-	snakeTicker.setLength(15 - dev.speed);
+	snakeTicker.setLength(15 - dev.getSpeed());
 }
 
 void GSSnake::genFood(int level)
@@ -343,7 +339,7 @@ void GSSnake::renderSnake(Device &dev)
 		snakeHeadBlinkTicker.reset();
 	}
 
-	dev.screen.mainArray.copyString(0, 0, levels[dev.level % levelCount], 10, 20);
+	dev.screen.mainArray.copyString(0, 0, levels[dev.getLevel() % levelCount], 10, 20);
 
 	for (int i = 0; i < snakeLength; i++)
 	{

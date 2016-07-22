@@ -11,9 +11,9 @@ animTicker(60)
 		dev.screen.highScore.dash();
 
 	dev.screen.score.dash();
-	dev.screen.level.setLink(&dev.level);
+	dev.screen.level.setLink(&dev.getLevelRef());
 	dev.screen.level.setLinked();
-	dev.screen.speed.setLink(&dev.speed);
+	dev.screen.speed.setLink(&dev.getSpeedRef());
 	dev.screen.speed.setLinked();
 
 	dev.screen.hintArray.clear();
@@ -44,48 +44,32 @@ void GSMenu::parseEvent(Device &dev, Key k, KeyState state)
 {
 	if (state == STATE_DOWN)
 	{
+		int &speed = dev.getSpeedRef();
+		int &level = dev.getLevelRef();
 		switch (k)
 		{
 		case KEY_LEFT:
-			/*currentL -= 1;
-			if (currentL < 0)
-				currentL = letterCount - 1;
-
-			resetAnim();*/
-
-
-			dev.speed--;
-			if (dev.speed == -1)
-				dev.speed = 9;
+			speed--;
+			if (speed == -1)
+				speed = 9;
 			break;
 
 		case KEY_RIGHT:
-			/*currentL += 1;
-			if (currentL >= letterCount)
-				currentL = 0;
-
-			resetAnim();*/
-			dev.speed++;
-			if (dev.speed == 10)
-				dev.speed = 0;
+			speed++;
+			if (speed == 10)
+				speed = 0;
 			break;
 
 		case KEY_UP:
-			/*dev.stage++;
-			if (dev.stage >= 100)
-				dev.stage = 0;*/
-			dev.level++;
-			if (dev.level == 10)
-				dev.level = 0;
+			level++;
+			if (level == 10)
+				level = 0;
 			break;
 
 		case KEY_DOWN:
-			/*dev.stage--;
-			if (dev.stage < 0)
-				dev.stage = 99;*/
-			dev.level--;
-			if (dev.level == -1)
-				dev.level = 9;
+			level--;
+			if (level == -1)
+				level = 9;
 			break;
 
 		case KEY_ACTION:

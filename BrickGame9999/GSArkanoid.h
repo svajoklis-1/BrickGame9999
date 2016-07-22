@@ -52,6 +52,7 @@ private:
 	int paddleW = 4;
 	int paddleDX = 0;
 
+	int ballSpeed = 10;
 	int ballX = 5;
 	int ballY = 18;
 	int ballDX = 1;

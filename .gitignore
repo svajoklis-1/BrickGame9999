@@ -201,9 +201,8 @@ ToRelease
 
 BrickGame9999*.zip
 
-*.exe
 BrickGame9999.VC.db
-*.tlog
+
 **/[Dd]eploy
 **/[Rr]elease
 **/[Dd]ebug
