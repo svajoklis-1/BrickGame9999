@@ -5,7 +5,7 @@ using namespace std;
 
 GSSnake::GSSnake(Device &dev, GSSnakeVariant variant) :
 foodTicker(20),
-snakeTicker(15 - dev.getSpeed()),
+snakeTicker(15),
 snakeHeadBlinkTicker(3)
 {
 	currentVariant = variant;
@@ -114,7 +114,7 @@ void GSSnake::parseEvent(Device &dev, Key k, KeyState state)
 	if (speeding)
 		snakeTicker.setLength(3);
 	else
-		snakeTicker.setLength(15 - dev.getSpeed());
+		snakeTicker.setLength(snakeSpeed);
 }
 
 void GSSnake::tick(Device& dev)
@@ -273,7 +273,8 @@ void GSSnake::reset(Device &dev)
 	stateSegment = 0;
 	dir = RIGHT;
 
-	snakeTicker.setLength(15 - dev.getSpeed());
+	snakeSpeed = 15 - dev.getSpeed();
+	snakeTicker.setLength(snakeSpeed);
 }
 
 void GSSnake::genFood(int level)

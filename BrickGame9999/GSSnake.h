@@ -36,6 +36,7 @@ private:
 
 	coord snakeSegments[256];
 	int snakeLength = 3;
+	int snakeSpeed = 15;
 	int snakeLengthRequired;
 	bool didTurn = false;
 	bool speeding = false;

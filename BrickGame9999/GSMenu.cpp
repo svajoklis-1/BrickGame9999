@@ -18,14 +18,6 @@ animTicker(60)
 
 	dev.screen.hintArray.clear();
 
-	/*string square =
-		"****"
-		"*  *"
-		"*  *"
-		"****";
-
-	dev.screen.hintArray.copyString(0, 0, square, 4, 4);*/
-
 	dev.inGame = false;
 }
 
