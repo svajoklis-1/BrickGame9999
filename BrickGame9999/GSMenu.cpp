@@ -41,24 +41,28 @@ void GSMenu::parseEvent(Device &dev, Key k, KeyState state)
 		switch (k)
 		{
 		case KEY_LEFT:
+			dev.speaker.playSound(SND_BLIP);
 			speed--;
 			if (speed == -1)
 				speed = 9;
 			break;
 
 		case KEY_RIGHT:
+			dev.speaker.playSound(SND_BLIP);
 			speed++;
 			if (speed == 10)
 				speed = 0;
 			break;
 
 		case KEY_UP:
+			dev.speaker.playSound(SND_BLIP);
 			level++;
 			if (level == 10)
 				level = 0;
 			break;
 
 		case KEY_DOWN:
+			dev.speaker.playSound(SND_BLIP);
 			level--;
 			if (level == -1)
 				level = 9;

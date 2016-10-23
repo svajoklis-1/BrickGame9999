@@ -1,5 +1,11 @@
 #include "Device.h"
 
+Device::Device(SoundPlayer *soundPlayer) :
+	speaker(soundPlayer)
+{
+
+}
+
 void Device::nextBG()
 {
 	setBG(bgIndex + 1);

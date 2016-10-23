@@ -79,6 +79,12 @@
     <ClCompile Include="SaveManager.cpp">
       <Filter>Source files\System</Filter>
     </ClCompile>
+    <ClCompile Include="Speaker.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundPlayer.cpp">
+      <Filter>Source files\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -134,6 +140,12 @@
     </ClInclude>
     <ClInclude Include="SaveManager.h">
       <Filter>Source files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Speaker.h">
+      <Filter>Source files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundPlayer.h">
+      <Filter>Source files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

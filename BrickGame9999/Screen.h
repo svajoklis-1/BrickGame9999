@@ -1,5 +1,7 @@
 #pragma once
 
+/* Screen that holds pixel arrays, various other screen elements */
+
 #include "Types.h"
 #include "ScreenNumber.h"
 

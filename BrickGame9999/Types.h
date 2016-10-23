@@ -28,6 +28,13 @@ enum Key
 	KEY_TOTAL
 };
 
+enum Sound
+{
+	SND_BLIP,
+	SND_BOUNCE,
+	SND_EXPLODE
+};
+
 enum KeyState
 {
 	STATE_UP = true,

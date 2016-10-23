@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Screen.h"
+#include "Speaker.h"
 
 #include <map>
 using namespace std;
@@ -8,8 +9,9 @@ using namespace std;
 class Device
 {
 public:
-	Device() {};
+	Device(SoundPlayer *soundPlayer);
 	Screen screen;
+	Speaker speaker;
 
 	void reset();
 	

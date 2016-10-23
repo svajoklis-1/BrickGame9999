@@ -35,7 +35,9 @@ private:
 	BackgroundRenderer *bgRenderer;
 	ScreenRenderer *scRenderer;
 
-	Device device;
+	SoundPlayer *soundPlayer;
+
+	Device *device;
 
 	GameState *gameState = nullptr;
 	GameStates currentState;

@@ -73,7 +73,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\SDL\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -92,7 +92,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\SDL\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -111,7 +111,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\SDL\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -131,6 +131,8 @@
     <ClCompile Include="ScreenNumber.cpp" />
     <ClCompile Include="ScreenRenderer.cpp" />
     <ClCompile Include="BrickGame.cpp" />
+    <ClCompile Include="SoundPlayer.cpp" />
+    <ClCompile Include="Speaker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackgroundRenderer.h" />
@@ -149,6 +151,8 @@
     <ClInclude Include="ScreenNumber.h" />
     <ClInclude Include="ScreenRenderer.h" />
     <ClInclude Include="BrickGame.h" />
+    <ClInclude Include="SoundPlayer.h" />
+    <ClInclude Include="Speaker.h" />
     <ClInclude Include="Ticker.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>

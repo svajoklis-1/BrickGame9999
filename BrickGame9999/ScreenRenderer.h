@@ -1,7 +1,11 @@
 #pragma once
 
+/* SDL dependent screen renderer that is able to render a device Screen to screen */
+
 #include "Screen.h"
 #include "ResourceStore.h"
+
+
 
 class ScreenRenderer
 {

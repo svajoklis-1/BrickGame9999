@@ -9,23 +9,39 @@
 #include "SaveManager.h"
 
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <iostream>
 
 using namespace std;
 
 BrickGame::BrickGame()
 {
-	SaveManager::readSave(windowScale, framerateControl, device);
-
 	res = new ResourceStore(scrRect);
 	bgRenderer = new BackgroundRenderer(scrRect);
 	scRenderer = new ScreenRenderer();
+	soundPlayer = new SoundPlayer(res);
+
+	device = new Device(soundPlayer);
+	
+	SaveManager::readSave(windowScale, framerateControl, *device);
 
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
-		throw string("Could not initialize SDL!\nSDL_Error: " + string(SDL_GetError()));
+		throw string("Could not initialize SDL.\nSDL_Error: " + string(SDL_GetError()));
 
-	if(IMG_Init(IMG_INIT_PNG) < 0)
-		throw string("Failed to init SDL_Image!");
+	if (IMG_Init(IMG_INIT_PNG) < 0)
+	{
+		throw string("Failed to init SDL_Image.");
+	}
+
+	if (Mix_Init(0) < 0)
+	{
+		throw string("Failed to initialize SDL_Mixer.");
+	}
+
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 1024) < 0)
+	{
+		throw string("Failed to open audio for SDL_Mixer.");
+	}
 
 	w = SDL_CreateWindow("9999-in-1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, res->windowSize.w * windowScale, res->windowSize.h * windowScale, SDL_WINDOW_SHOWN);
 	if (!w)
@@ -46,7 +62,7 @@ BrickGame::BrickGame()
 	icon = IMG_Load("Resources\\icon.png");
 
 	if (icon == nullptr)
-		throw string("Unable to load image icon.png!\nSDL_image Error: ") + IMG_GetError();
+		throw string("Unable to load image icon.png.\nSDL_image Error: ") + IMG_GetError();
 
 	SDL_SetWindowIcon(w, icon);
 
@@ -75,16 +91,16 @@ BrickGame::BrickGame()
 	res->setWindow(w);
 	res->setRenderer(r);
 
-	device.screen.highScore.dash();
-	device.screen.score.dash();
-	device.screen.level.dash();
-	device.screen.level.setLink(&device.stage);
-	device.screen.speed.dash();
-	device.screen.level.setLink(&device.stage);
+	device->screen.highScore.dash();
+	device->screen.score.dash();
+	device->screen.level.dash();
+	device->screen.level.setLink(&device->stage);
+	device->screen.speed.dash();
+	device->screen.level.setLink(&device->stage);
 
 	// switch which gamestate is the startup one
 #ifdef DEBUG_9999
-	gameState = new GSMenu(device);
+	gameState = new GSMenu(*device);
 	currentState = GS_MENU;
 #else
 	gameState = new GSMenu(device);
@@ -109,11 +125,14 @@ BrickGame::~BrickGame()
 	delete res;
 	delete bgRenderer;
 	delete scRenderer;
+	delete soundPlayer;
 
 	SDL_DestroyRenderer(r);
 	SDL_DestroyWindow(w);
 
 	IMG_Quit();
+	Mix_CloseAudio();
+	Mix_Quit();
 	SDL_Quit();
 }
 
@@ -137,42 +156,42 @@ void BrickGame::run()
 			switch (next)
 			{
 			case GS_MENU:
-				gameState = new GSMenu(device);
+				gameState = new GSMenu(*device);
 				currentState = GS_MENU;
 				break;
 
 			case GS_RAIN:
-				gameState = new GSRain(device);
+				gameState = new GSRain(*device);
 				currentState = GS_RAIN;
 				break;
 
 			case GS_SNAKE:
-				gameState = new GSSnake(device, GSSNAKE_NORMAL);
+				gameState = new GSSnake(*device, GSSNAKE_NORMAL);
 				currentState = GS_SNAKE;
 				break;
 
 			case GS_SNAKEINF:
-				gameState = new GSSnake(device, GSSNAKE_INFINITE);
+				gameState = new GSSnake(*device, GSSNAKE_INFINITE);
 				currentState = GS_SNAKEINF;
 				break;
 
 			case GS_ARKANOID:
-				gameState = new GSArkanoid(device, GSARKANOID_NORMAL);
+				gameState = new GSArkanoid(*device, GSARKANOID_NORMAL);
 				currentState = GS_ARKANOID;
 				break;
 
 			case GS_GAMEOVER:
-				gameState = new GSGameOver(device, GS_MENU);
+				gameState = new GSGameOver(*device, GS_MENU);
 				currentState = GS_GAMEOVER;
 				break;
 
 			case GS_GAMEOVER_TOCURRENT:
-				gameState = new GSGameOver(device, currentState);
+				gameState = new GSGameOver(*device, currentState);
 				currentState = GS_GAMEOVER_TOCURRENT;
 				break;
 
 			default:
-				gameState = new GSMenu(device);
+				gameState = new GSMenu(*device);
 				break;
 			}
 
@@ -191,8 +210,8 @@ void BrickGame::run()
 				switch (ev.key.keysym.scancode)
 				{
 				// background changing keys
-				case SDL_SCANCODE_F8: device.nextBG(); break;
-				case SDL_SCANCODE_F7: device.prevBG(); break;
+				case SDL_SCANCODE_F8: device->nextBG(); break;
+				case SDL_SCANCODE_F7: device->prevBG(); break;
 				case SDL_SCANCODE_KP_PLUS: windowScale++; setWindowScale(windowScale); break;
 				case SDL_SCANCODE_KP_MINUS: if (windowScale > 1) windowScale--; setWindowScale(windowScale); break;
 				default: break;
@@ -212,10 +231,10 @@ void BrickGame::run()
 					}
 					else
 					{
-						if (device.inGame && device.pauseable)
+						if (device->inGame && device->pauseable)
 						{
-							device.paused = !device.paused;
-							device.screen.paused = !device.screen.paused;
+							device->paused = !device->paused;
+							device->screen.paused = !device->screen.paused;
 						}
 					}
 				}
@@ -226,7 +245,7 @@ void BrickGame::run()
 
 		// parse game keys
 
-		if (!device.paused)
+		if (!device->paused)
 		{
 			const Uint8 *keyboardState = SDL_GetKeyboardState(nullptr);
 
@@ -234,36 +253,36 @@ void BrickGame::run()
 			{
 				if (keyboardState[keyMap[i]] != prevKeyboardState[i])
 				{
-					gameState->parseEvent(device, static_cast<Key>(i), (keyboardState[keyMap[i]] == 0 ? STATE_UP : STATE_DOWN));
+					gameState->parseEvent(*device, static_cast<Key>(i), (keyboardState[keyMap[i]] == 0 ? STATE_UP : STATE_DOWN));
 				}
 					
 				prevKeyboardState[i] = keyboardState[keyMap[i]];
 			}
 
-			gameState->postEvents(device);
+			gameState->postEvents(*device);
 		}
 
 
 		// render background
-		bgRenderer->render(*res, device.getCurrentBG());
+		bgRenderer->render(*res, device->getCurrentBG());
 
 		// if tick is ok or framerate is vsynced
 		int tickFPS = 60;
 		if ((SDL_GetTicks() - tickLimiter) > (1000.f / static_cast<float>(tickFPS)) || (framerateControl == FRC_VSYNC))
 		{
 			tickLimiter = SDL_GetTicks();
-			if (!device.paused)
-				gameState->tick(device);
+			if (!device->paused)
+				gameState->tick(*device);
 
 			scRenderer->preRender();
 
 			// let the game render on the device
-			gameState->render(device);
+			gameState->render(*device);
 
 			scRenderer->postRender();
 		}
 
-		scRenderer->render(device.screen, *res);
+		scRenderer->render(device->screen, *res);
 
 		SDL_RenderPresent(res->getRenderer());
 
@@ -292,19 +311,19 @@ void BrickGame::run()
 		if (doReset)
 		{
 			gameState->nextState = GS_MENU;
-			device.paused = false;
-			device.screen.paused = false;
-			device.reset();
+			device->paused = false;
+			device->screen.paused = false;
+			device->reset();
 		}
 	}
 
 	try
 	{
-		SaveManager::writeSave(windowScale, framerateControl, device);
+		SaveManager::writeSave(windowScale, framerateControl, *device);
 	}
 	catch (...)
 	{
-		SaveManager::defaultSave(windowScale, framerateControl, device);
+		SaveManager::defaultSave(windowScale, framerateControl, *device);
 		throw string("Writing save data failed, reverting to default...\nYour highscores are gone (and probably were gone to start with).");
 	}
 	

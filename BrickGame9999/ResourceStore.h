@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <map>
+#include <SDL_mixer.h>
 
 #include "Types.h"
 
@@ -24,6 +25,7 @@ public:
 	SDL_Window *getWindow();
 	SDL_Renderer *getRenderer();
 	SDL_Texture *img(string name);
+	Mix_Chunk *snd(string name);
 
 	map<string, coord> location;
 	map<string, SDL_Rect> item;
@@ -33,6 +35,8 @@ private:
 	SDL_Renderer *renderer = nullptr;
 
 	map<string, SDL_Texture *> imageMap;
+	map<string, Mix_Chunk *> soundMap;
 
 	SDL_Texture *loadTexture(string path);
+	Mix_Chunk *loadSound(string path);
 };

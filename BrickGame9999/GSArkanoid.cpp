@@ -149,17 +149,20 @@ void GSArkanoid::tickGame(Device &dev)
 			// block below
 			if (ballY == 18 && (ballX >= paddleX && ballX <= paddleX + paddleW - 1) && (ballDY == 1))
 			{
+				dev.speaker.playSound(SND_BOUNCE);
 				ballDY = -ballDY;
 			}
 			else // diagonal from left
 				if (ballY == 18 && (ballX == paddleX - 1) && (ballDX == 1) && (ballDY == 1) && !slid)
 				{
+					dev.speaker.playSound(SND_BOUNCE);
 					ballDY = -ballDY;
 					ballDX = -ballDX;
 				}
 				else // diagonal from right
 					if (ballY == 18 && (ballX == paddleX + paddleW) && (ballDX == -1) && (ballDY == 1) && !slid)
 					{
+						dev.speaker.playSound(SND_BOUNCE);
 						ballDY = -ballDY;
 						ballDX = -ballDX;
 					}
@@ -178,6 +181,7 @@ void GSArkanoid::tickGame(Device &dev)
 
 				if (currentLevel[(ballY + ballDY) * 10 + ballX] != ' ')
 				{
+					dev.speaker.playSound(SND_BLIP);
 					currentLevel[(ballY + ballDY) * 10 + ballX] = ' ';
 					currentCount--;
 					dev.increaseScore(10, highScoreLetter);
@@ -187,6 +191,7 @@ void GSArkanoid::tickGame(Device &dev)
 
 				if (currentLevel[(ballY)* 10 + ballX + ballDX] != ' ')
 				{
+					dev.speaker.playSound(SND_BLIP);
 					currentLevel[(ballY)* 10 + ballX + ballDX] = ' ';
 					currentCount--;
 					dev.increaseScore(10, highScoreLetter);
@@ -198,6 +203,7 @@ void GSArkanoid::tickGame(Device &dev)
 
 				if (!collidedWithLevel && currentLevel[(ballY + ballDY) * 10 + ballX + ballDX] != ' ')
 				{
+					dev.speaker.playSound(SND_BLIP);
 					currentLevel[(ballY + ballDY) * 10 + ballX + ballDX] = ' ';
 					currentCount--;
 					dev.increaseScore(10, highScoreLetter);
@@ -211,10 +217,16 @@ void GSArkanoid::tickGame(Device &dev)
 			ballDY = newBallDY;
 
 			if (ballX + ballDX < 0 || ballX + ballDX >= 10)
+			{
+				dev.speaker.playSound(SND_BLIP);
 				ballDX = -ballDX;
+			}
 
 			if (ballY + ballDY < 0 || ballY + ballDY >= 20)
+			{
+				dev.speaker.playSound(SND_BLIP);
 				ballDY = -ballDY;
+			}
 
 			ballX += ballDX;
 			ballY += ballDY;

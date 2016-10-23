@@ -31,6 +31,16 @@ SDL_Texture *ResourceStore::img(string name)
 	return imageMap[name];
 }
 
+Mix_Chunk *ResourceStore::snd(string name)
+{
+	if (soundMap.find(name) == soundMap.end())
+	{
+		soundMap[name] = loadSound("Resources\\" + name);
+	}
+
+	return soundMap[name];
+}
+
 SDL_Texture *ResourceStore::loadTexture(string path)
 {
 	SDL_Texture* newTexture;
@@ -38,7 +48,7 @@ SDL_Texture *ResourceStore::loadTexture(string path)
 	// load image
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == nullptr)
-		throw string("Unable to load image " + path + "!\nSDL_image Error: " + IMG_GetError());
+		throw string("Unable to load image " + path + "!\nSDL_Image Error: " + IMG_GetError());
 
 	// create texture from surface
 	newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
@@ -49,6 +59,18 @@ SDL_Texture *ResourceStore::loadTexture(string path)
 	SDL_FreeSurface(loadedSurface);
 
 	return newTexture;
+}
+
+Mix_Chunk *ResourceStore::loadSound(string path)
+{
+	Mix_Chunk *chunk = Mix_LoadWAV(path.c_str());
+
+	if (!chunk)
+	{
+		throw string("Unable to load sound " + path + "!\nSDL_Mixer Error: " + Mix_GetError());
+	}
+
+	return chunk;
 }
 
 ResourceStore::ResourceStore(SDL_Rect windowSize)
