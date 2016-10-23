@@ -32,6 +32,9 @@
     <Filter Include="Source files\GameStates\GSRain">
       <UniqueIdentifier>{1badf575-2009-4348-a704-b43385b638cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\Utils">
+      <UniqueIdentifier>{20cfa036-e95b-4313-8556-57cc97bb99b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -76,14 +79,20 @@
     <ClCompile Include="GSRain.cpp">
       <Filter>Source files\GameStates\GSRain</Filter>
     </ClCompile>
-    <ClCompile Include="SaveManager.cpp">
-      <Filter>Source files\System</Filter>
-    </ClCompile>
     <ClCompile Include="Speaker.cpp">
       <Filter>Source files\System</Filter>
     </ClCompile>
     <ClCompile Include="SoundPlayer.cpp">
       <Filter>Source files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveManager.cpp">
+      <Filter>Source files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,9 +103,6 @@
       <Filter>Source files</Filter>
     </ClInclude>
     <ClInclude Include="BrickGame.h">
-      <Filter>Source files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ticker.h">
       <Filter>Source files</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
@@ -138,14 +144,20 @@
     <ClInclude Include="GSRain.h">
       <Filter>Source files\GameStates\GSRain</Filter>
     </ClInclude>
-    <ClInclude Include="SaveManager.h">
-      <Filter>Source files\System</Filter>
-    </ClInclude>
     <ClInclude Include="Speaker.h">
       <Filter>Source files\System</Filter>
     </ClInclude>
     <ClInclude Include="SoundPlayer.h">
       <Filter>Source files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Ticker.h">
+      <Filter>Source files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveManager.h">
+      <Filter>Source files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Source files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

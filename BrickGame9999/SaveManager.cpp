@@ -6,6 +6,7 @@ using namespace std;
 namespace pt = boost::property_tree;
 
 #include "SaveManager.h"
+#include "Global.h"
 
 void SaveManager::readSave(int &windowScale, int &framerateControl, Device &device)
 {
@@ -33,10 +34,9 @@ void SaveManager::readSave(int &windowScale, int &framerateControl, Device &devi
 		}
 		catch (...)
 		{
-			cout << "highScore not found!" << endl;
+			l.log(Logger::WARN, "HighScore file not found!");
 		}
 
-		cout << endl;
 	}
 	catch (...)
 	{

@@ -7,6 +7,7 @@
 #include "GSGameOver.h"
 
 #include "SaveManager.h"
+#include "Global.h"
 
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -25,8 +26,10 @@ BrickGame::BrickGame()
 	
 	SaveManager::readSave(windowScale, framerateControl, *device);
 
-	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	{
 		throw string("Could not initialize SDL.\nSDL_Error: " + string(SDL_GetError()));
+	}
 
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{
@@ -45,7 +48,9 @@ BrickGame::BrickGame()
 
 	w = SDL_CreateWindow("9999-in-1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, res->windowSize.w * windowScale, res->windowSize.h * windowScale, SDL_WINDOW_SHOWN);
 	if (!w)
+	{
 		throw string("Failed to create SDL window.");
+	}
 
 	if (framerateControl == FRC_VSYNC)
 	{
@@ -62,12 +67,16 @@ BrickGame::BrickGame()
 	icon = IMG_Load("Resources\\icon.png");
 
 	if (icon == nullptr)
+	{
 		throw string("Unable to load image icon.png.\nSDL_image Error: ") + IMG_GetError();
+	}
 
 	SDL_SetWindowIcon(w, icon);
 
 	if (!r)
+	{
 		throw string("Failed to create SDL renderer.");
+	}
 
 	res->location["screen"] = { 46, 18 };
 	res->location["hint"] = { 149, 81 };

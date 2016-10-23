@@ -119,11 +119,13 @@
     <ClCompile Include="BackgroundRenderer.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="GSArkanoid.cpp" />
     <ClCompile Include="GSGameOver.cpp" />
     <ClCompile Include="GSMenu.cpp" />
     <ClCompile Include="GSRain.cpp" />
     <ClCompile Include="GSSnake.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResourceStore.cpp" />
     <ClCompile Include="SaveManager.cpp" />
@@ -145,6 +147,7 @@
     <ClInclude Include="GSMenu.h" />
     <ClInclude Include="GSRain.h" />
     <ClInclude Include="GSSnake.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="ResourceStore.h" />
     <ClInclude Include="SaveManager.h" />
     <ClInclude Include="Screen.h" />
