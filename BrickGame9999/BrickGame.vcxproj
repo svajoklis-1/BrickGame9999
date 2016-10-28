@@ -117,6 +117,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackgroundRenderer.cpp" />
+    <ClCompile Include="BrickGame_config.cpp" />
+    <ClCompile Include="BrickGame_device.cpp" />
+    <ClCompile Include="BrickGame_gamestates.cpp" />
+    <ClCompile Include="BrickGame_init.cpp" />
+    <ClCompile Include="BrickGame_render.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Global.cpp" />

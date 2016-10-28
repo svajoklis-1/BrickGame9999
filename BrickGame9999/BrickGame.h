@@ -2,14 +2,14 @@
 
 #include <SDL.h>
 
-// main class of the simulator
+// Main class of the simulator
 
 #include "ResourceStore.h"
 #include "BackgroundRenderer.h"
 #include "ScreenRenderer.h"
 #include "Device.h"
-
 #include "GameState.h"
+#include "Ticker.h"
 
 class BrickGame
 {
@@ -17,37 +17,67 @@ public:
 	BrickGame();
 	~BrickGame();
 	void run();
+
 private:
-	enum frControl 
+	// Initialization
+	void initSystem();
+	void deinitSystem();
+
+	void initDevice();
+
+	void configElements();
+	void configKeyMap();
+
+	// SDL resource handles
+
+	SDL_Window *w;
+	SDL_Renderer *r;
+	SDL_Surface *icon;
+
+	int windowScale = 1;
+	void setWindowScale(int scale);
+	void updateWindowTitle(int gameLoopStartTicks, int gameLoopEndTicks);
+
+	// 0 - nothing, 1 - limit to 250, 2 - vsync
+	enum frControl
 	{
 		FRC_NONE,
 		FRC_250,
 		FRC_VSYNC
 	};
 
+	int framerateControl = FRC_VSYNC;
+
+	// previous keyboard state for keyDown keyUp events
+
+	int prevKeyboardState[KEY_TOTAL];
+
+	// Mapping physical keys to virtual device keys
+	int keyMap[KEY_TOTAL];
+
+	// Image and sound resource management
+
 	ResourceStore *res;
 
-	SDL_Window *w;
-	SDL_Renderer *r;
+	// Virtual BG9999 device
 
-	SDL_Surface *icon;
+	int lastDeviceTick = 0;
+	int deviceTickLength = 60;
+	void deviceTick();
+	Device *device;
+
+	// Utilities for actuating virtual device
+
+	void render(int ticksBefore);
 
 	BackgroundRenderer *bgRenderer;
 	ScreenRenderer *scRenderer;
 
 	SoundPlayer *soundPlayer;
 
-	Device *device;
+	// Game state management
 
 	GameState *gameState = nullptr;
 	GameStates currentState;
-
-	int windowScale = 1;
-	void setWindowScale(int scale);
-
-	// 0 - nothing, 1 - limit to 250, 2 - vsync
-	int framerateControl = 2;
-
-	int prevKeyboardState[KEY_TOTAL];
-	int keyMap[KEY_TOTAL];
+	void handleNextGameState(GameStates nextState);
 };

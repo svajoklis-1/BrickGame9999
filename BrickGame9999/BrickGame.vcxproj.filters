@@ -11,9 +11,6 @@
     <Filter Include="Source files\Rendering">
       <UniqueIdentifier>{ee2bfa8a-96ac-4b74-9832-1f680e4e6246}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source files\System">
-      <UniqueIdentifier>{0376180f-718d-4936-a958-de662d990bbf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source files\Objects">
       <UniqueIdentifier>{e7613a55-a1a3-41be-b6a4-aa40635ad3ee}</UniqueIdentifier>
     </Filter>
@@ -35,12 +32,15 @@
     <Filter Include="Source files\Utils">
       <UniqueIdentifier>{20cfa036-e95b-4313-8556-57cc97bb99b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\Device">
+      <UniqueIdentifier>{0376180f-718d-4936-a958-de662d990bbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\System">
+      <UniqueIdentifier>{48355e8d-fe8a-4b5e-be04-1c7692af8015}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="BrickGame.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="BackgroundRenderer.cpp">
@@ -53,13 +53,13 @@
       <Filter>Source files\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="ScreenNumber.cpp">
-      <Filter>Source files\System</Filter>
+      <Filter>Source files\Device</Filter>
     </ClCompile>
     <ClCompile Include="Screen.cpp">
-      <Filter>Source files\System</Filter>
+      <Filter>Source files\Device</Filter>
     </ClCompile>
     <ClCompile Include="Device.cpp">
-      <Filter>Source files\System</Filter>
+      <Filter>Source files\Device</Filter>
     </ClCompile>
     <ClCompile Include="Explosion.cpp">
       <Filter>Source files\Objects</Filter>
@@ -80,7 +80,7 @@
       <Filter>Source files\GameStates\GSRain</Filter>
     </ClCompile>
     <ClCompile Include="Speaker.cpp">
-      <Filter>Source files\System</Filter>
+      <Filter>Source files\Device</Filter>
     </ClCompile>
     <ClCompile Include="SoundPlayer.cpp">
       <Filter>Source files\Rendering</Filter>
@@ -94,16 +94,28 @@
     <ClCompile Include="Global.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="BrickGame.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickGame_config.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickGame_gamestates.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickGame_render.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickGame_device.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickGame_init.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
       <Filter>Source files\GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="Types.h">
-      <Filter>Source files</Filter>
-    </ClInclude>
-    <ClInclude Include="BrickGame.h">
-      <Filter>Source files</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
       <Filter>Source files</Filter>
@@ -118,13 +130,13 @@
       <Filter>Source files\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Device.h">
-      <Filter>Source files\System</Filter>
+      <Filter>Source files\Device</Filter>
     </ClInclude>
     <ClInclude Include="ScreenNumber.h">
-      <Filter>Source files\System</Filter>
+      <Filter>Source files\Device</Filter>
     </ClInclude>
     <ClInclude Include="Screen.h">
-      <Filter>Source files\System</Filter>
+      <Filter>Source files\Device</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.h">
       <Filter>Source files\Objects</Filter>
@@ -145,7 +157,7 @@
       <Filter>Source files\GameStates\GSRain</Filter>
     </ClInclude>
     <ClInclude Include="Speaker.h">
-      <Filter>Source files\System</Filter>
+      <Filter>Source files\Device</Filter>
     </ClInclude>
     <ClInclude Include="SoundPlayer.h">
       <Filter>Source files\Rendering</Filter>
@@ -158,6 +170,12 @@
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Source files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickGame.h">
+      <Filter>Source files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>Source files\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

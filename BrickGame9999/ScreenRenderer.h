@@ -13,8 +13,8 @@ public:
 	ScreenRenderer();
 	~ScreenRenderer();
 	void render(Screen &screen, ResourceStore &res);
-	void preRender();
-	void postRender();
+	void preDeviceRender();
+	void postDeviceRender();
 
 	class ScreenRenderHelper
 	{

@@ -8,22 +8,30 @@ class Logger
 {
 public:
 	enum Tag {
-		DEBUG = 0b00000001,
-		ERR =   0b00000010,
-		WARN =  0b00000100
+		DEBUG    = 0b00000001,
+		ERR      = 0b00000010,
+		WARN     = 0b00000100,
+		ASSERT   = 0b00001000,
+		INFO     = 0b00010000
 	};
 
 	Logger();
 	void Logger::log(const char *format, ...);
 	void log(Logger::Tag tag, const char *format, ...);
 	void log(Logger::Tag tag, const char *format, va_list args);
+	void assrt(bool condition, const char *format, ...);
 
 private:
 
+	const int ALL = 0b11111111;
+
 	int logged;
 
+	const char *parseFormat(const char *format, va_list args);
 	void setColor(int fore, int back);
 	const char *tagToStr(Logger::Tag tag);
+	void setColorByTag(Logger::Tag tag);
+	char *currentTime();
 	HANDLE conHandle;
 
 	enum ForegroundColor {

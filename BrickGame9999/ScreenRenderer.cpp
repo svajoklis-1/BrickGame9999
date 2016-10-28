@@ -52,12 +52,12 @@ void ScreenRenderer::renderItem(ResourceStore &res, string item)
 		&dest);
 }
 
-void ScreenRenderer::preRender()
+void ScreenRenderer::preDeviceRender()
 {
 
 }
 
-void ScreenRenderer::postRender()
+void ScreenRenderer::postDeviceRender()
 {
 	mainScreen.pushPrevs();
 	hintScreen.pushPrevs();

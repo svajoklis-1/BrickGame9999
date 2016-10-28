@@ -4,6 +4,8 @@
 using namespace std;
 
 #include "BrickGame.h"
+#include "Logger.h"
+#include "Global.h"
 
 // main file for the program, runs Tetris
 // catches all string exceptions
@@ -18,6 +20,7 @@ int main(int /*argc*/, char* /*argv*/[])
 	}
 	catch (string ex)
 	{
+		l.log(Logger::ERR, ex.c_str());
 		MessageBox(nullptr, ex.c_str(), "Program failed", MB_ICONERROR | MB_OK);
 	}
 #ifndef DEBUG_9999
