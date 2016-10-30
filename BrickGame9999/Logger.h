@@ -7,68 +7,42 @@
 class Logger
 {
 public:
-	enum Tag {
-		DEBUG    = 0b00000001,
-		ERR      = 0b00000010,
-		WARN     = 0b00000100,
-		ASSERT   = 0b00001000,
-		INFO     = 0b00010000
-	};
+	enum Tag;
 
 	Logger();
-	void Logger::log(const char *format, ...);
+	void log(const char *format, ...);
 	void log(Logger::Tag tag, const char *format, ...);
-	void log(Logger::Tag tag, const char *format, va_list args);
+
+	void logPartial(Logger::Tag tag, const char *format, ...);
+	void logRight(const char *format, ...);
+
 	void assrt(bool condition, const char *format, ...);
 
 private:
+
+	void log(Logger::Tag tag, const char *format, va_list args, bool addEndl = true);
 
 	const int ALL = 0b11111111;
 
 	int logged;
 
 	const char *parseFormat(const char *format, va_list args);
-	void setColor(int fore, int back);
+
+	struct Color;
+
+	void setColor(Color c);
 	const char *tagToStr(Logger::Tag tag);
 	void setColorByTag(Logger::Tag tag);
 	char *currentTime();
 	HANDLE conHandle;
 
-	enum ForegroundColor {
-		FG_BLACK = 0,
-		FG_DK_RED = FOREGROUND_RED,
-		FG_DK_GREEN = FOREGROUND_GREEN,
-		FG_DK_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN,
-		FG_DK_BLUE = FOREGROUND_BLUE,
-		FG_PURPLE = FOREGROUND_BLUE | FOREGROUND_RED,
-		FG_DK_CYAN = FOREGROUND_BLUE | FOREGROUND_GREEN,
-		FG_LT_GRAY = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED,
-		FG_DK_GRAY = FOREGROUND_INTENSITY,
-		FG_RED = FOREGROUND_RED | FOREGROUND_INTENSITY,
-		FG_GREEN = FOREGROUND_GREEN | FOREGROUND_INTENSITY,
-		FG_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY,
-		FG_BLUE = FOREGROUND_BLUE | FOREGROUND_INTENSITY,
-		FG_MAGENTA = FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY,
-		FG_CYAN = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY,
-		FG_WHITE = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY
-	};
+	enum ForegroundColor;
+	enum BackgroundColor;
 
-	enum BackgroundColor {
-		BG_BLACK = 0,
-		BG_DK_RED = BACKGROUND_RED,
-		BG_DK_GREEN = BACKGROUND_GREEN,
-		BG_DK_YELLOW = BACKGROUND_RED | BACKGROUND_GREEN,
-		BG_DK_BLUE = BACKGROUND_BLUE,
-		BG_PURPLE = BACKGROUND_BLUE | BACKGROUND_RED,
-		BG_DK_CYAN = BACKGROUND_BLUE | BACKGROUND_GREEN,
-		BG_LT_GRAY = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED,
-		BG_DK_GRAY = BACKGROUND_INTENSITY,
-		BG_RED = BACKGROUND_RED | BACKGROUND_INTENSITY,
-		BG_GREEN = BACKGROUND_GREEN | BACKGROUND_INTENSITY,
-		BG_YELLOW = BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY,
-		BG_BLUE = BACKGROUND_BLUE | BACKGROUND_INTENSITY,
-		BG_MAGENTA = BACKGROUND_BLUE | BACKGROUND_RED | BACKGROUND_INTENSITY,
-		BG_CYAN = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_INTENSITY,
-		BG_WHITE = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY
+	struct Color {
+		ForegroundColor fore;
+		BackgroundColor back;
 	};
 };
+
+#include "Logger_types.h"

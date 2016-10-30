@@ -112,6 +112,12 @@
     <ClCompile Include="BrickGame_init.cpp">
       <Filter>Source files\System</Filter>
     </ClCompile>
+    <ClCompile Include="PixelArray.cpp">
+      <Filter>Source files\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickGame_events.cpp">
+      <Filter>Source files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -176,6 +182,12 @@
     </ClInclude>
     <ClInclude Include="Types.h">
       <Filter>Source files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelArray.h">
+      <Filter>Source files\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger_types.h">
+      <Filter>Source files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

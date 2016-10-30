@@ -30,5 +30,9 @@ int main(int /*argc*/, char* /*argv*/[])
 	}
 #endif
 
+	l.log(Logger::INFO, "Brick Game ended its run.");
+	printf("Press any key to continue...");
+	getchar();
+
 	return 0;
 }

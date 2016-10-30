@@ -39,8 +39,6 @@ BrickGame::BrickGame()
 
 void BrickGame::run()
 {
-	bool quitting = false;
-
 	SDL_Event ev;
 
 	while (!quitting)
@@ -52,71 +50,19 @@ void BrickGame::run()
 			handleNextGameState(gameState->nextState);
 		}
 
-		bool doReset = false;
-
 		while (SDL_PollEvent(&ev) != 0)
 		{
-			switch (ev.type)
-			{
-			case SDL_QUIT:
-				quitting = true;
-				break;
-			case SDL_KEYDOWN:
-				switch (ev.key.keysym.scancode)
-				{
-				// background changing keys
-				case SDL_SCANCODE_F8: device->nextBG(); break;
-				case SDL_SCANCODE_F7: device->prevBG(); break;
-				case SDL_SCANCODE_KP_PLUS: windowScale++; setWindowScale(windowScale); break;
-				case SDL_SCANCODE_KP_MINUS: if (windowScale > 1) windowScale--; setWindowScale(windowScale); break;
-				default: break;
-				}
-
-				// device keys
-
-				if (ev.key.keysym.scancode == keyMap[KEY_RESET])
-				{
-					doReset = true;
-				}
-				else if (ev.key.keysym.scancode == keyMap[KEY_START])
-				{
-					if (currentState == GS_MENU)
-					{
-						gameState->nextState = static_cast<GSMenu*>(gameState)->getSelectedState();
-					}
-					else
-					{
-						if (device->inGame && device->pauseable)
-						{
-							device->paused = !device->paused;
-							device->screen.paused = !device->screen.paused;
-						}
-					}
-				}
-
-				break;
-			}
+			processEvent(ev);
 		}
 
 		// parse game keys
 
 		if (!device->paused)
 		{
-			const Uint8 *keyboardState = SDL_GetKeyboardState(nullptr);
-
-			for (int i = KEY_UP; i <= KEY_ACTION; i++)
-			{
-				if (keyboardState[keyMap[i]] != prevKeyboardState[i])
-				{
-					gameState->parseEvent(*device, static_cast<Key>(i), (keyboardState[keyMap[i]] == 0 ? STATE_UP : STATE_DOWN));
-				}
-					
-				prevKeyboardState[i] = keyboardState[keyMap[i]];
-			}
+			checkKeyboardState();
 
 			gameState->postEvents(*device);
 		}
-
 
 		render(gameLoopStartTicks);
 		deviceTick();
@@ -127,6 +73,7 @@ void BrickGame::run()
 
 		if (doReset)
 		{
+			doReset = false;
 			gameState->nextState = GS_MENU;
 			device->paused = false;
 			device->screen.paused = false;
@@ -136,12 +83,15 @@ void BrickGame::run()
 
 	try
 	{
+		l.log(Logger::Tag::INFO, "Attempting to save...");
 		SaveManager::writeSave(windowScale, framerateControl, *device);
+		l.log(Logger::INFO, "Saving OK.");
 	}
 	catch (...)
 	{
+		l.log(Logger::ERR, "Attempting to save...^r[FAIL]");
 		SaveManager::defaultSave(windowScale, framerateControl, *device);
-		throw string("Writing save data failed, reverting to default...\nYour highscores are gone (and probably were gone to start with).");
+		throw string("Writing save data failed, reverting to default...");
 	}
 	
 }

@@ -28,6 +28,12 @@ private:
 	void configElements();
 	void configKeyMap();
 
+	void processEvent(SDL_Event &ev);
+	void checkKeyboardState();
+
+	bool doReset = false;
+	bool quitting = false;
+
 	// SDL resource handles
 
 	SDL_Window *w;

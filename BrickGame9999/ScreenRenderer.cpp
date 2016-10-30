@@ -162,7 +162,7 @@ ScreenRenderer::ScreenRenderHelper::~ScreenRenderHelper()
 	delete[] renderedScreen;
 }
 
-void ScreenRenderer::ScreenRenderHelper::render(Screen::PixelArray &array, ResourceStore &res, string location, string item)
+void ScreenRenderer::ScreenRenderHelper::render(PixelArray &array, ResourceStore &res, string location, string item)
 {
 	// render shadows 
 

@@ -4,7 +4,7 @@
 
 #include "Screen.h"
 #include "ResourceStore.h"
-
+#include "PixelArray.h"
 
 
 class ScreenRenderer
@@ -22,7 +22,7 @@ public:
 		ScreenRenderHelper(int sizeX, int sizeY, int numShadows);
 		~ScreenRenderHelper();
 
-		void render(Screen::PixelArray &array, ResourceStore &res, string location, string item);
+		void render(PixelArray &array, ResourceStore &res, string location, string item);
 
 		int sizeX, sizeY;
 

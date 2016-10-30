@@ -41,7 +41,39 @@ void Logger::assrt(bool condition, const char *format, ...)
 #endif
 }
 
-void Logger::log(Logger::Tag tag, const char *format, va_list args)
+void Logger::logPartial(Logger::Tag tag, const char *format, ...)
+{
+#ifdef DEBUG_9999
+	va_list argptr;
+	va_start(argptr, format);
+	log(tag, format, argptr, false);
+	va_end(argptr);
+#endif
+}
+
+void Logger::logRight(const char *format, ...)
+{
+#ifdef DEBUG_9999
+	va_list argptr;
+	va_start(argptr, format);
+
+	char *addRightTag = new char[1024];
+	strcpy(addRightTag, "^r");
+	strcat(addRightTag, format);
+
+	const char *parsedFormat = parseFormat(addRightTag, argptr);
+
+	printf(parsedFormat);
+	printf("\n");
+
+	delete[] parsedFormat;
+	delete[] addRightTag;
+
+	va_end(argptr);
+#endif
+}
+
+void Logger::log(Logger::Tag tag, const char *format, va_list args, bool addEndl)
 {
 #ifdef DEBUG_9999
 
@@ -51,7 +83,7 @@ void Logger::log(Logger::Tag tag, const char *format, va_list args)
 		return;
 	}
 
-	setColor(FG_WHITE, BG_BLACK);
+	setColor({ FG_WHITE, BG_BLACK });
 
 	char *currentTime = this->currentTime();
 	printf("%s [", currentTime);
@@ -61,9 +93,9 @@ void Logger::log(Logger::Tag tag, const char *format, va_list args)
 
 	printf("%8s", tagToStr(tag));
 
-	setColor(FG_WHITE, BG_BLACK);
+	setColor({ FG_WHITE, BG_BLACK });
 	printf("]");
-	setColor(FG_LT_GRAY, BG_BLACK);
+	setColor({ FG_LT_GRAY, BG_BLACK });
 	printf(" ");
 
 	const char *parsedFormat = parseFormat(format, args);
@@ -71,8 +103,13 @@ void Logger::log(Logger::Tag tag, const char *format, va_list args)
 	printf(parsedFormat);
 
 	delete[] parsedFormat;
+	
+	// "^cf0%s [%8s^cf0] ^c70My Text Here!"
 
-	printf("\n");
+	if (addEndl)
+	{
+		printf("\n");
+	}
 
 #endif
 }
@@ -126,9 +163,9 @@ const char *Logger::parseFormat(const char *format, va_list args)
 	return parsedFormat;
 }
 
-void Logger::setColor(int fore, int back)
+void Logger::setColor(Color c)
 {
-	SetConsoleTextAttribute(conHandle, fore | back);
+	SetConsoleTextAttribute(conHandle, c.fore | c.back);
 }
 
 const char *Logger::tagToStr(Logger::Tag tag)
@@ -154,22 +191,22 @@ void Logger::setColorByTag(Logger::Tag tag)
 	switch (tag)
 	{
 	case WARN:
-		setColor(FG_WHITE, BG_DK_YELLOW);
+		setColor({ FG_WHITE, BG_DK_YELLOW });
 		break;
 	case ERR:
-		setColor(FG_WHITE, BG_DK_RED);
+		setColor({ FG_WHITE, BG_DK_RED });
 		break;
 	case DEBUG:
-		setColor(FG_CYAN, BG_BLACK);
+		setColor({ FG_CYAN, BG_BLACK });
 		break;
 	case ASSERT:
-		setColor(FG_WHITE, BG_DK_CYAN);
+		setColor({ FG_WHITE, BG_DK_CYAN });
 		break;
 	case INFO:
-		setColor(FG_WHITE, BG_BLACK);
+		setColor({ FG_WHITE, BG_BLACK });
 		break;
 	default:
-		setColor(FG_WHITE, BG_BLACK);
+		setColor({ FG_WHITE, BG_BLACK });
 		break;
 	}
 }

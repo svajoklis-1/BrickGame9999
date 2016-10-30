@@ -5,12 +5,15 @@
 
 void BrickGame::initSystem()
 {
+	l.logPartial(Logger::INFO, "SDL Init");
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
+		l.logRight("[FAIL]");
 		throw string("Could not initialize SDL.\nSDL_Error: " + string(SDL_GetError()));
 	}
 
-	l.log(Logger::INFO, "SDL Init^r[OK]");
+	l.logRight("[OK]");
 
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{

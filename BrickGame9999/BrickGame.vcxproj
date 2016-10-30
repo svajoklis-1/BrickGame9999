@@ -119,6 +119,7 @@
     <ClCompile Include="BackgroundRenderer.cpp" />
     <ClCompile Include="BrickGame_config.cpp" />
     <ClCompile Include="BrickGame_device.cpp" />
+    <ClCompile Include="BrickGame_events.cpp" />
     <ClCompile Include="BrickGame_gamestates.cpp" />
     <ClCompile Include="BrickGame_init.cpp" />
     <ClCompile Include="BrickGame_render.cpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="GSSnake.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PixelArray.cpp" />
     <ClCompile Include="ResourceStore.cpp" />
     <ClCompile Include="SaveManager.cpp" />
     <ClCompile Include="Screen.cpp" />
@@ -153,6 +155,8 @@
     <ClInclude Include="GSRain.h" />
     <ClInclude Include="GSSnake.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="Logger_types.h" />
+    <ClInclude Include="PixelArray.h" />
     <ClInclude Include="ResourceStore.h" />
     <ClInclude Include="SaveManager.h" />
     <ClInclude Include="Screen.h" />
