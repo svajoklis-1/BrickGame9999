@@ -2,7 +2,8 @@
 
 #include "Logger.h"
 
-enum Logger::Tag {
+enum Logger::Tag
+{
 	DEBUG    = 0b00000001,
 	ERR      = 0b00000010,
 	WARN     = 0b00000100,
@@ -10,7 +11,14 @@ enum Logger::Tag {
 	INFO     = 0b00010000
 };
 
-enum Logger::ForegroundColor {
+enum Logger::StatusLabel
+{
+	OK,
+	FAIL
+};
+
+enum Logger::ForegroundColor
+{
 	/* 0 */ FG_BLACK		= 0,
 	/* 1 */ FG_DK_BLUE		= FOREGROUND_BLUE,
 	/* 2 */ FG_DK_GREEN		= FOREGROUND_GREEN,
@@ -29,7 +37,8 @@ enum Logger::ForegroundColor {
 	/* f */ FG_WHITE		= FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY
 };
 
-enum Logger::BackgroundColor {
+enum Logger::BackgroundColor
+{
 	/* 0 */ BG_BLACK		= 0,
 	/* 1 */ BG_DK_BLUE		= BACKGROUND_BLUE,
 	/* 2 */ BG_DK_GREEN		= BACKGROUND_GREEN,

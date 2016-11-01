@@ -83,13 +83,14 @@ void BrickGame::run()
 
 	try
 	{
-		l.log(Logger::Tag::INFO, "Attempting to save...");
+		l.logPartial(Logger::INFO, "Attempting to save...");
 		SaveManager::writeSave(windowScale, framerateControl, *device);
-		l.log(Logger::INFO, "Saving OK.");
+		l.logLabel(Logger::StatusLabel::OK);
 	}
 	catch (...)
 	{
-		l.log(Logger::ERR, "Attempting to save...^r[FAIL]");
+		l.logLabel(Logger::StatusLabel::FAIL);
+		l.log(Logger::WARN, "Reverting to default save file");
 		SaveManager::defaultSave(windowScale, framerateControl, *device);
 		throw string("Writing save data failed, reverting to default...");
 	}

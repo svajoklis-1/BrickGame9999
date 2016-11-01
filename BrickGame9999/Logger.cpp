@@ -4,16 +4,46 @@
 
 Logger::Logger()
 {
+	defaultColor = { FG_LT_GRAY, BG_BLACK };
 	conHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	logged = ALL;
+}
+
+bool Logger::preLog()
+{
+	// check if tag is to be logged
+	if ((logged & currentTag) == 0)
+	{
+		return false;
+	}
+
+	if (partialInProgress)
+	{
+		partialInProgress = false;
+		printf("\n");
+	}
+
+	setDefaultColor();
+
+	return true;
 }
 
 void Logger::log(const char *format, ...)
 {
 #ifdef DEBUG_9999
+	currentTag = DEBUG;
+
+	if (!preLog())
+	{
+		return;
+	}
+
 	va_list argptr;
 	va_start(argptr, format);
-	log(DEBUG, format, argptr);
+
+	printHeader(currentTag);
+	_log(format, argptr, true);
+
 	va_end(argptr);
 #endif
 }
@@ -21,9 +51,19 @@ void Logger::log(const char *format, ...)
 void Logger::log(Logger::Tag tag, const char *format, ...)
 {
 #ifdef DEBUG_9999
+	currentTag = tag;
+
+	if (!preLog())
+	{
+		return;
+	}
+
 	va_list argptr;
 	va_start(argptr, format);
-	log(tag, format, argptr);
+
+	printHeader(currentTag);
+	_log(format, argptr, true);
+
 	va_end(argptr);
 #endif
 }
@@ -31,12 +71,22 @@ void Logger::log(Logger::Tag tag, const char *format, ...)
 void Logger::assrt(bool condition, const char *format, ...)
 {
 #ifdef DEBUG_9999
+	currentTag = ASSERT;
+
+	if (!preLog())
+	{
+		return;
+	}
+
 	va_list argptr;
 	va_start(argptr, format);
+
 	if (!condition)
 	{
-		log(ASSERT, format, argptr);
+		printHeader(currentTag);
+		_log(format, argptr, true);
 	}
+
 	va_end(argptr);
 #endif
 }
@@ -44,45 +94,112 @@ void Logger::assrt(bool condition, const char *format, ...)
 void Logger::logPartial(Logger::Tag tag, const char *format, ...)
 {
 #ifdef DEBUG_9999
-	va_list argptr;
-	va_start(argptr, format);
-	log(tag, format, argptr, false);
-	va_end(argptr);
-#endif
-}
 
-void Logger::logRight(const char *format, ...)
-{
-#ifdef DEBUG_9999
-	va_list argptr;
-	va_start(argptr, format);
+	currentTag = tag;
 
-	char *addRightTag = new char[1024];
-	strcpy(addRightTag, "^r");
-	strcat(addRightTag, format);
-
-	const char *parsedFormat = parseFormat(addRightTag, argptr);
-
-	printf(parsedFormat);
-	printf("\n");
-
-	delete[] parsedFormat;
-	delete[] addRightTag;
-
-	va_end(argptr);
-#endif
-}
-
-void Logger::log(Logger::Tag tag, const char *format, va_list args, bool addEndl)
-{
-#ifdef DEBUG_9999
-
-	// check if tag is to be logged
-	if ((logged & tag) == 0)
+	if (!preLog())
 	{
 		return;
 	}
 
+	partialInProgress = true;
+
+	va_list argptr;
+	va_start(argptr, format);
+
+	printHeader(currentTag);
+	_log(format, argptr, false);
+
+	va_end(argptr);
+#endif
+}
+
+void Logger::logContinue(const char *format, ...)
+{
+#ifdef DEBUG_9999
+
+	// check if tag is to be logged
+	if ((logged & currentTag) == 0)
+	{
+		return;
+	}
+
+	if (!partialInProgress)
+	{
+		return;
+	}
+
+	va_list argptr;
+	va_start(argptr, format);
+
+	_log(format, argptr, false);
+
+	va_end(argptr);
+
+#endif
+}
+
+void Logger::logRight(int padding, const char *format, ...)
+{
+#ifdef DEBUG_9999
+
+	// check if tag is to be logged
+	if ((logged & currentTag) == 0)
+	{
+		return;
+	}
+
+	if (!partialInProgress)
+	{
+		return;
+	}
+
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(conHandle, &csbi);
+
+	int rightWidth = padding;
+	int currentPos = csbi.dwCursorPosition.X;
+	int totalWidth = csbi.dwSize.X;
+	int spaceCount = totalWidth - currentPos - rightWidth - 1;
+
+	Color colorToPrint = currentColor;
+	setDefaultColor();
+
+	for (int i = 0; i < spaceCount; i++)
+	{
+		putchar(' ');
+	}
+
+	setColor(colorToPrint);
+
+	va_list argptr;
+	va_start(argptr, format);
+
+	_log(format, argptr, false);
+
+	va_end(argptr);
+
+#endif
+}
+
+void Logger::_log(const char *format, va_list args, bool addEndl)
+{
+#ifdef DEBUG_9999
+
+	vprintf(format, args);
+	
+	// "^cf0%s [%8s^cf0] ^c70My Text Here!"
+
+	if (addEndl)
+	{
+		printf("\n");
+	}
+
+#endif
+}
+
+void Logger::printHeader(Logger::Tag tag)
+{
 	setColor({ FG_WHITE, BG_BLACK });
 
 	char *currentTime = this->currentTime();
@@ -95,77 +212,19 @@ void Logger::log(Logger::Tag tag, const char *format, va_list args, bool addEndl
 
 	setColor({ FG_WHITE, BG_BLACK });
 	printf("]");
-	setColor({ FG_LT_GRAY, BG_BLACK });
+	setColor(defaultColor);
 	printf(" ");
-
-	const char *parsedFormat = parseFormat(format, args);
-
-	printf(parsedFormat);
-
-	delete[] parsedFormat;
-	
-	// "^cf0%s [%8s^cf0] ^c70My Text Here!"
-
-	if (addEndl)
-	{
-		printf("\n");
-	}
-
-#endif
-}
-
-const char *Logger::parseFormat(const char *format, va_list args)
-{
-	char *printedFormat = new char[1024];
-
-	vsprintf(printedFormat, format, args);
-
-	char *parsedFormat = new char[1024];
-
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	GetConsoleScreenBufferInfo(conHandle, &csbi);
-
-	int formatLength = strlen(printedFormat);
-	
-	int i = 0;
-	int pi = 0;
-	while (i < formatLength)
-	{
-		if (i <= formatLength - 2) {
-			if (printedFormat[i] == '^' && printedFormat[i + 1] == 'r')
-			{
-				int rightWidth = formatLength - (i + 2);
-				int currentPos = csbi.dwCursorPosition.X;
-				int totalWidth = csbi.dwSize.X;
-				int spaceCount = totalWidth - currentPos - rightWidth - pi - 1;
-
-				while (spaceCount > 0)
-				{
-					parsedFormat[pi] = ' ';
-					pi++;
-					spaceCount--;
-				}
-
-				i += 2;
-				continue;
-			}
-		}
-
-		parsedFormat[pi] = printedFormat[i];
-		i++;
-		pi++;
-	}
-
-	parsedFormat[pi] = '\0';
-
-	delete[] printedFormat;
-
-	return parsedFormat;
 }
 
 void Logger::setColor(Color c)
 {
+	currentColor = c;
 	SetConsoleTextAttribute(conHandle, c.fore | c.back);
+}
+
+void Logger::setDefaultColor()
+{
+	setColor(defaultColor);
 }
 
 const char *Logger::tagToStr(Logger::Tag tag)
@@ -184,6 +243,32 @@ const char *Logger::tagToStr(Logger::Tag tag)
 	}
 
 	return "MISSING";
+}
+
+const char *Logger::labelToStr(Logger::StatusLabel label)
+{
+	switch (label)
+	{
+	case OK:
+		return "OK";
+		break;
+	case FAIL:
+		return "FAIL";
+		break;
+	}
+}
+
+void Logger::logLabel(Logger::StatusLabel label)
+{
+	const char *text = labelToStr(label);
+	int textLength = strlen(text);
+
+	setDefaultColor();
+	logRight(textLength + 2, "[");
+	setColorByStatusLabel(label);
+	logContinue(text);
+	setDefaultColor();
+	logContinue("]");
 }
 
 void Logger::setColorByTag(Logger::Tag tag)
@@ -207,6 +292,20 @@ void Logger::setColorByTag(Logger::Tag tag)
 		break;
 	default:
 		setColor({ FG_WHITE, BG_BLACK });
+		break;
+	}
+}
+
+void Logger::setColorByStatusLabel(Logger::StatusLabel label)
+{
+	switch (label)
+	{
+	case OK:
+		setColor({ FG_GREEN, BG_BLACK });
+		break;
+
+	case FAIL:
+		setColor({ FG_RED, BG_BLACK });
 		break;
 	}
 }
