@@ -41,9 +41,12 @@ void BrickGame::run()
 {
 	SDL_Event ev;
 
+	int gameLoopStartTicks = 0;
+	int gameLoopEndTicks = 0;
+
 	while (!quitting)
 	{
-		int gameLoopStartTicks = SDL_GetTicks();
+		gameLoopStartTicks = SDL_GetTicks();
 
 		if (gameState->nextState != GS_NONE)
 		{
@@ -55,19 +58,24 @@ void BrickGame::run()
 			processEvent(ev);
 		}
 
-		// parse game keys
-
-		if (!device->paused)
+		if (!isMinimized)
 		{
-			checkKeyboardState();
+			// parse game keys
 
-			gameState->postEvents(*device);
+			if (!device->paused)
+			{
+				checkKeyboardState();
+
+				gameState->postEvents(*device);
+			}
+
+
+			render(gameLoopStartTicks);
+			deviceTick();
+
+			gameLoopEndTicks = SDL_GetTicks();
+
 		}
-
-		render(gameLoopStartTicks);
-		deviceTick();
-
-		int gameLoopEndTicks = SDL_GetTicks();
 
 		updateWindowTitle(gameLoopStartTicks, gameLoopEndTicks);
 
@@ -101,14 +109,23 @@ void BrickGame::updateWindowTitle(int gameLoopStartTicks, int gameLoopEndTicks)
 {
 	// form window title
 	char title[255];
-	if (gameLoopEndTicks - gameLoopStartTicks != 0)
+
+	if (isMinimized)
 	{
-		sprintf_s(title, "BrickGame-9999 FPS:%d", int(1000.0 / (gameLoopEndTicks - gameLoopStartTicks)));
+		sprintf_s(title, "BrickGame-9999");
 	}
 	else
 	{
-		sprintf_s(title, "BrickGame-9999 FPS:1000+");
+		if (gameLoopEndTicks - gameLoopStartTicks != 0)
+		{
+			sprintf_s(title, "BrickGame-9999 FPS:%d", int(1000.0 / (gameLoopEndTicks - gameLoopStartTicks)));
+		}
+		else
+		{
+			sprintf_s(title, "BrickGame-9999 FPS:1000+");
+		}
 	}
+
 	SDL_SetWindowTitle(res->getWindow(), reinterpret_cast<char*>(&title));
 }
 

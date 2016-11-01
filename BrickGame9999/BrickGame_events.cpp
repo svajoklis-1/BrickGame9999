@@ -42,6 +42,29 @@ void BrickGame::processEvent(SDL_Event &ev)
 		}
 
 		break;
+	case SDL_WINDOWEVENT:
+		switch (ev.window.event)
+		{
+		case SDL_WINDOWEVENT_MINIMIZED:
+			isMinimized = true;
+			break;
+		case SDL_WINDOWEVENT_RESTORED:
+			isMinimized = false;
+			break;
+		case SDL_WINDOWEVENT_FOCUS_LOST:
+			previousPauseState = device->paused;
+			devicePausedExternally = true;
+			device->paused = true;
+			device->screen.paused = true;
+			break;
+		case SDL_WINDOWEVENT_FOCUS_GAINED:
+			if (devicePausedExternally)
+			{
+				devicePausedExternally = false;
+				device->paused = previousPauseState;
+				device->screen.paused = previousPauseState;
+			}
+		}
 	}
 }
 

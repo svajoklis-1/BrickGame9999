@@ -34,6 +34,10 @@ private:
 	bool doReset = false;
 	bool quitting = false;
 
+	bool isMinimized = false;
+	bool devicePausedExternally = false;
+	bool previousPauseState = false;
+
 	// SDL resource handles
 
 	SDL_Window *w;
