@@ -12,18 +12,18 @@ Change scale: +, -
 Reset: F1
 Start/Pause: Enter (Return)
 
-## Rain (R)
+### Rain (R)
 
 Control rain direction: left, right
 Control rain density: up, down
 
-## Snake (A, B):
+### Snake (A, B):
 * A - level based, collect 20 mice to advance
 * B - infinite, you are your only enemy
 Arrows - move
 Space - speed up
 
-## Arkanoid (C):
+### Arkanoid (C):
 Arrows - move paddle
 Space - speed up
 
