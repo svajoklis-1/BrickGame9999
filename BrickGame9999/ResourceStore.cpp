@@ -1,6 +1,8 @@
 #include "ResourceStore.h"
 #include <SDL_image.h>
 
+#include "Global.h"
+
 void ResourceStore::setWindow(SDL_Window *w)
 {
 	window = w;
@@ -48,12 +50,19 @@ SDL_Texture *ResourceStore::loadTexture(string path)
 	// load image
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == nullptr)
+	{
+		l.log(Logger::ERR, "Failed to load image: %s", path.c_str());
 		throw string("Unable to load image " + path + "!\nSDL_Image Error: " + IMG_GetError());
+	}
+		
 
 	// create texture from surface
 	newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
 	if (newTexture == nullptr)
+	{
+		l.log(Logger::ERR, "Failed to create texture from image: %s", path.c_str());
 		throw string("Unable to create texture from " + path + "!\nSDL Error: " + IMG_GetError());
+	}
 
 	// free old surface (no longer needed)
 	SDL_FreeSurface(loadedSurface);
@@ -67,6 +76,7 @@ Mix_Chunk *ResourceStore::loadSound(string path)
 
 	if (!chunk)
 	{
+		l.log(Logger::ERR, "Failed to load sound: %s", path.c_str());
 		throw string("Unable to load sound " + path + "!\nSDL_Mixer Error: " + Mix_GetError());
 	}
 

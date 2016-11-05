@@ -12,26 +12,26 @@ ScreenRenderer::~ScreenRenderer()
 {
 }
 
-void ScreenRenderer::render(Screen &screen, ResourceStore &res)
+void ScreenRenderer::render(Device &dev, ResourceStore &res)
 {
-	mainScreen.render(screen.mainArray, res, "screen", "screenPixel");
-	hintScreen.render(screen.hintArray, res, "hint", "hintPixel");
+	mainScreen.render(dev.screen.mainArray, res, "screen", "screenPixel");
+	hintScreen.render(dev.screen.hintArray, res, "hint", "hintPixel");
 
 	// render numbers
 
-	screen.score.render(res, res.location["score"]);
-	screen.highScore.render(res, res.location["hiscore"]);
-	screen.level.render(res, res.location["level"]);
-	screen.speed.render(res, res.location["speed"]);
+	dev.screen.score.render(res, res.location["score"]);
+	dev.screen.highScore.render(res, res.location["hiscore"]);
+	dev.screen.level.render(res, res.location["level"]);
+	dev.screen.speed.render(res, res.location["speed"]);
 
 	// render icons
 
-	if (screen.sound)
+	if (!dev.speaker.isMuted())
 	{
 		renderItem(res, "note");
 	}
 
-	if (screen.paused)
+	if (dev.paused)
 	{
 		renderItem(res, "cup");
 	}
@@ -100,18 +100,18 @@ void ScreenRenderer::renderNum(Screen &screen, ResourceStore &res, int num, coor
 
 // --------------------------------- SCREEN RENDER HELPER ---------------------------------------------------------------
 
-void ScreenRenderer::ScreenRenderHelper::renderArray(bool *data, int sizeX, int sizeY, ResourceStore &res, string location, string item, bool * /*renderMask*/, int opacity)
+void ScreenRenderer::ScreenRenderHelper::renderArray(bool *data, int dataSizeX, int dataSizeY, ResourceStore &res, string location, string item, bool * /*renderMask*/, int opacity)
 {
-	for (int x = 0; x < sizeX; x++)
+	for (int x = 0; x < dataSizeX; x++)
 	{
-		for (int y = 0; y < sizeY; y++)
+		for (int y = 0; y < dataSizeY; y++)
 		{
-			bool pixelVal = data[y * sizeX + x];
+			bool pixelVal = data[y * dataSizeX + x];
 
-			if (!pixelVal || renderedScreen[y * sizeX + x])
+			if (!pixelVal || renderedScreen[y * dataSizeX + x])
 				continue;
 
-			renderedScreen[y * sizeX + x] = true;
+			renderedScreen[y * dataSizeX + x] = true;
 
 			SDL_Rect pixel;
 			pixel.x = res.location[location].x + (x * (res.item[item].w + 1));

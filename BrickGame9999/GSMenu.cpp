@@ -77,7 +77,6 @@ void GSMenu::parseEvent(Device &dev, Key k, KeyState state)
 			break;
 
 		case KEY_START: break;
-		case KEY_SOUND: break;
 		case KEY_RESET: break;
 		case KEY_TOTAL: break;
 

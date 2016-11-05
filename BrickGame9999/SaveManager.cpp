@@ -22,6 +22,8 @@ void SaveManager::readSave(int &windowScale, int &framerateControl, Device &devi
 		windowScale = saveFile.get<int>("window.scale", 1);
 		framerateControl = saveFile.get<int>("window.frameControl", 2);
 
+		device.speaker.setMuted(saveFile.get<int>("device.muted", 0) == 1);
+
 		device.setBGCount(saveFile.get<int>("device.backgroundCount", 14));
 		device.setBG(saveFile.get<int>("device.currentBackground", 1) - 1);
 
@@ -71,6 +73,8 @@ void SaveManager::writeSave(int windowScale, int framerateControl, const Device 
 
 	saveFile.put("window.scale", windowScale);
 	saveFile.put("window.frameControl", framerateControl);
+
+	saveFile.put("device.muted", device.speaker.isMuted() ? 1 : 0);
 
 	saveFile.put("device.currentBackground", device.getCurrentBG() + 1);
 

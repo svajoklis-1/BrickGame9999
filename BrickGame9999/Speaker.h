@@ -13,7 +13,11 @@ public:
 	
 	void playSound(Sound sound);
 
+	void setMuted(bool muted);
+	bool isMuted() const;
+
 private:
+	bool muted = false;
 	SoundPlayer *pl;
 	bool ownSoundPlayer = false;
 };

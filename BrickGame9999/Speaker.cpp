@@ -16,6 +16,11 @@ Speaker::~Speaker()
 
 void Speaker::playSound(Sound sound)
 {
+	if (muted)
+	{
+		return;
+	}
+
 	switch (sound) {
 	case SND_BLIP:
 	case SND_BOUNCE:
@@ -26,4 +31,14 @@ void Speaker::playSound(Sound sound)
 	default:
 		break;
 	}
+}
+
+void Speaker::setMuted(bool muted)
+{
+	this->muted = muted;
+}
+
+bool Speaker::isMuted() const
+{
+	return muted;
 }

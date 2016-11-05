@@ -5,6 +5,8 @@
 Logger::Logger()
 {
 	defaultColor = { FG_LT_GRAY, BG_BLACK };
+	currentColor = defaultColor;
+	currentTag = Tag::DEBUG;
 	conHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	logged = ALL;
 }
@@ -63,29 +65,6 @@ void Logger::log(Logger::Tag tag, const char *format, ...)
 
 	printHeader(currentTag);
 	_log(format, argptr, true);
-
-	va_end(argptr);
-#endif
-}
-
-void Logger::assrt(bool condition, const char *format, ...)
-{
-#ifdef DEBUG_9999
-	currentTag = ASSERT;
-
-	if (!preLog())
-	{
-		return;
-	}
-
-	va_list argptr;
-	va_start(argptr, format);
-
-	if (!condition)
-	{
-		printHeader(currentTag);
-		_log(format, argptr, true);
-	}
 
 	va_end(argptr);
 #endif

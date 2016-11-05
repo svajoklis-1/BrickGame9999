@@ -31,6 +31,5 @@ void BrickGame::configKeyMap()
 	keyMap[KEY_ACTION] = SDL_SCANCODE_SPACE;
 
 	keyMap[KEY_START] = SDL_SCANCODE_RETURN;
-	keyMap[KEY_SOUND] = SDL_SCANCODE_KP_DIVIDE;
 	keyMap[KEY_RESET] = SDL_SCANCODE_F1;
 }

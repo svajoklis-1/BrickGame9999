@@ -3,71 +3,60 @@
 #include "GameState.h"
 #include "Ticker.h"
 #include "Explosion.h"
+#include "GSSnake_snake.h"
 
 using namespace std;
 
-enum GSSnakeVariant
+namespace GSSnake
 {
-	GSSNAKE_NORMAL,
-	GSSNAKE_INFINITE
-};
-
-class GSSnake : public GameState
-{
-public:
-	GSSnake(Device &dev, GSSnakeVariant variant);
-	~GSSnake();
-	void tick(Device &dev) override;
-	void parseEvent(Device &dev, Key k, KeyState state) override;
-	void render(Device &dev) override;
-
-private:
-
-	enum dirs
+	enum Variant
 	{
-		LEFT,
-		RIGHT,
-		UP,
-		DOWN
+		VARIANT_NORMAL,
+		VARIANT_INFINITE
 	};
 
-	GSSnakeVariant currentVariant;
-	char highScoreLetter;
+	class State : public GameState
+	{
+	public:
+		State(Device &dev, Variant variant);
+		~State();
+		void tick(Device &dev) override;
+		void parseEvent(Device &dev, Key k, KeyState state) override;
+		void render(Device &dev) override;
 
-	coord snakeSegments[256];
-	int snakeLength = 3;
-	int snakeSpeed = 15;
-	int snakeLengthRequired;
-	bool didTurn = false;
-	bool speeding = false;
+	private:
 
-	Ticker snakeTicker;
-	Ticker snakeHeadBlinkTicker;
+		Variant currentVariant;
+		char highScoreLetter;
 
-	coord food;
-	void genFood(int level);
-	
-	int snakeHeadX, snakeHeadY;
-	int dir = RIGHT;
+		Ticker snakeTicker;
+		Snake snake;
 
-	int gameTick = 0;
-	const int gameDelay = 60;
+		int snakeLengthRequired;
 
-	void reset(Device &dev);
+		coord food;
+		void genFood(int level);
 
-	map<int, string> levels;
-	int levelCount;
-	void defineLevels();
+		int gameTick = 0;
+		const int gameStartPauseDurationTicks = 60;
+		const int explosionDurationTicks = 60;
 
-	Ticker foodTicker;
+		void reset(Device &dev);
 
-	int stateSegment = 0;
+		map<int, string> levels;
+		int levelCount;
+		void defineLevels();
 
-	void renderSnake(Device &dev);
+		Ticker foodTicker;
 
-	void tickSnake(Device &dev);
-	void tickPause(Device &dev);
-	void tickExplosion(Device &dev);
+		int stateSegment = 0;
 
-	Explosion explosion;
-};
+		void renderSnake(Device &dev);
+
+		void tickSnake(Device &dev);
+		void tickPause(Device &dev);
+		void tickExplosion(Device &dev);
+
+		Explosion explosion;
+	};
+}

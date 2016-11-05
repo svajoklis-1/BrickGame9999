@@ -38,6 +38,9 @@
     <Filter Include="Source files\System">
       <UniqueIdentifier>{48355e8d-fe8a-4b5e-be04-1c7692af8015}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\GameStates\GSSnake\Objects">
+      <UniqueIdentifier>{b854812f-4966-4510-9cd2-e07c06a715a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -118,6 +121,12 @@
     <ClCompile Include="BrickGame_events.cpp">
       <Filter>Source files\System</Filter>
     </ClCompile>
+    <ClCompile Include="GSSnake_levels.cpp">
+      <Filter>Source files\GameStates\GSSnake</Filter>
+    </ClCompile>
+    <ClCompile Include="GSSnake_Snake.cpp">
+      <Filter>Source files\GameStates\GSSnake\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -188,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="Logger_types.h">
       <Filter>Source files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GSSnake_Snake.h">
+      <Filter>Source files\GameStates\GSSnake\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

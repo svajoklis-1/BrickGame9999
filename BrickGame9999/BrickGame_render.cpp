@@ -1,11 +1,11 @@
 #include "BrickGame.h"
 
-void BrickGame::render(int gameLoopStartTicks)
+void BrickGame::render()
 {
 	// render background
-	bgRenderer->render(*res, device->getCurrentBG());
+	bgRenderer->render(*res);
 
-	scRenderer->render(device->screen, *res);
+	scRenderer->render(*device, *res);
 
 	SDL_RenderPresent(res->getRenderer());
 

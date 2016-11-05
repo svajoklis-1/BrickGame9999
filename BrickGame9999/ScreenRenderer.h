@@ -5,14 +5,14 @@
 #include "Screen.h"
 #include "ResourceStore.h"
 #include "PixelArray.h"
-
+#include "Device.h"
 
 class ScreenRenderer
 {
 public:
 	ScreenRenderer();
 	~ScreenRenderer();
-	void render(Screen &screen, ResourceStore &res);
+	void render(Device &dev, ResourceStore &res);
 	void preDeviceRender();
 	void postDeviceRender();
 

@@ -12,8 +12,9 @@ void BrickGame::processEvent(SDL_Event &ev)
 		switch (ev.key.keysym.scancode)
 		{
 			// background changing keys
-		case SDL_SCANCODE_F8: device->nextBG(); break;
-		case SDL_SCANCODE_F7: device->prevBG(); break;
+		case SDL_SCANCODE_F8: device->nextBG(); bgRenderer->setBackground(device->getCurrentBG()); break;
+		case SDL_SCANCODE_F7: device->prevBG(); bgRenderer->setBackground(device->getCurrentBG()); break;
+		case SDL_SCANCODE_M: device->speaker.setMuted(!device->speaker.isMuted()); break;
 		case SDL_SCANCODE_KP_PLUS: windowScale++; setWindowScale(windowScale); break;
 		case SDL_SCANCODE_KP_MINUS: if (windowScale > 1) windowScale--; setWindowScale(windowScale); break;
 		default: break;
@@ -36,7 +37,6 @@ void BrickGame::processEvent(SDL_Event &ev)
 				if (device->inGame && device->pauseable)
 				{
 					device->paused = !device->paused;
-					device->screen.paused = !device->screen.paused;
 				}
 			}
 		}
@@ -55,14 +55,12 @@ void BrickGame::processEvent(SDL_Event &ev)
 			previousPauseState = device->paused;
 			devicePausedExternally = true;
 			device->paused = true;
-			device->screen.paused = true;
 			break;
 		case SDL_WINDOWEVENT_FOCUS_GAINED:
 			if (devicePausedExternally)
 			{
 				devicePausedExternally = false;
 				device->paused = previousPauseState;
-				device->screen.paused = previousPauseState;
 			}
 		}
 	}

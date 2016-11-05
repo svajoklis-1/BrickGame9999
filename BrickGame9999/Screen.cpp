@@ -25,7 +25,4 @@ void Screen::clear()
 
 	mainArray.clear();
 	hintArray.clear();
-
-	sound = false;
-	paused = false;
 }

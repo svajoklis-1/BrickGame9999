@@ -206,3 +206,6 @@ BrickGame9999.VC.db
 **/[Dd]eploy
 **/[Rr]elease
 **/[Dd]ebug
+
+# Ignore SDL
+SDL\

@@ -131,6 +131,8 @@
     <ClCompile Include="GSMenu.cpp" />
     <ClCompile Include="GSRain.cpp" />
     <ClCompile Include="GSSnake.cpp" />
+    <ClCompile Include="GSSnake_levels.cpp" />
+    <ClCompile Include="GSSnake_Snake.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PixelArray.cpp" />
@@ -154,6 +156,7 @@
     <ClInclude Include="GSMenu.h" />
     <ClInclude Include="GSRain.h" />
     <ClInclude Include="GSSnake.h" />
+    <ClInclude Include="GSSnake_Snake.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Logger_types.h" />
     <ClInclude Include="PixelArray.h" />

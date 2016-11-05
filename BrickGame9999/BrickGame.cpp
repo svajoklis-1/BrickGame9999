@@ -20,6 +20,8 @@ BrickGame::BrickGame()
 	
 	SaveManager::readSave(windowScale, framerateControl, *device);
 
+	bgRenderer->setBackground(device->getCurrentBG());
+
 	initSystem();
 
 	configElements();
@@ -41,11 +43,16 @@ void BrickGame::run()
 {
 	SDL_Event ev;
 
-	int gameLoopStartTicks = 0;
-	int gameLoopEndTicks = 0;
-
 	while (!quitting)
 	{
+		if (doReset)
+		{
+			doReset = false;
+			gameState->nextState = GS_MENU;
+			device->paused = false;
+			device->reset();
+		}
+
 		gameLoopStartTicks = SDL_GetTicks();
 
 		if (gameState->nextState != GS_NONE)
@@ -56,6 +63,11 @@ void BrickGame::run()
 		while (SDL_PollEvent(&ev) != 0)
 		{
 			processEvent(ev);
+		}
+
+		if (doReset)
+		{
+			continue;
 		}
 
 		if (!isMinimized)
@@ -69,24 +81,15 @@ void BrickGame::run()
 				gameState->postEvents(*device);
 			}
 
+			render();
 
-			render(gameLoopStartTicks);
 			deviceTick();
 
 			gameLoopEndTicks = SDL_GetTicks();
 
 		}
 
-		updateWindowTitle(gameLoopStartTicks, gameLoopEndTicks);
-
-		if (doReset)
-		{
-			doReset = false;
-			gameState->nextState = GS_MENU;
-			device->paused = false;
-			device->screen.paused = false;
-			device->reset();
-		}
+		updateWindowTitle();
 	}
 
 	try
@@ -105,7 +108,7 @@ void BrickGame::run()
 	
 }
 
-void BrickGame::updateWindowTitle(int gameLoopStartTicks, int gameLoopEndTicks)
+void BrickGame::updateWindowTitle()
 {
 	// form window title
 	char title[255];

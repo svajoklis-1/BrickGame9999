@@ -38,6 +38,9 @@ private:
 	bool devicePausedExternally = false;
 	bool previousPauseState = false;
 
+	int gameLoopStartTicks = 0;
+	int gameLoopEndTicks = 0;
+
 	// SDL resource handles
 
 	SDL_Window *w;
@@ -46,7 +49,7 @@ private:
 
 	int windowScale = 1;
 	void setWindowScale(int scale);
-	void updateWindowTitle(int gameLoopStartTicks, int gameLoopEndTicks);
+	void updateWindowTitle();
 
 	// 0 - nothing, 1 - limit to 250, 2 - vsync
 	enum frControl
@@ -78,7 +81,7 @@ private:
 
 	// Utilities for actuating virtual device
 
-	void render(int ticksBefore);
+	void render();
 
 	BackgroundRenderer *bgRenderer;
 	ScreenRenderer *scRenderer;

@@ -23,7 +23,6 @@ enum Key
 	KEY_ACTION,
 
 	KEY_START,
-	KEY_SOUND,
 	KEY_RESET,
 	KEY_TOTAL
 };

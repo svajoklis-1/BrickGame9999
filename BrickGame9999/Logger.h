@@ -29,8 +29,6 @@ public:
 
 	void logLabel(Logger::StatusLabel label);
 
-	void assrt(bool condition, const char *format, ...);
-
 	void setColor(Color c);
 	void setDefaultColor();
 

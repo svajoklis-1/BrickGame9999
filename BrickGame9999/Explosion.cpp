@@ -1,8 +1,9 @@
 #include "Explosion.h"
 
 Explosion::Explosion() :
-displayTicker(5)
+	displayTicker(5)
 {
+	explosionPosition = { 0, 0 };
 
 	frames[0] =
 		"*  *"

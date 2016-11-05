@@ -203,7 +203,6 @@ void GSRain::parseEvent(Device &dev, Key k, KeyState state)
 			break;
 
 		case KEY_START: break;
-		case KEY_SOUND: break;
 		case KEY_RESET: break;
 		case KEY_TOTAL: break;
 		default: break;
@@ -221,7 +220,6 @@ void GSRain::parseEvent(Device &dev, Key k, KeyState state)
 		case KEY_RIGHT: break;
 		case KEY_ACTION: break;
 		case KEY_START: break;
-		case KEY_SOUND: break;
 		case KEY_RESET: break;
 		case KEY_TOTAL: break;
 		default: break;

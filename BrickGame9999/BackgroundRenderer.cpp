@@ -1,4 +1,5 @@
 #include "BackgroundRenderer.h"
+#include "Global.h"
 
 BackgroundRenderer::BackgroundRenderer(SDL_Rect windowSize)
 {
@@ -6,10 +7,8 @@ BackgroundRenderer::BackgroundRenderer(SDL_Rect windowSize)
 	screenRect = { 0, 0, windowSize.w, windowSize.h };
 }
 
-void BackgroundRenderer::render(ResourceStore &res, int bgIndex)
+void BackgroundRenderer::render(ResourceStore &res)
 { 
-	setBackground(bgIndex);
-
 	SDL_RenderCopy(res.getRenderer(), res.img("bgs.png"), &currentBG, &screenRect);
 	SDL_RenderCopy(res.getRenderer(), res.img("screen.png"), &screenRect, &screenRect);
 }
@@ -17,7 +16,10 @@ void BackgroundRenderer::render(ResourceStore &res, int bgIndex)
 void BackgroundRenderer::setBackground(int i)
 {
 	if (i == currentBGIndex)
+	{
+		l.log(Logger::WARN, "Switching to the background that is currently selected");
 		return;
+	}
 
 	int column = i % 4;
 	int row = i / 4;

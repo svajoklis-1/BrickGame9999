@@ -14,10 +14,6 @@ public:
 
 	void clear();
 
-	// flag screen elements
-	bool sound = false;
-	bool paused = false;
-
 	// number displays
 	ScreenNumber score;
 	ScreenNumber highScore;
