@@ -8,7 +8,7 @@ SoundPlayer::SoundPlayer(ResourceStore *res)
 	this->res = res;
 
 	Mix_AllocateChannels(16);
-	Mix_Volume(-1, 86);
+	Mix_Volume(-1, 64);
 }
 
 void SoundPlayer::playSound(Sound sound)
