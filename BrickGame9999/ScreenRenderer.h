@@ -6,6 +6,8 @@
 #include "ResourceStore.h"
 #include "PixelArray.h"
 #include "Device.h"
+#include "PixelArrayRenderer.h"
+#include "ScreenNumber.h"
 
 class ScreenRenderer
 {
@@ -16,30 +18,10 @@ public:
 	void preDeviceRender();
 	void postDeviceRender();
 
-	class ScreenRenderHelper
-	{
-	public:
-		ScreenRenderHelper(int sizeX, int sizeY, int numShadows);
-		~ScreenRenderHelper();
-
-		void render(PixelArray &array, ResourceStore &res, string location, string item);
-
-		int sizeX, sizeY;
-
-		int numShadows;
-		bool **prevScreen;
-		bool *renderedScreen;
-
-		void pushPrevs();
-
-	private:
-		void renderArray(bool *data, int sizeX, int sizeY, ResourceStore &res, string location, string item, bool *renderMask, int opacity = 255);
-	};
-
 private:
-	void renderNum(Screen &screen, ResourceStore &res, int num, coord where, int width);
 	void renderItem(ResourceStore &res, string item);
+	void renderScreenNumber(ResourceStore &res, ScreenNumber &number, string locationId);
 
-	ScreenRenderHelper mainScreen;
-	ScreenRenderHelper hintScreen;
+	PixelArrayRenderer mainScreen;
+	PixelArrayRenderer hintScreen;
 };

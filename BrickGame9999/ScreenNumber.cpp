@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 
-#include <cstdio>
+#include "Global.h"
 
 ScreenNumber::ScreenNumber(int width, int initVal)
 {
@@ -121,96 +121,6 @@ void ScreenNumber::setNumber(int val)
 		segments[currentSegment] = CENTER;
 }
 
-void ScreenNumber::render(ResourceStore &res, coord where)
-{
-	SDL_Rect from = { 0, 0, res.item["digit"].w, res.item["digit"].h };
-	SDL_Rect to = { where.x, where.y, res.item["digit"].w, res.item["digit"].h };
-
-	SDL_Texture *segmentTex = res.img("segments.png");
-
-	for (int i = width - 1; i >= 0; i--)
-	{
-		if ((segments[i] & TOP) > 0)
-		{
-			from.x = 0 * res.item["digit"].w;
-
-			SDL_RenderCopy(
-				res.getRenderer(),
-				segmentTex,
-				&from,
-				&to);
-		}
-
-		if ((segments[i] & UPPER_RIGHT) > 0)
-		{
-			from.x = 1 * res.item["digit"].w;
-
-			SDL_RenderCopy(
-				res.getRenderer(),
-				segmentTex,
-				&from,
-				&to);
-		}
-
-		if ((segments[i] & UPPER_LEFT) > 0)
-		{
-			from.x = 2 * res.item["digit"].w;
-
-			SDL_RenderCopy(
-				res.getRenderer(),
-				segmentTex,
-				&from,
-				&to);
-		}
-
-		if ((segments[i] & CENTER) > 0)
-		{
-			from.x = 3 * res.item["digit"].w;
-
-			SDL_RenderCopy(
-				res.getRenderer(),
-				segmentTex,
-				&from,
-				&to);
-		}
-
-		if ((segments[i] & LOWER_RIGHT) > 0)
-		{
-			from.x = 4 * res.item["digit"].w;
-
-			SDL_RenderCopy(
-				res.getRenderer(),
-				segmentTex,
-				&from,
-				&to);
-		}
-
-		if ((segments[i] & LOWER_LEFT) > 0)
-		{
-			from.x = 5 * res.item["digit"].w;
-
-			SDL_RenderCopy(
-				res.getRenderer(),
-				segmentTex,
-				&from,
-				&to);
-		}
-
-		if ((segments[i] & BOTTOM) > 0)
-		{
-			from.x = 6 * res.item["digit"].w;
-
-			SDL_RenderCopy(
-				res.getRenderer(),
-				segmentTex,
-				&from,
-				&to);
-		}
-
-		to.x = to.x - res.item["digit"].w - 1;
-	}
-}
-
 ScreenNumber::~ScreenNumber()
 {
 	delete[] segments;
@@ -222,4 +132,20 @@ void ScreenNumber::setSegments(int *segments, int segmentCount)
 	{
 		this->segments[i] = segments[i];
 	}
+}
+
+int ScreenNumber::getSegment(int index) {
+
+	if (index < 0 || index >= width)
+	{
+		l.log(Logger::ASSERT, "Attempting to access screen number segment (%d), beyond array length (%d)", index, width);
+		return Segment::NONE;
+	}
+
+	return segments[index];
+}
+
+int ScreenNumber::getSegmentCount()
+{
+	return width;
 }

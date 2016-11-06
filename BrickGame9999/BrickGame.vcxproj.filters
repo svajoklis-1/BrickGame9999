@@ -11,9 +11,6 @@
     <Filter Include="Source files\Rendering">
       <UniqueIdentifier>{ee2bfa8a-96ac-4b74-9832-1f680e4e6246}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source files\Objects">
-      <UniqueIdentifier>{e7613a55-a1a3-41be-b6a4-aa40635ad3ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source files\GameStates\GSSnake">
       <UniqueIdentifier>{23588b26-bb81-4211-844e-9e3db7f86e51}</UniqueIdentifier>
     </Filter>
@@ -41,6 +38,9 @@
     <Filter Include="Source files\GameStates\GSSnake\Objects">
       <UniqueIdentifier>{b854812f-4966-4510-9cd2-e07c06a715a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\Device\Objects">
+      <UniqueIdentifier>{e7613a55-a1a3-41be-b6a4-aa40635ad3ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -65,7 +65,7 @@
       <Filter>Source files\Device</Filter>
     </ClCompile>
     <ClCompile Include="Explosion.cpp">
-      <Filter>Source files\Objects</Filter>
+      <Filter>Source files\Device\Objects</Filter>
     </ClCompile>
     <ClCompile Include="GSSnake.cpp">
       <Filter>Source files\GameStates\GSSnake</Filter>
@@ -127,6 +127,9 @@
     <ClCompile Include="GSSnake_Snake.cpp">
       <Filter>Source files\GameStates\GSSnake\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="PixelArrayRenderer.cpp">
+      <Filter>Source files\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -154,7 +157,7 @@
       <Filter>Source files\Device</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.h">
-      <Filter>Source files\Objects</Filter>
+      <Filter>Source files\Device\Objects</Filter>
     </ClInclude>
     <ClInclude Include="GSSnake.h">
       <Filter>Source files\GameStates\GSSnake</Filter>
@@ -200,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="GSSnake_Snake.h">
       <Filter>Source files\GameStates\GSSnake\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelArrayRenderer.h">
+      <Filter>Source files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

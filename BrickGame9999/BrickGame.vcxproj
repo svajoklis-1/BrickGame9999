@@ -136,6 +136,7 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PixelArray.cpp" />
+    <ClCompile Include="PixelArrayRenderer.cpp" />
     <ClCompile Include="ResourceStore.cpp" />
     <ClCompile Include="SaveManager.cpp" />
     <ClCompile Include="Screen.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Logger_types.h" />
     <ClInclude Include="PixelArray.h" />
+    <ClInclude Include="PixelArrayRenderer.h" />
     <ClInclude Include="ResourceStore.h" />
     <ClInclude Include="SaveManager.h" />
     <ClInclude Include="Screen.h" />

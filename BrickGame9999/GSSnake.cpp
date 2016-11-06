@@ -125,6 +125,7 @@ namespace GSSnake
 		// check for collision with food
 		if (snake.getHead() == food)
 		{
+			dev.speaker.playSound(Sound::SND_BOUNCE);
 			dev.score += 10;
 
 			genFood(dev.getLevel() % levelCount);
@@ -147,6 +148,7 @@ namespace GSSnake
 
 		if (movingOn)
 		{
+			dev.speaker.playSound(Sound::SND_EXPLODE);
 			explosion.setCoord(snake.getHead());
 			gameTick = 0;
 			stateSegment++;
