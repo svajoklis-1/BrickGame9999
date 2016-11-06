@@ -209,3 +209,5 @@ BrickGame9999.VC.db
 
 # Ignore SDL
 SDL/
+
+*.i-*
