@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Global.h"
-#include "Device.h"
+#include "Global.hpp"
+#include "Device.hpp"
 
 class GameState
 {

@@ -60,5 +60,5 @@ private:
 
 };
 
-#include "Logger_types.h"
+#include "Logger_types.hpp"
 

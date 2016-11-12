@@ -1,8 +1,8 @@
-#include "ScreenRenderer.h"
+#include "ScreenRenderer.hpp"
 
 #include <cmath>
 
-#include "Global.h"
+#include "Global.hpp"
 
 ScreenRenderer::ScreenRenderer() :
 mainScreen(10, 20, 4),

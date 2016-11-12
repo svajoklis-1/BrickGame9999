@@ -1,4 +1,4 @@
-#include "GSRain.h"
+#include "GSRain.hpp"
 
 #include <cstdlib>
 #include <ctime>

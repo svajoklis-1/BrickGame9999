@@ -2,8 +2,8 @@
 
 /* SDL dependent sound player */
 
-#include "Types.h"
-#include "ResourceStore.h"
+#include "Types.hpp"
+#include "ResourceStore.hpp"
 
 class SoundPlayer 
 {

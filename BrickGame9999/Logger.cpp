@@ -1,4 +1,4 @@
-#include "Logger.h"
+#include "Logger.hpp"
 #include <time.h>
 #include <cstring>
 
@@ -233,6 +233,9 @@ const char *Logger::labelToStr(Logger::StatusLabel label)
 		break;
 	case FAIL:
 		return "FAIL";
+		break;
+	default:
+		return "UNDEF";
 		break;
 	}
 }

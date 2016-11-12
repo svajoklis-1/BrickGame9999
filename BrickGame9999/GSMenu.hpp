@@ -1,10 +1,10 @@
 #pragma once
 
-#include "GameState.h"
-#include "Ticker.h"
+#include "GameState.hpp"
+#include "Ticker.hpp"
 
 #include <string>
-#include "Explosion.h"
+#include "Explosion.hpp"
 
 using namespace std;
 

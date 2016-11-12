@@ -1,4 +1,4 @@
-#include "BrickGame.h"
+#include "BrickGame.hpp"
 
 #include <SDL_image.h>
 #include <SDL_mixer.h>

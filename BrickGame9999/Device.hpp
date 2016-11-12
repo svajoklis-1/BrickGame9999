@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Screen.h"
-#include "Speaker.h"
+#include "Screen.hpp"
+#include "Speaker.hpp"
 
 #include <map>
 using namespace std;

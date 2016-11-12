@@ -1,4 +1,4 @@
-#include "PixelArrayRenderer.h"
+#include "PixelArrayRenderer.hpp"
 
 void PixelArrayRenderer::renderArray(bool *data, int dataSizeX, int dataSizeY, ResourceStore &res, string location, string item, bool * /*renderMask*/, int opacity)
 {

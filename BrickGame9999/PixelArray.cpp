@@ -1,5 +1,5 @@
-#include "PixelArray.h"
-#include "Types.h"
+#include "PixelArray.hpp"
+#include "Types.hpp"
 
 
 PixelArray::PixelArray(int sizeX, int sizeY) :

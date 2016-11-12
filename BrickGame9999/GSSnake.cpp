@@ -1,4 +1,4 @@
-#include "GSSnake.h"
+#include "GSSnake.hpp"
 
 #include <iostream>
 using namespace std;

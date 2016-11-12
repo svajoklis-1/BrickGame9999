@@ -1,4 +1,4 @@
-#include "Explosion.h"
+#include "Explosion.hpp"
 
 Explosion::Explosion() :
 	displayTicker(5)

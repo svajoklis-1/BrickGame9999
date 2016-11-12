@@ -1,7 +1,7 @@
-#include "GSSnake_snake.h"
+#include "GSSnake_snake.hpp"
 
-#include "Global.h"
-#include "Ticker.h"
+#include "Global.hpp"
+#include "Ticker.hpp"
 
 namespace GSSnake
 {

@@ -1,4 +1,4 @@
-#include "Device.h"
+#include "Device.hpp"
 
 Device::Device(SoundPlayer *soundPlayer) :
 	speaker(soundPlayer)

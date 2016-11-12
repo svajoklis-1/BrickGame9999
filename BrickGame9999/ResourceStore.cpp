@@ -1,7 +1,7 @@
-#include "ResourceStore.h"
+#include "ResourceStore.hpp"
 #include <SDL_image.h>
 
-#include "Global.h"
+#include "Global.hpp"
 
 void ResourceStore::setWindow(SDL_Window *w)
 {

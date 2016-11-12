@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Types.h"
-#include "Ticker.h"
-#include "Device.h"
+#include "Types.hpp"
+#include "Ticker.hpp"
+#include "Device.hpp"
 
 namespace GSSnake
 {

@@ -2,12 +2,12 @@
 
 /* SDL dependent screen renderer that is able to render a device Screen to screen */
 
-#include "Screen.h"
-#include "ResourceStore.h"
-#include "PixelArray.h"
-#include "Device.h"
-#include "PixelArrayRenderer.h"
-#include "ScreenNumber.h"
+#include "Screen.hpp"
+#include "ResourceStore.hpp"
+#include "PixelArray.hpp"
+#include "Device.hpp"
+#include "PixelArrayRenderer.hpp"
+#include "ScreenNumber.hpp"
 
 class ScreenRenderer
 {

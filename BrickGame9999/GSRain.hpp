@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GameState.h"
-#include "Ticker.h"
+#include "GameState.hpp"
+#include "Ticker.hpp"
 
 class GSRain : public GameState
 {

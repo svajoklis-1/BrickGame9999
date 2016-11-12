@@ -1,4 +1,4 @@
-#include "GSGameOver.h"
+#include "GSGameOver.hpp"
 
 GSGameOver::GSGameOver(Device &dev, GameStates nextState) :
 stateAfter(nextState),

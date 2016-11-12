@@ -1,9 +1,9 @@
-#include "BrickGame.h"
+#include "BrickGame.hpp"
 
-#include "GSMenu.h"
+#include "GSMenu.hpp"
 
-#include "SaveManager.h"
-#include "Global.h"
+#include "SaveManager.hpp"
+#include "Global.hpp"
 
 #include <iostream>
 

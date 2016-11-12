@@ -138,80 +138,80 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameState.h">
-      <Filter>Source files\GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="Global.h">
-      <Filter>Source files</Filter>
-    </ClInclude>
-    <ClInclude Include="BackgroundRenderer.h">
-      <Filter>Source files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="ScreenRenderer.h">
-      <Filter>Source files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceStore.h">
-      <Filter>Source files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Device.h">
-      <Filter>Source files\Device</Filter>
-    </ClInclude>
-    <ClInclude Include="ScreenNumber.h">
-      <Filter>Source files\Device</Filter>
-    </ClInclude>
-    <ClInclude Include="Screen.h">
-      <Filter>Source files\Device</Filter>
-    </ClInclude>
-    <ClInclude Include="Explosion.h">
+    <ClInclude Include="Explosion.hpp">
       <Filter>Source files\Device\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="GSSnake.h">
-      <Filter>Source files\GameStates\GSSnake</Filter>
+    <ClInclude Include="Device.hpp">
+      <Filter>Source files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="GSMenu.h">
-      <Filter>Source files\GameStates\GSMenu</Filter>
+    <ClInclude Include="PixelArray.hpp">
+      <Filter>Source files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="GSGameOver.h">
-      <Filter>Source files\GameStates\GSGameOver</Filter>
+    <ClInclude Include="Screen.hpp">
+      <Filter>Source files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="GSArkanoid.h">
+    <ClInclude Include="ScreenNumber.hpp">
+      <Filter>Source files\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Speaker.hpp">
+      <Filter>Source files\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="GSArkanoid.hpp">
       <Filter>Source files\GameStates\GSArkanoid</Filter>
     </ClInclude>
-    <ClInclude Include="GSRain.h">
+    <ClInclude Include="GSGameOver.hpp">
+      <Filter>Source files\GameStates\GSGameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="GSMenu.hpp">
+      <Filter>Source files\GameStates\GSMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="GSRain.hpp">
       <Filter>Source files\GameStates\GSRain</Filter>
     </ClInclude>
-    <ClInclude Include="Speaker.h">
-      <Filter>Source files\Device</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundPlayer.h">
-      <Filter>Source files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Ticker.h">
-      <Filter>Source files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="SaveManager.h">
-      <Filter>Source files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>Source files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="BrickGame.h">
-      <Filter>Source files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Types.h">
-      <Filter>Source files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="PixelArray.h">
-      <Filter>Source files\Device</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger_types.h">
-      <Filter>Source files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="GSSnake_Snake.h">
+    <ClInclude Include="GSSnake_Snake.hpp">
       <Filter>Source files\GameStates\GSSnake\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="PixelArrayRenderer.h">
+    <ClInclude Include="GSSnake.hpp">
+      <Filter>Source files\GameStates\GSSnake</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.hpp">
+      <Filter>Source files\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundRenderer.hpp">
       <Filter>Source files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelArrayRenderer.hpp">
+      <Filter>Source files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceStore.hpp">
+      <Filter>Source files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenRenderer.hpp">
+      <Filter>Source files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundPlayer.hpp">
+      <Filter>Source files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickGame.hpp">
+      <Filter>Source files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.hpp">
+      <Filter>Source files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.hpp">
+      <Filter>Source files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger_types.hpp">
+      <Filter>Source files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveManager.hpp">
+      <Filter>Source files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Ticker.hpp">
+      <Filter>Source files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.hpp">
+      <Filter>Source files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

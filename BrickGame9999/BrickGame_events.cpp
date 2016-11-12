@@ -1,5 +1,5 @@
-#include "BrickGame.h"
-#include "GSMenu.h"
+#include "BrickGame.hpp"
+#include "GSMenu.hpp"
 
 void BrickGame::processEvent(SDL_Event &ev)
 {

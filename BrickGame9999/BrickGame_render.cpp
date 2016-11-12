@@ -1,4 +1,4 @@
-#include "BrickGame.h"
+#include "BrickGame.hpp"
 
 void BrickGame::render()
 {

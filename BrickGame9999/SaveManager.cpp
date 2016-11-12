@@ -5,8 +5,8 @@
 using namespace std;
 namespace pt = boost::property_tree;
 
-#include "SaveManager.h"
-#include "Global.h"
+#include "SaveManager.hpp"
+#include "Global.hpp"
 
 void SaveManager::readSave(int &windowScale, int &framerateControl, Device &device)
 {

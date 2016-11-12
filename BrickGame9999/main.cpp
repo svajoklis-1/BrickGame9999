@@ -3,9 +3,9 @@
 
 using namespace std;
 
-#include "BrickGame.h"
-#include "Logger.h"
-#include "Global.h"
+#include "BrickGame.hpp"
+#include "Logger.hpp"
+#include "Global.hpp"
 
 // main file for the program, runs Tetris
 // catches all string exceptions

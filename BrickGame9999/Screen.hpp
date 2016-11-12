@@ -2,9 +2,9 @@
 
 /* Screen that holds pixel arrays, various other screen elements */
 
-#include "Types.h"
-#include "ScreenNumber.h"
-#include "PixelArray.h"
+#include "Types.hpp"
+#include "ScreenNumber.hpp"
+#include "PixelArray.hpp"
 
 class Screen
 {

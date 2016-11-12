@@ -1,4 +1,4 @@
-#include "Speaker.h"
+#include "Speaker.hpp"
 
 Speaker::Speaker(SoundPlayer *soundPlayer)
 {

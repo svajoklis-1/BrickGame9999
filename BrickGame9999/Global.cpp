@@ -1,3 +1,3 @@
-#include "Global.h"
+#include "Global.hpp"
 
 Logger l;

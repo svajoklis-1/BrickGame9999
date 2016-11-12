@@ -1,4 +1,4 @@
-#include "GSArkanoid.h"
+#include "GSArkanoid.hpp"
 
 string GSArkanoid::currentLevel;
 int GSArkanoid::currentCount;

@@ -1,5 +1,5 @@
-#include "SoundPlayer.h"
-#include "Global.h"
+#include "SoundPlayer.hpp"
+#include "Global.hpp"
 
 #include <iostream>
 

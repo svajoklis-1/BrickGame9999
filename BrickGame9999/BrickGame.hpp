@@ -4,12 +4,12 @@
 
 // Main class of the simulator
 
-#include "ResourceStore.h"
-#include "BackgroundRenderer.h"
-#include "ScreenRenderer.h"
-#include "Device.h"
-#include "GameState.h"
-#include "Ticker.h"
+#include "ResourceStore.hpp"
+#include "BackgroundRenderer.hpp"
+#include "ScreenRenderer.hpp"
+#include "Device.hpp"
+#include "GameState.hpp"
+#include "Ticker.hpp"
 
 class BrickGame
 {

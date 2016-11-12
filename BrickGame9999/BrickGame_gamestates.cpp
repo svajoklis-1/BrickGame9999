@@ -1,10 +1,10 @@
-#include "BrickGame.h"
+#include "BrickGame.hpp"
 
-#include "GSRain.h"
-#include "GSMenu.h"
-#include "GSSnake.h"
-#include "GSArkanoid.h"
-#include "GSGameOver.h"
+#include "GSRain.hpp"
+#include "GSMenu.hpp"
+#include "GSSnake.hpp"
+#include "GSArkanoid.hpp"
+#include "GSGameOver.hpp"
 
 void BrickGame::handleNextGameState(GameStates nextState)
 {

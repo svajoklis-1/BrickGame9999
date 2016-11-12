@@ -4,7 +4,7 @@
 #include <map>
 #include <SDL_mixer.h>
 
-#include "Types.h"
+#include "Types.hpp"
 
 using namespace std;
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Types.h"
-#include "Device.h"
-#include "Ticker.h"
+#include "Types.hpp"
+#include "Device.hpp"
+#include "Ticker.hpp"
 
 class Explosion
 {

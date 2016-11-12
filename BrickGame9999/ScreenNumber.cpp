@@ -1,8 +1,8 @@
-#include "ScreenNumber.h"
+#include "ScreenNumber.hpp"
 
 #include <SDL.h>
 
-#include "Global.h"
+#include "Global.hpp"
 
 ScreenNumber::ScreenNumber(int width, int initVal)
 {

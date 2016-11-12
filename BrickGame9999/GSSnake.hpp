@@ -1,9 +1,9 @@
 #pragma once
 
-#include "GameState.h"
-#include "Ticker.h"
-#include "Explosion.h"
-#include "GSSnake_snake.h"
+#include "GameState.hpp"
+#include "Ticker.hpp"
+#include "Explosion.hpp"
+#include "GSSnake_snake.hpp"
 
 using namespace std;
 

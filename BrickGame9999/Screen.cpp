@@ -1,4 +1,4 @@
-#include "Screen.h"
+#include "Screen.hpp"
 
 Screen::Screen() :
 score(6),

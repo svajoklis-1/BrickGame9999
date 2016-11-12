@@ -1,7 +1,7 @@
 #pragma once
 
-#include "PixelArray.h"
-#include "ResourceStore.h"
+#include "PixelArray.hpp"
+#include "ResourceStore.hpp"
 #include <string>
 using namespace std;
 

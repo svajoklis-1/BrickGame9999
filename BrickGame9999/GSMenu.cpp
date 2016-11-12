@@ -1,4 +1,4 @@
-#include "GSMenu.h"
+#include "GSMenu.hpp"
 
 int GSMenu::currentL = 0;
 

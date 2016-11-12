@@ -1,4 +1,4 @@
-#include "Ticker.h"
+#include "Ticker.hpp"
 
 Ticker::Ticker(int length)
 {

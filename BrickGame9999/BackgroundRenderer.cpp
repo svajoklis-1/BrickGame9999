@@ -1,5 +1,5 @@
-#include "BackgroundRenderer.h"
-#include "Global.h"
+#include "BackgroundRenderer.hpp"
+#include "Global.hpp"
 
 BackgroundRenderer::BackgroundRenderer(SDL_Rect windowSize)
 {

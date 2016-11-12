@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ResourceStore.h"
+#include "ResourceStore.hpp"
 
 class BackgroundRenderer
 {

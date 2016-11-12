@@ -2,8 +2,8 @@
 
 /* A device Speaker that is able to play sounds. Delegates actual sound playing to a SoundPlayer class */
 
-#include "Types.h"
-#include "SoundPlayer.h"
+#include "Types.hpp"
+#include "SoundPlayer.hpp"
 
 class Speaker
 {

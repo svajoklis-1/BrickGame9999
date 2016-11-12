@@ -1,6 +1,6 @@
-#include "GameState.h"
-#include "Ticker.h"
-#include "Explosion.h"
+#include "GameState.hpp"
+#include "Ticker.hpp"
+#include "Explosion.hpp"
 
 enum GSArkanoidVariant
 {

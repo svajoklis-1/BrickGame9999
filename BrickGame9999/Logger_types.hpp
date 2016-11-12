@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Logger.h"
+#include "Logger.hpp"
 
 enum Logger::Tag
 {
