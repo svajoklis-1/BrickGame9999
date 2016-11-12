@@ -6,8 +6,8 @@
 
 using namespace std;
 
-const bool ON = true;
-const bool OFF = false;
+const bool PXARRAY_ON = true;
+const bool PXARRAY_OFF = false;
 
 class PixelArray
 {

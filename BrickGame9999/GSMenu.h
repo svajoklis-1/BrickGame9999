@@ -32,6 +32,8 @@ private:
 
 	void defineGraphics();
 
+	int stage = 0;
+
 	// numbers
 	string numbers[10];
 	int numCount = 10;

@@ -115,7 +115,7 @@ void BrickGame::updateWindowTitle()
 
 	if (isMinimized)
 	{
-		sprintf_s(title, "BrickGame-9999");
+		sprintf_s(title, "BrickGame-9999 (paused)");
 	}
 	else
 	{

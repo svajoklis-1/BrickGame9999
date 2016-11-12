@@ -14,9 +14,6 @@ public:
 	Speaker speaker;
 
 	void reset();
-	
-	// from main menu
-	int stage = 0;
 
 	int getLevel() { return level; };
 	int getSpeed() { return speed; };

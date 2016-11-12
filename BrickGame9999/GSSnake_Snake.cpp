@@ -160,7 +160,7 @@ namespace GSSnake
 		for (int i = 0; i < length; i++)
 		{
 			if (i != 0 || snakeHeadBlinkTicker.getState(2) == true || speeding)
-				dev.screen.mainArray.setPixel(segments[i], ON);
+				dev.screen.mainArray.setPixel(segments[i], PXARRAY_ON);
 		}
 
 		// display tick

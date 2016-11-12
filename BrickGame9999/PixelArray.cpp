@@ -21,7 +21,7 @@ void PixelArray::clear()
 	{
 		for (int j = 0; j < sizeY; j++)
 		{
-			setPixel(i, j, OFF);
+			setPixel(i, j, PXARRAY_OFF);
 		}
 	}
 }
@@ -60,7 +60,7 @@ void PixelArray::fillLines(int from, int to)
 	{
 		for (int x = 0; x < sizeX; x++)
 		{
-			pixels[i*sizeX + x] = ON;
+			pixels[i*sizeX + x] = PXARRAY_ON;
 		}
 	}
 }
@@ -78,7 +78,7 @@ void PixelArray::setCount(int c)
 	int curX = 0, curY = 0;
 	while (c > 0)
 	{
-		setPixel(curX, curY, ON);
+		setPixel(curX, curY, PXARRAY_ON);
 		curX++;
 		if (curX == sizeX)
 		{
@@ -107,10 +107,10 @@ void PixelArray::copyString(int x, int y, string data, int w, int h, bool withWh
 		for (int j = (y >= 0 ? y : 0); (j < y + h) && (j < sizeY); j++)
 		{
 			if (data[(j - y) * w + (i - x)] != ' ')
-				pixels[j * sizeX + i] = ON;
+				pixels[j * sizeX + i] = PXARRAY_ON;
 
 			if (withWhitespace && data[(j - y) * w + (i - x)] == ' ')
-				pixels[j * sizeX + i] = OFF;
+				pixels[j * sizeX + i] = PXARRAY_OFF;
 		}
 	}
 }

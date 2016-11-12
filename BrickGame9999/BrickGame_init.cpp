@@ -110,8 +110,8 @@ void BrickGame::initDevice()
 {
 	device->screen.highScore.dash();
 	device->screen.score.dash();
-	device->screen.level.setLink(&device->stage);
-	device->screen.speed.setLink(&device->stage);
+	device->screen.level.setLink(&device->getLevelRef());
+	device->screen.speed.setLink(&device->getSpeedRef());
 }
 
 BrickGame::~BrickGame()

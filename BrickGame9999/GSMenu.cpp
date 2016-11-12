@@ -42,30 +42,30 @@ void GSMenu::parseEvent(Device &dev, Key k, KeyState state)
 		{
 		case KEY_LEFT:
 			dev.speaker.playSound(SND_BLIP);
-			speed--;
-			if (speed == -1)
-				speed = 9;
+			stage--;
+			if (stage < 0)
+				stage = 99;
 			break;
 
 		case KEY_RIGHT:
+			dev.speaker.playSound(SND_BLIP);
+			stage++;
+			if (stage > 99)
+				stage = 0;
+			break;
+
+		case KEY_UP:
 			dev.speaker.playSound(SND_BLIP);
 			speed++;
 			if (speed == 10)
 				speed = 0;
 			break;
 
-		case KEY_UP:
+		case KEY_DOWN:
 			dev.speaker.playSound(SND_BLIP);
 			level++;
 			if (level == 10)
 				level = 0;
-			break;
-
-		case KEY_DOWN:
-			dev.speaker.playSound(SND_BLIP);
-			level--;
-			if (level == -1)
-				level = 9;
 			break;
 
 		case KEY_ACTION:
@@ -92,16 +92,19 @@ void GSMenu::parseEvent(Device &dev, Key k, KeyState state)
 
 GameStates GSMenu::getSelectedState()
 {
-	if (currentL == R)
+	switch (currentL)
+	{
+	case R:
 		return GS_RAIN;
-	if (currentL == A)
+	case A:
 		return GS_SNAKE;
-	if (currentL == B)
+	case B:
 		return GS_SNAKEINF;
-	if (currentL == C)
+	case C:
 		return GS_ARKANOID;
-
-	return GS_NONE;
+	default:
+		return GS_NONE;
+	}
 }
 
 void GSMenu::tick(Device &/*dev*/)
@@ -194,7 +197,7 @@ void GSMenu::drawLetter(Device &dev)
 					}
 
 					if (letters[currentL][y * letterW + x] == '*')
-						dev.screen.mainArray.setPixel(actualX + letterX, actualY + letterY, ON);
+						dev.screen.mainArray.setPixel(actualX + letterX, actualY + letterY, PXARRAY_ON);
 				}
 			}
 			else
@@ -220,7 +223,7 @@ void GSMenu::drawLetter(Device &dev)
 					}
 
 					if (letters[currentL][y * letterW + x] == '*')
-						dev.screen.mainArray.setPixel(actualX + letterX, actualY + letterY, ON);
+						dev.screen.mainArray.setPixel(actualX + letterX, actualY + letterY, PXARRAY_ON);
 				}
 			}
 
@@ -234,7 +237,7 @@ void GSMenu::drawLetter(Device &dev)
 			for (int x = 0; x < letterW; x++)
 			{
 				if (letters[currentL][y * letterW + x] == '*')
-					dev.screen.mainArray.setPixel(x + letterX, y + letterY, ON);
+					dev.screen.mainArray.setPixel(x + letterX, y + letterY, PXARRAY_ON);
 			}
 
 		}
@@ -245,8 +248,8 @@ void GSMenu::drawNumber(Device& dev)
 {
 	int drawX = numberX + numberW + 1;
 
-	int tens = dev.stage / 10;
-	int singles = dev.stage % 10;
+	int tens = stage / 10;
+	int singles = stage % 10;
 
 	dev.screen.mainArray.copyString(drawX, numberY, numbers[singles], numberW, numberH);
 
@@ -279,277 +282,3 @@ GSMenu::~GSMenu()
 {
 }
 
-void GSMenu::defineGraphics()
-{
-	for (int i = 0; i < letterCount; i++)
-	{
-		letters[i] = "";
-	}
-
-	letters[A] =
-		"  *  "
-		" * * "
-		"*   *"
-		"*****"
-		"*   *";
-
-	letters[B] =
-		"**** "
-		"*   *"
-		"**** "
-		"*   *"
-		"**** ";
-
-	letters[C] =
-		" *** "
-		"*   *"
-		"*    "
-		"*   *"
-		" *** ";
-
-	letters[R] =
-		"**** "
-		" *  *"
-		" *  *"
-		"**** "
-		" *  *";
-
-	for (int i = 0; i < numCount; i++)
-	{
-		numbers[i] = "";
-	}
-
-	numbers[0] =
-		"***"
-		"* *"
-		"* *"
-		"* *"
-		"***";
-
-	numbers[1] =
-		" * "
-		"** "
-		" * "
-		" * "
-		"***";
-
-	numbers[2] =
-		"***"
-		"  *"
-		"***"
-		"*  "
-		"***";
-
-	numbers[3] =
-		"***"
-		"  *"
-		"***"
-		"  *"
-		"***";
-
-	numbers[4] =
-		"* *"
-		"* *"
-		"***"
-		"  *"
-		"  *";
-
-	numbers[5] =
-		"***"
-		"*  "
-		"***"
-		"  *"
-		"***";
-
-	numbers[6] =
-		"***"
-		"*  "
-		"***"
-		"* *"
-		"***";
-
-	numbers[7] =
-		"***"
-		"  *"
-		"  *"
-		" * "
-		" * ";
-
-	numbers[8] =
-		"***"
-		"* *"
-		"***"
-		"* *"
-		"***";
-
-	numbers[9] =
-		"***"
-		"* *"
-		"***"
-		"  *"
-		"***";
-
-
-	anims[A][0] =
-		"        "
-		"    *   "
-		"        "
-		"        "
-		"   *    "
-		"   *    "
-		" ***    "
-		"*****   ";
-
-	anims[A][1] =
-		"        "
-		"    *   "
-		"        "
-		"        "
-		"   **   "
-		"   **   "
-		" ****   "
-		"   **   ";
-
-	anims[A][2] =
-		"        "
-		"   **   "
-		"    *   "
-		"    *   "
-		"   **   "
-		"   **   "
-		" ***    "
-		"        ";
-
-	anims[A][3] =
-		"        "
-		" ****   "
-		" *  *   "
-		"        "
-		"   *    "
-		"   *    "
-		" ***    "
-		"        ";
-
-
-
-	anims[B][0] =
-		"        "
-		"    *   "
-		"        "
-		"        "
-		"        "
-		"        "
-		"        "
-		"*****   ";
-
-	anims[B][1] =
-		"        "
-		"    *   "
-		"        "
-		"        "
-		"    *   "
-		"    *   "
-		"    *   "
-		"   **   ";
-
-	anims[B][2] =
-		"        "
-		"   **   "
-		"    *   "
-		"    *   "
-		"    *   "
-		"    *   "
-		"        "
-		"        ";
-	
-	anims[B][3] =
-		"        "
-		"   **   "
-		"   **   "
-		"   *    "
-		"   *    "
-		"        "
-		"        "
-		"        ";
-
-	anims[C][0] =
-		"        "
-		" ****** "
-		" ****** "
-		" ****** "
-		"        "
-		"        "
-		"   *    "
-		" ****   ";
-
-	anims[C][1] =
-		"        "
-		" ****** "
-		" ****** "
-		" **** * "
-		"     *  "
-		"        "
-		"        "
-		"  ****  ";
-
-	anims[C][2] =
-		"        "
-		" ****** "
-		" ****** "
-		" **** * "
-		"        "
-		"        "
-		"       *"
-		"    ****";
-
-	anims[C][3] =
-		"        "
-		" ****** "
-		" ****** "
-		" **** * "
-		"     *  "
-		"        "
-		"        "
-		"    ****";
-
-
-	anims[R][0] =
-		"  *   * "
-		" *  *   "
-		"   *    "
-		" *   *  "
-		"  *     "
-		"     *  "
-		"   *    "
-		" *    * ";
-
-	anims[R][1] =
-		"     *  "
-		"*  *   *"
-		"  *  *  "
-		"*   *   "
-		"  *   * "
-		"   *    "
-		"*     * "
-		"    *   ";
-
-	anims[R][2] =
-		"  *  *  "
-		"      * "
-		" *  *   "
-		"   *  * "
-		" *   *  "
-		"   *   *"
-		"*   *   "
-		" *     *";
-
-	anims[R][3] =
-		"*    *  "
-		"   *  * "
-		"*      *"
-		"  *  *  "
-		"    *  *"
-		"  *   * "
-		"*   *   "
-		" *   *  ";
-}

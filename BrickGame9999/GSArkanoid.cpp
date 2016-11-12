@@ -7,6 +7,7 @@ GSArkanoid::GSArkanoid(Device &dev, GSArkanoidVariant variant)
 {
 	pauseTicker.setLength(60);
 	paddleTicker.setLength(4);
+	currentVariant = variant;
 
 	switch(variant)
 	{
@@ -113,6 +114,8 @@ void GSArkanoid::tickGame(Device &dev)
 			ballDY = -ballDY;
 
 			slid = true;
+
+			dev.speaker.playSound(SND_BOUNCE);
 		}
 
 		paddleX += paddleDX;
@@ -131,9 +134,14 @@ void GSArkanoid::tickGame(Device &dev)
 			dev.speaker.playSound(SND_BOUNCE);
 			ballX += paddleDX;
 			if (ballX < 0)
+			{
 				ballX = 0;
-			else if (ballX >= 10)
+			}
+			else
+			if (ballX >= 10)
+			{
 				ballX = 9;
+			}
 
 			ballDY = -ballDY;
 
@@ -142,9 +150,13 @@ void GSArkanoid::tickGame(Device &dev)
 		else
 		{
 			if (ballX == 9 || ballX == 0)
+			{
 				ballDX = -ballDX;
+			}
 			if (ballY == 0 || ballY == 19)
+			{
 				ballDY = -ballDY;
+			}
 
 			// hit detection with paddle
 			// block below
@@ -171,6 +183,8 @@ void GSArkanoid::tickGame(Device &dev)
 			int newBallDX = ballDX;
 			int newBallDY = ballDY;
 
+			bool clearedBlock = false;
+
 			do
 			{
 				ballDX = newBallDX;
@@ -187,6 +201,7 @@ void GSArkanoid::tickGame(Device &dev)
 					dev.increaseScore(10, highScoreLetter);
 					newBallDY = -ballDY;
 					collidedWithLevel = true;
+					clearedBlock = true;
 				}
 
 				if (currentLevel[(ballY)* 10 + ballX + ballDX] != ' ')
@@ -196,6 +211,7 @@ void GSArkanoid::tickGame(Device &dev)
 					dev.increaseScore(10, highScoreLetter);
 					newBallDX = -ballDX;
 					collidedWithLevel = true;
+					clearedBlock = true;
 				}
 
 				// only collide diagonally if clear on vertical/horizontal
@@ -208,13 +224,14 @@ void GSArkanoid::tickGame(Device &dev)
 					newBallDY = -ballDY;
 					newBallDX = -ballDX;
 					collidedWithLevel = true;
-				}
-
-				if (collidedWithLevel) {
-					dev.speaker.playSound(SND_BLIP);
+					clearedBlock = true;
 				}
 
 			} while (newBallDX != ballDX || newBallDY != ballDY);
+
+			if (clearedBlock) {
+				dev.speaker.playSound(SND_BLIP);
+			}
 
 			ballDX = newBallDX;
 			ballDY = newBallDY;
@@ -368,7 +385,7 @@ void GSArkanoid::renderGame(Device& dev)
 
 	dev.screen.mainArray.copyString(paddleX, 20 - 1, paddle, paddleW, 1);
 
-	dev.screen.mainArray.setPixel(ballX, ballY, ON);
+	dev.screen.mainArray.setPixel(ballX, ballY, PXARRAY_ON);
 
 	dev.screen.mainArray.copyString(0, 0, currentLevel, 10, 20);
 }

@@ -130,6 +130,12 @@
     <ClCompile Include="PixelArrayRenderer.cpp">
       <Filter>Source files\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Ticker.cpp">
+      <Filter>Source files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GSMenu_graphics.cpp">
+      <Filter>Source files\GameStates\GSMenu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">

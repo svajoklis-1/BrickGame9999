@@ -137,36 +137,36 @@ void GSRain::render(Device &dev)
 	{
 		if (this->drops[i])
 		{
-			dev.screen.mainArray.setPixel(i % 10, i / 10, ON);
+			dev.screen.mainArray.setPixel(i % 10, i / 10, PXARRAY_ON);
 		}
 	}
 
 	// do hint
 	if ((this->ticks / 20) % 2 == 0)
 	{
-		dev.screen.hintArray.setPixel(0, 0, ON);
-		dev.screen.hintArray.setPixel(3, 0, ON);
+		dev.screen.hintArray.setPixel(0, 0, PXARRAY_ON);
+		dev.screen.hintArray.setPixel(3, 0, PXARRAY_ON);
 
-		dev.screen.hintArray.setPixel(1, 1, ON);
-		dev.screen.hintArray.setPixel(2, 1, ON);
-		dev.screen.hintArray.setPixel(1, 2, ON);
-		dev.screen.hintArray.setPixel(2, 2, ON);
+		dev.screen.hintArray.setPixel(1, 1, PXARRAY_ON);
+		dev.screen.hintArray.setPixel(2, 1, PXARRAY_ON);
+		dev.screen.hintArray.setPixel(1, 2, PXARRAY_ON);
+		dev.screen.hintArray.setPixel(2, 2, PXARRAY_ON);
 
-		dev.screen.hintArray.setPixel(0, 3, ON);
-		dev.screen.hintArray.setPixel(3, 3, ON);
+		dev.screen.hintArray.setPixel(0, 3, PXARRAY_ON);
+		dev.screen.hintArray.setPixel(3, 3, PXARRAY_ON);
 	}
 	else
 	{
-		dev.screen.hintArray.setPixel(1, 0, ON);
-		dev.screen.hintArray.setPixel(2, 0, ON);
+		dev.screen.hintArray.setPixel(1, 0, PXARRAY_ON);
+		dev.screen.hintArray.setPixel(2, 0, PXARRAY_ON);
 
-		dev.screen.hintArray.setPixel(0, 1, ON);
-		dev.screen.hintArray.setPixel(3, 1, ON);
-		dev.screen.hintArray.setPixel(0, 2, ON);
-		dev.screen.hintArray.setPixel(3, 2, ON);
+		dev.screen.hintArray.setPixel(0, 1, PXARRAY_ON);
+		dev.screen.hintArray.setPixel(3, 1, PXARRAY_ON);
+		dev.screen.hintArray.setPixel(0, 2, PXARRAY_ON);
+		dev.screen.hintArray.setPixel(3, 2, PXARRAY_ON);
 
-		dev.screen.hintArray.setPixel(1, 3, ON);
-		dev.screen.hintArray.setPixel(2, 3, ON);
+		dev.screen.hintArray.setPixel(1, 3, PXARRAY_ON);
+		dev.screen.hintArray.setPixel(2, 3, PXARRAY_ON);
 	}
 }
 

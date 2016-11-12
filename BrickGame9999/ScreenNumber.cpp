@@ -149,3 +149,20 @@ int ScreenNumber::getSegmentCount()
 {
 	return width;
 }
+
+void ScreenNumber::setLink(int *value)
+{ 
+	this->link = value;
+}
+
+void ScreenNumber::setLinked()
+{
+	if (link)
+	{
+		setNumber(*link);
+	}
+	else
+	{
+		setNumber(0);
+	}
+}

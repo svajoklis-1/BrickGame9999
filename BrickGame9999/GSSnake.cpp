@@ -260,7 +260,7 @@ namespace GSSnake
 
 		if (foodTicker.getState(2) == true)
 		{
-			dev.screen.mainArray.setPixel(food, ON);
+			dev.screen.mainArray.setPixel(food, PXARRAY_ON);
 		}
 
 		foodTicker.tick();

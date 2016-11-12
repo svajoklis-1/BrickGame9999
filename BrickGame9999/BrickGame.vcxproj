@@ -129,6 +129,7 @@
     <ClCompile Include="GSArkanoid.cpp" />
     <ClCompile Include="GSGameOver.cpp" />
     <ClCompile Include="GSMenu.cpp" />
+    <ClCompile Include="GSMenu_graphics.cpp" />
     <ClCompile Include="GSRain.cpp" />
     <ClCompile Include="GSSnake.cpp" />
     <ClCompile Include="GSSnake_levels.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="BrickGame.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
     <ClCompile Include="Speaker.cpp" />
+    <ClCompile Include="Ticker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackgroundRenderer.h" />

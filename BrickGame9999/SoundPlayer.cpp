@@ -13,7 +13,6 @@ SoundPlayer::SoundPlayer(ResourceStore *res)
 
 void SoundPlayer::playSound(Sound sound)
 {
-	l.log("Playing sound [%d]", sound);
 	switch (sound)
 	{
 	case SND_BLIP:
