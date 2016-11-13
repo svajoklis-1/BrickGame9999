@@ -49,25 +49,25 @@ Default save data is located in saveData2.ini. Use saveDataRestore.bat or just d
 
 ### Set up include files
 
-* In your '{VisualStudio}\VC\include\' folder create a folder named SDL2
-* Add contents of include/ folders from: SDL devel VC 2.0.X, SDL_Image devel VC 2.0.1, SDL_Mixer devel VC 2.0.1
+* In your `{VisualStudio}\VC\include\` folder create a folder named SDL2
+* Add contents of `include/` folders from: SDL devel VC 2.0.X, SDL_Image devel VC 2.0.1, SDL_Mixer devel VC 2.0.1
 
 This project requires foreach and property_tree libraries from Boost. These are header-only so no Boost package building is required.
 
-* In your '{VisualStudio}\VC\include\' folder create a folder named boost_1_62_0
-* Copy the boost\ folder from your Boost archive to the new folder
+* In your `{VisualStudio}\VC\include\` folder create a folder named boost_1_62_0
+* Copy the `boost\` folder from your Boost archive to the new folder
 
 ### Set up libraries
 
-* In your '{VisualStudio}\VC\lib' folder create a folder named SDL2
-* Add .lib files of lib/x86 from: SDL devel VC 2.0.X, SDL_Image devel VC 2.0.1, SDL_Mixer devel VC 2.0.1
+* In your `{VisualStudio}\VC\lib` folder create a folder named SDL2
+* Add .lib files of `lib\x86` from: SDL devel VC 2.0.X, SDL_Image devel VC 2.0.1, SDL_Mixer devel VC 2.0.1
 
 ### Set up dynamic libraries
 
 You have to add the following files to your {ProjectDir}\BrickGame9999 folder:
 
-* SDL2.dll from SDL devel VC 2.0.X\lib\x86
-* SDL2_image.dll from SDL_Image devel VC 2.0.1\lib\x86
-* libpng16-16.dll from SDL_Image devel VC 2.0.1\lib\x86
-* zlib.dll from SDL_Image devel VC 2.0.1\lib\x86
-* SDL2_Mixer.dll from SDL_Mixer devel VC 2.0.1\lib\x86
+* `SDL2.dll` from `SDL devel VC 2.0.X\lib\x86`
+* `SDL2_image.dll` from `SDL_Image devel VC 2.0.1\lib\x86`
+* `libpng16-16.dll` from `SDL_Image devel VC 2.0.1\lib\x86`
+* `zlib.dll` from `SDL_Image devel VC 2.0.1\lib\x86`
+* `SDL2_Mixer.dll` from `SDL_Mixer devel VC 2.0.1\lib\x86`
