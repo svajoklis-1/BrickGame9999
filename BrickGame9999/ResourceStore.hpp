@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SDL.h>
+#include <SDL2\SDL.h>
 #include <map>
-#include <SDL_mixer.h>
+#include <SDL2\SDL_mixer.h>
 
 #include "Types.hpp"
 

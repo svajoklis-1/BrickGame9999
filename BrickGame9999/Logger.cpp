@@ -13,6 +13,7 @@ Logger::Logger()
 
 bool Logger::preLog()
 {
+#ifdef DEBUG_9999
 	// check if tag is to be logged
 	if ((logged & currentTag) == 0)
 	{
@@ -28,6 +29,7 @@ bool Logger::preLog()
 	setDefaultColor();
 
 	return true;
+#endif
 }
 
 void Logger::log(const char *format, ...)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL.h>
+#include <SDL2\SDL.h>
 
 // Main class of the simulator
 
@@ -20,6 +20,7 @@ public:
 
 private:
 	// Initialization
+
 	void initSystem();
 	void deinitSystem();
 
@@ -30,11 +31,16 @@ private:
 
 	void processEvent(SDL_Event &ev);
 	void checkKeyboardState();
+	bool altDown = false;
 
 	bool doReset = false;
 	bool quitting = false;
 
+	bool fullscreen = false;
+	void setFullscreen(bool isFullscreen);
+
 	bool isMinimized = false;
+
 	bool devicePausedExternally = false;
 	bool previousPauseState = false;
 

@@ -9,39 +9,89 @@ void BrickGame::processEvent(SDL_Event &ev)
 		quitting = true;
 		break;
 	case SDL_KEYDOWN:
+		if (altDown)
+		{
+			if (ev.key.keysym.scancode == SDL_SCANCODE_RETURN) {
+				this->setFullscreen(!this->fullscreen);
+			}
+			break;
+		}
+
 		switch (ev.key.keysym.scancode)
 		{
-			// background changing keys
-		case SDL_SCANCODE_F8: device->nextBG(); bgRenderer->setBackground(device->getCurrentBG()); break;
-		case SDL_SCANCODE_F7: device->prevBG(); bgRenderer->setBackground(device->getCurrentBG()); break;
-		case SDL_SCANCODE_M: device->speaker.setMuted(!device->speaker.isMuted()); break;
-		case SDL_SCANCODE_KP_PLUS: windowScale++; setWindowScale(windowScale); break;
-		case SDL_SCANCODE_KP_MINUS: if (windowScale > 1) windowScale--; setWindowScale(windowScale); break;
-		default: break;
-		}
+		case SDL_SCANCODE_F8:
+			device->nextBG();
+			bgRenderer->setBackground(device->getCurrentBG());
+			break;
 
-		// device keys
+		case SDL_SCANCODE_F7:
+			device->prevBG();
+			bgRenderer->setBackground(device->getCurrentBG());
+			break;
 
-		if (ev.key.keysym.scancode == keyMap[KEY_RESET])
-		{
-			doReset = true;
-		}
-		else if (ev.key.keysym.scancode == keyMap[KEY_START])
-		{
-			if (currentState == GS_MENU)
+		case SDL_SCANCODE_M:
+			device->speaker.setMuted(!device->speaker.isMuted());
+			break;
+
+		case SDL_SCANCODE_KP_PLUS:
+			if (this->fullscreen)
 			{
-				gameState->nextState = static_cast<GSMenu*>(gameState)->getSelectedState();
+				break;
 			}
-			else
+			windowScale++;
+			setWindowScale(windowScale);
+			break;
+
+		case SDL_SCANCODE_KP_MINUS:
+			if (this->fullscreen)
 			{
-				if (device->inGame && device->pauseable)
+				break;
+			}
+
+			if (windowScale > 1)
+			{
+				windowScale--;
+			}
+			setWindowScale(windowScale);
+			break;
+
+		case SDL_SCANCODE_LALT:
+			this->altDown = true;
+			break;
+
+		default: 
+			if (ev.key.keysym.scancode == keyMap[KEY_RESET])
+			{
+				doReset = true;
+			}
+			else if (ev.key.keysym.scancode == keyMap[KEY_START])
+			{
+				if (currentState == GS_MENU)
 				{
-					device->paused = !device->paused;
+					gameState->nextState = static_cast<GSMenu*>(gameState)->getSelectedState();
 				}
-			}
+				else
+				{
+					if (device->inGame && device->pauseable)
+					{
+						device->paused = !device->paused;
+					}
+				}
+			};
 		}
 
 		break;
+
+	case SDL_KEYUP:
+		switch (ev.key.keysym.scancode)
+		{
+		case SDL_SCANCODE_LALT:
+			this->altDown = false;
+			break;
+		}
+
+		break;
+
 	case SDL_WINDOWEVENT:
 		switch (ev.window.event)
 		{

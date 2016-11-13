@@ -137,3 +137,29 @@ void BrickGame::setWindowScale(int scale)
 	SDL_SetWindowSize(res->getWindow(), res->windowSize.w * scale, res->windowSize.h * scale);
 	SDL_RenderSetScale(r, static_cast<float>(scale), static_cast<float>(scale));
 }
+
+void BrickGame::setFullscreen(bool isFullscreen)
+{
+	this->fullscreen = isFullscreen;
+
+	if (isFullscreen)
+	{
+		l.log(Logger::INFO, "Initializing fullScreen mode");
+
+		SDL_DisplayMode displayMode;
+		if (SDL_GetCurrentDisplayMode(0, &displayMode) < 0)
+		{
+			throw string("Failed retrieve display mode.");
+		}
+
+		SDL_SetWindowSize(this->w, displayMode.w, displayMode.h);
+		SDL_SetWindowFullscreen(this->w, SDL_WINDOW_FULLSCREEN);
+		l.log("Setting window size to: %dx%d (fullscreen)", displayMode.w, displayMode.h);
+	}
+	else
+	{
+		SDL_SetWindowFullscreen(this->w, 0);
+		SDL_SetWindowSize(this->w, res->windowSize.w * windowScale, res->windowSize.h * windowScale);
+		l.log("Setting window size to: %dx%d (windowed)", res->windowSize.w * windowScale, res->windowSize.h * windowScale);
+	}
+}

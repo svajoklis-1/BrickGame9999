@@ -1,7 +1,7 @@
 #include "BrickGame.hpp"
 
-#include <SDL_image.h>
-#include <SDL_mixer.h>
+#include <SDL2\SDL_image.h>
+#include <SDL2\SDL_mixer.h>
 
 void BrickGame::initSystem()
 {
@@ -47,12 +47,23 @@ void BrickGame::initSystem()
 
 	l.logPartial(Logger::INFO, "Creating SDL window...");
 
-	w = SDL_CreateWindow("9999-in-1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, res->windowSize.w * windowScale, res->windowSize.h * windowScale, SDL_WINDOW_SHOWN);
+	Uint32 windowParams = SDL_WINDOW_SHOWN;
+
+	int windowWidth = res->windowSize.w;
+	int windowHeight = res->windowSize.h;
+	float windowScaleActualW = windowScale;
+	float windowScaleActualH = windowScale;
+
+	w = SDL_CreateWindow("9999-in-1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, windowParams);
 	if (!w)
 	{
 		l.logLabel(Logger::FAIL);
 		throw string("Failed to create SDL window.");
 	}
+
+	res->setWindow(w);
+
+	this->setFullscreen(this->fullscreen);
 
 	l.logLabel(Logger::OK);
 
@@ -62,13 +73,15 @@ void BrickGame::initSystem()
 	{
 		l.logContinue("(vsynced)");
 		r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		SDL_RenderSetScale(r, static_cast<float>(windowScale), static_cast<float>(windowScale));
+		SDL_RenderSetScale(r, windowScaleActualW, windowScaleActualH);
+		SDL_RenderSetLogicalSize(r, scrRect.w, scrRect.h);
 	}
 	else
 	{
 		l.logContinue("(non-vsynced)");
 		r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED);
-		SDL_RenderSetScale(r, static_cast<float>(windowScale), static_cast<float>(windowScale));
+		SDL_RenderSetScale(r, windowScaleActualW, windowScaleActualH);
+		SDL_RenderSetLogicalSize(r, scrRect.w, scrRect.h);
 	}
 
 	l.logLabel(Logger::OK);
@@ -92,7 +105,6 @@ void BrickGame::initSystem()
 		throw string("Failed to create SDL renderer.");
 	}
 
-	res->setWindow(w);
 	res->setRenderer(r);
 
 	l.log(Logger::INFO, "Initialization complete.");
@@ -100,6 +112,9 @@ void BrickGame::initSystem()
 
 void BrickGame::deinitSystem()
 {
+	SDL_DestroyRenderer(r);
+	SDL_DestroyWindow(w);
+
 	IMG_Quit();
 	Mix_CloseAudio();
 	Mix_Quit();
@@ -120,9 +135,6 @@ BrickGame::~BrickGame()
 	delete bgRenderer;
 	delete scRenderer;
 	delete soundPlayer;
-
-	SDL_DestroyRenderer(r);
-	SDL_DestroyWindow(w);
 
 	deinitSystem();
 }
