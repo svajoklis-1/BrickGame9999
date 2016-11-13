@@ -173,6 +173,7 @@
     <ClInclude Include="Logger_types.hpp" />
     <ClInclude Include="PixelArray.hpp" />
     <ClInclude Include="PixelArrayRenderer.hpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceStore.hpp" />
     <ClInclude Include="SaveManager.hpp" />
     <ClInclude Include="Screen.hpp" />
@@ -183,6 +184,12 @@
     <ClInclude Include="Speaker.hpp" />
     <ClInclude Include="Ticker.hpp" />
     <ClInclude Include="Types.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BrickGame9999.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

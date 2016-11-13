@@ -34,7 +34,7 @@ BrickGame::BrickGame()
 	gameState = new GSMenu(*device);
 	currentState = GS_MENU;
 #else
-	gameState = new GSMenu(device);
+	gameState = new GSMenu(*device);
 	currentState = GS_MENU;
 #endif
 }

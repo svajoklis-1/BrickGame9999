@@ -41,6 +41,9 @@
     <Filter Include="Source files\Device\Objects">
       <UniqueIdentifier>{e7613a55-a1a3-41be-b6a4-aa40635ad3ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{01e430eb-d9c2-42db-973c-1e8b812657a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -213,5 +216,18 @@
     <ClInclude Include="Global.hpp">
       <Filter>Source files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BrickGame9999.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

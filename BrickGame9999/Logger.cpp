@@ -30,6 +30,8 @@ bool Logger::preLog()
 
 	return true;
 #endif
+
+	return false;
 }
 
 void Logger::log(const char *format, ...)

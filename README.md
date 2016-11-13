@@ -64,7 +64,7 @@ This project requires foreach and property_tree libraries from Boost. These are 
 
 ### Set up dynamic libraries
 
-You have to add the following files to your {ProjectDir}\BrickGame9999 folder:
+You have to add the following files to your `{ProjectDir}\BrickGame9999` folder:
 
 * `SDL2.dll` from `SDL devel VC 2.0.X\lib\x86`
 * `SDL2_image.dll` from `SDL_Image devel VC 2.0.1\lib\x86`
