@@ -42,8 +42,7 @@ You can configure framerate limiting in saveData.ini with the window.frameContro
 ## Deployment
 
 Run package.bat after building a Deploy version to pack up a release.
-
-Default save data is located in saveData2.ini. Use saveDataRestore.bat or just delete saveData.ini to bring back default values.
+Default save data file for packaging is located in project root.
 
 ## Development setup
 
@@ -71,3 +70,7 @@ You have to add the following files to your `{ProjectDir}\BrickGame9999` folder:
 * `libpng16-16.dll` from `SDL_Image devel VC 2.0.1\lib\x86`
 * `zlib.dll` from `SDL_Image devel VC 2.0.1\lib\x86`
 * `SDL2_Mixer.dll` from `SDL_Mixer devel VC 2.0.1\lib\x86`
+
+### Save data
+
+Backup test data is located in `BrickGame9999\saveData2.ini`, use `saveDataRestore.bat` to replace the current saveData.ini with saveData2.ini. Useful when working on data save logic.
