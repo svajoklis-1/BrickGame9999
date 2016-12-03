@@ -200,15 +200,16 @@ ToRelease
 
 *.opendb
 
+# Ignore packaged releases
 BrickGame9999*.zip
 
 BrickGame9999.VC.db
 
+# Ignore built artifacts
 **/[Dd]eploy
 **/[Rr]elease
 **/[Dd]ebug
 
-# Ignore SDL
-SDL/
+# Ignore PVS-Studio analysis files
 
 *.i-*

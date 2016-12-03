@@ -11,7 +11,7 @@ using namespace std;
 // catches all string exceptions
 // catches all exceptions when not in debug
 
-int main(int /*argc*/, char* /*argv*/[])
+int main(int argc, char* argv[])
 {
 	try
 	{

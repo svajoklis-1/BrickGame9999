@@ -73,20 +73,14 @@ void BrickGame::run()
 		if (!isMinimized)
 		{
 			// parse game keys
-
 			if (!device->paused)
 			{
 				checkKeyboardState();
-
 				gameState->postEvents(*device);
 			}
-
 			render();
-
 			deviceTick();
-
 			gameLoopEndTicks = SDL_GetTicks();
-
 		}
 
 		updateWindowTitle();

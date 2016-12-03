@@ -22,8 +22,8 @@ public:
 
 	SDL_Rect windowSize;
 
-	SDL_Window *getWindow();
-	SDL_Renderer *getRenderer();
+	SDL_Window *getWindow() const;
+	SDL_Renderer *getRenderer() const;
 	SDL_Texture *img(string name);
 	Mix_Chunk *snd(string name);
 
@@ -37,6 +37,6 @@ private:
 	map<string, SDL_Texture *> imageMap;
 	map<string, Mix_Chunk *> soundMap;
 
-	SDL_Texture *loadTexture(string path);
-	Mix_Chunk *loadSound(string path);
+	SDL_Texture *loadTexture(string path) const;
+	Mix_Chunk *loadSound(string path) const;
 };

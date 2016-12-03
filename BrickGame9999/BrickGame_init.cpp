@@ -51,8 +51,8 @@ void BrickGame::initSystem()
 
 	int windowWidth = res->windowSize.w;
 	int windowHeight = res->windowSize.h;
-	float windowScaleActualW = windowScale;
-	float windowScaleActualH = windowScale;
+	float windowScaleActualW = (float)windowScale;
+	float windowScaleActualH = (float)windowScale;
 
 	w = SDL_CreateWindow("9999-in-1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, windowParams);
 	if (!w)

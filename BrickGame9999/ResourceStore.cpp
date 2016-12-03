@@ -13,12 +13,12 @@ void ResourceStore::setRenderer(SDL_Renderer *r)
 	renderer = r;
 }
 
-SDL_Window *ResourceStore::getWindow()
+SDL_Window *ResourceStore::getWindow() const
 {
 	return window;
 }
 
-SDL_Renderer *ResourceStore::getRenderer()
+SDL_Renderer *ResourceStore::getRenderer() const
 {
 	return renderer;
 }
@@ -43,7 +43,7 @@ Mix_Chunk *ResourceStore::snd(string name)
 	return soundMap[name];
 }
 
-SDL_Texture *ResourceStore::loadTexture(string path)
+SDL_Texture *ResourceStore::loadTexture(string path) const
 {
 	SDL_Texture* newTexture;
 
@@ -70,7 +70,7 @@ SDL_Texture *ResourceStore::loadTexture(string path)
 	return newTexture;
 }
 
-Mix_Chunk *ResourceStore::loadSound(string path)
+Mix_Chunk *ResourceStore::loadSound(string path) const
 {
 	Mix_Chunk *chunk = Mix_LoadWAV(path.c_str());
 

@@ -217,7 +217,7 @@
       <Filter>Source files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Source files</Filter>
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
