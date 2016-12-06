@@ -68,7 +68,7 @@ void BrickGame::processEvent(SDL_Event &ev)
 			{
 				if (currentState == GS_MENU)
 				{
-					gameState->nextState = static_cast<GSMenu*>(gameState)->getSelectedState();
+					gameState->nextState = static_cast<GSMenu::State*>(gameState)->getSelectedState();
 				}
 				else
 				{

@@ -2,75 +2,78 @@
 #include "Ticker.hpp"
 #include "Explosion.hpp"
 
-enum GSArkanoidVariant
+namespace GSArkanoid
 {
-	GSARKANOID_NORMAL,
-	GSARKANOID_DOUBLE
-};
-
-class GSArkanoid : public GameState
-{
-public:
-	GSArkanoid(Device &dev, GSArkanoidVariant variant);
-	void tick(Device& dev) override;
-	void parseEvent(Device& dev, Key k, KeyState state) override;
-	void render(Device& dev) override;
-	~GSArkanoid() override;
-
-
-
-private:
-	GSArkanoidVariant currentVariant;
-	
-	enum stateSegments
+	enum Variant
 	{
-		SEG_PAUSE = 0,
-		SEG_GAME,
-		SEG_EXPLOSION
+		VARIANT_NORMAL,
+		VARIANT_DOUBLE
 	};
 
-	void reset(Device &dev);
-	void resetLevel(Device &dev);
-
-	static string currentLevel;
-	static int currentCount;
-
-	int stateSegment = 0;
-	char highScoreLetter;
-
-	void tickPause(Device &dev);
-	void tickGame(Device &dev);
-	void tickExplosion(Device &dev);
-	void renderGame(Device &dev);
-
-	void postEvents(Device &device) override;
-
-	Ticker ballTicker;
-	Ticker paddleTicker;
-
-	int paddleX = 3;
-	int paddleW = 4;
-	int paddleDX = 0;
-
-	int ballSpeed = 10;
-	int ballX = 5;
-	int ballY = 18;
-	int ballDX = 1;
-	int ballDY = -1;
-	bool slid = false;
-	bool speeding = false;
-
-	int levelCount = 0;
-
-	Ticker pauseTicker;
-
-	Explosion explosion;
-
-	struct level
+	class State : public GameState
 	{
-		string data;
-		int count;
+	public:
+		State(Device &dev, Variant variant);
+		void tick(Device& dev) override;
+		void parseEvent(Device& dev, Key k, KeyState state) override;
+		void render(Device& dev) override;
+		~State() override;
+
+
+
+	private:
+		Variant currentVariant;
+
+		enum stateSegments
+		{
+			SEG_PAUSE = 0,
+			SEG_GAME,
+			SEG_EXPLOSION
+		};
+
+		void reset(Device &dev);
+		void resetLevel(Device &dev);
+
+		static string currentLevel;
+		static int currentCount;
+
+		int stateSegment = 0;
+		char highScoreLetter;
+
+		void tickPause(Device &dev);
+		void tickGame(Device &dev);
+		void tickExplosion(Device &dev);
+		void renderGame(Device &dev);
+
+		void postEvents(Device &device) override;
+
+		Ticker ballTicker;
+		Ticker paddleTicker;
+
+		int paddleX = 3;
+		int paddleW = 4;
+		int paddleDX = 0;
+
+		int ballSpeed = 10;
+		int ballX = 5;
+		int ballY = 18;
+		int ballDX = 1;
+		int ballDY = -1;
+		bool slid = false;
+		bool speeding = false;
+
+		int levelCount = 0;
+
+		Ticker pauseTicker;
+
+		Explosion explosion;
+
+		struct level
+		{
+			string data;
+			int count;
+		};
+		map<int, level> levels;
+		void defineLevels();
 	};
-	map<int, level> levels;
-	void defineLevels();
-};
+}

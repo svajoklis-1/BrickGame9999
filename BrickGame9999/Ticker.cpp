@@ -5,7 +5,7 @@ Ticker::Ticker(int length)
 	tickLength = length;
 };
 
-bool Ticker::triggered()
+bool Ticker::triggered() const
 {
 	return tickCount >= tickLength;
 }
@@ -25,7 +25,7 @@ void Ticker::reset()
 	periodCount += 1;
 }
 
-bool Ticker::getState(int periodLength) {
+bool Ticker::getState(int periodLength) const {
 	return periodCount % periodLength == periodLength - 1;
 }
 

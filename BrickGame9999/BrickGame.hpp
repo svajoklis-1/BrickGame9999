@@ -54,8 +54,8 @@ private:
 	SDL_Surface *icon;
 
 	int windowScale = 1;
-	void setWindowScale(int scale);
-	void updateWindowTitle();
+	void setWindowScale(int scale) const;
+	void updateWindowTitle() const;
 
 	// 0 - nothing, 1 - limit to 250, 2 - vsync
 	enum frControl

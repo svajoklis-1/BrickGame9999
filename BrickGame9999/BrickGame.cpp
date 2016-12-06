@@ -31,7 +31,7 @@ BrickGame::BrickGame()
 
 	// switch which gamestate is the startup one
 #ifdef DEBUG_9999
-	gameState = new GSMenu(*device);
+	gameState = new GSMenu::State(*device);
 	currentState = GS_MENU;
 #else
 	gameState = new GSMenu(*device);
@@ -102,7 +102,7 @@ void BrickGame::run()
 	
 }
 
-void BrickGame::updateWindowTitle()
+void BrickGame::updateWindowTitle() const
 {
 	// form window title
 	char title[255];
@@ -126,7 +126,7 @@ void BrickGame::updateWindowTitle()
 	SDL_SetWindowTitle(res->getWindow(), reinterpret_cast<char*>(&title));
 }
 
-void BrickGame::setWindowScale(int scale)
+void BrickGame::setWindowScale(int scale) const
 {
 	SDL_SetWindowSize(res->getWindow(), res->windowSize.w * scale, res->windowSize.h * scale);
 	SDL_RenderSetScale(r, static_cast<float>(scale), static_cast<float>(scale));

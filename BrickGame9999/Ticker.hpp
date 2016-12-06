@@ -6,14 +6,14 @@ public:
 	Ticker(int length);
 	Ticker() = default;
 
-	bool triggered();
+	bool triggered() const;
 	void forceTrigger();
 
 	void tick();
 
 	void reset();
 
-	bool getState(int periodLength);
+	bool getState(int periodLength) const;
 
 	void setState(bool state, int periodLength);
 
