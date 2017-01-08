@@ -88,6 +88,8 @@ void BrickGame::processEvent(SDL_Event &ev)
 		case SDL_SCANCODE_LALT:
 			this->altDown = false;
 			break;
+
+		default: break;
 		}
 
 		break;
@@ -112,7 +114,11 @@ void BrickGame::processEvent(SDL_Event &ev)
 				devicePausedExternally = false;
 				device->paused = previousPauseState;
 			}
+
+		default: break;
 		}
+
+	default: break;
 	}
 }
 

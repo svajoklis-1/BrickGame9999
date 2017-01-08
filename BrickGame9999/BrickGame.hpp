@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2\SDL.h>
+#include <SDL2/SDL.h>
 
 // Main class of the simulator
 
@@ -9,7 +9,6 @@
 #include "ScreenRenderer.hpp"
 #include "Device.hpp"
 #include "GameState.hpp"
-#include "Ticker.hpp"
 
 class BrickGame
 {

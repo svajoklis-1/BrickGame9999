@@ -29,9 +29,9 @@ bool Logger::preLog()
 	setDefaultColor();
 
 	return true;
-#endif
-
+#else
 	return false;
+#endif
 }
 
 void Logger::log(const char *format, ...)
@@ -234,13 +234,10 @@ const char *Logger::labelToStr(Logger::StatusLabel label)
 	{
 	case OK:
 		return "OK";
-		break;
 	case FAIL:
 		return "FAIL";
-		break;
 	default:
 		return "UNDEF";
-		break;
 	}
 }
 

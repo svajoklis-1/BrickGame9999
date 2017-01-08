@@ -27,6 +27,8 @@ public:
 	void logContinue(const char *format, ...);
 	void logRight(int padding, const char *format, ...);
 
+	bool inPartial() { return partialInProgress; }
+
 	void logLabel(Logger::StatusLabel label);
 
 	void setColor(Color c);

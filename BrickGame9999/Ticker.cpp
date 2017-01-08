@@ -60,6 +60,7 @@ void Ticker::setLength(int length)
 {
 	tickLength = length;
 }
+
 int Ticker::getTickCount()
 {
 	return tickCount;

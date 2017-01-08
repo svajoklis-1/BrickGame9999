@@ -64,6 +64,8 @@ namespace GSSnake
 					if (dir != UP)
 						dir = DOWN;
 					break;
+
+				default: break;
 				}
 
 				if (old_dir != dir)
@@ -125,6 +127,8 @@ namespace GSSnake
 			if (snakeHeadY >= 20)
 				snakeHeadY = 0;
 			break;
+
+		default: break;
 		}
 
 		segments[0] = { snakeHeadX, snakeHeadY };

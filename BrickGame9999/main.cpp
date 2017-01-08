@@ -7,17 +7,23 @@ using namespace std;
 #include "Logger.hpp"
 #include "Global.hpp"
 
+#ifdef TEST_9999
+#include "Test_Runner.hpp"
+#endif
+
 // main file for the program, runs Tetris
 // catches all string exceptions
 // catches all exceptions when not in debug
 
 int main(int argc, char* argv[])
 {
+#ifndef TEST_9999
+
 	try
 	{
 		BrickGame b;
 		b.run();
-	}
+}
 	catch (string ex)
 	{
 		l.log(Logger::ERR, ex.c_str());
@@ -35,4 +41,25 @@ int main(int argc, char* argv[])
 	getchar();
 
 	return 0;
+
+#else
+
+	Test::Runner testRunner;
+
+	try
+	{
+		testRunner.run();
+	}
+	catch (string ex)
+	{
+		l.log(Logger::ERR, "Invalid test state: %s", ex.c_str());
+	}
+
+	printf("\nPress any key to continue...");
+	getchar();
+
+	return 0;
+
+#endif
+
 }

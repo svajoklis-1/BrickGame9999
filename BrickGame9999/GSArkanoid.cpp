@@ -19,7 +19,9 @@ namespace GSArkanoid
 		case VARIANT_DOUBLE:
 			highScoreLetter = 'D';
 			break;
-		default: break;
+		default: 
+			l.log(Logger::ERR, "Invalid game variant: %d", variant);
+			throw "Invalid game state!";
 		}
 
 		defineLevels();
@@ -35,8 +37,6 @@ namespace GSArkanoid
 		dev.screen.speed.setLink(&dev.getSpeedRef());
 		dev.screen.score.setLink(&dev.score);
 		dev.screen.highScore.setLink(&dev.highScore[highScoreLetter]);
-
-		explosion.setCoord({ 5, 10 });
 
 		reset(dev);
 
@@ -380,6 +380,10 @@ namespace GSArkanoid
 			renderGame(dev);
 			explosion.render(dev);
 			break;
+
+		default:
+			l.log(Logger::ERR, "Invalid game segment: %d", stateSegment);
+			throw "Invalid game state!";
 		}
 	}
 
