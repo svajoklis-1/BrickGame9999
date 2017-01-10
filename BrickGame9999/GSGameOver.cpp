@@ -3,8 +3,8 @@
 namespace GSGameOver
 {
 	State::State(Device &dev, GameStates nextState) :
-		stateAfter(nextState),
-		lineTicker(3)
+		lineTicker(3),
+		stateAfter(nextState)
 	{
 		dev.pauseable = false;
 	}
@@ -25,6 +25,8 @@ namespace GSGameOver
 			dev.pauseable = true;
 			nextState = stateAfter;
 			break;
+
+		default: break;
 		}
 	}
 

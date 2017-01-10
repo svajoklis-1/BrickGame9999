@@ -36,9 +36,14 @@ enum Sound
 
 enum KeyState
 {
-	STATE_UP = true,
-	STATE_DOWN = false
+	STATE_UP,
+	STATE_DOWN,
+	STATE_HELD
 };
+
+#define key_held(a) a == STATE_DOWN || a == STATE_HELD
+#define key_pressed(a) a == STATE_DOWN
+#define key_depressed(a) a == STATE_UP
 
 enum GameStates
 {
@@ -48,6 +53,7 @@ enum GameStates
 	GS_SNAKE,
 	GS_SNAKEINF,
 	GS_ARKANOID,
+	GS_DEFEND,
 	GS_GAMEOVER,
 	GS_GAMEOVER_TOCURRENT
 };

@@ -104,6 +104,8 @@ namespace GSMenu
 			return GS_SNAKEINF;
 		case C:
 			return GS_ARKANOID;
+		case D:
+			return GS_DEFEND;
 		default:
 			return GS_NONE;
 		}

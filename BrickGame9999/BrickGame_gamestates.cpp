@@ -4,6 +4,7 @@
 #include "GSMenu.hpp"
 #include "GSSnake.hpp"
 #include "GSArkanoid.hpp"
+#include "GSDefend.hpp"
 #include "GSGameOver.hpp"
 
 void BrickGame::handleNextGameState(GameStates nextState)
@@ -39,6 +40,12 @@ void BrickGame::handleNextGameState(GameStates nextState)
 	case GS_ARKANOID:
 		l.log(Logger::INFO, "Switching to state (GS_ARKANOID:NORMAL)");
 		gameState = new GSArkanoid::State(*device, GSArkanoid::VARIANT_NORMAL);
+		currentState = GS_ARKANOID;
+		break;
+
+	case GS_DEFEND:
+		l.log(Logger::INFO, "Switching to state (GS_DEFEND)");
+		gameState = new GSDefend::State(*device);
 		currentState = GS_ARKANOID;
 		break;
 

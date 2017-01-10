@@ -50,6 +50,15 @@
     <Filter Include="Source files\Test\Tests">
       <UniqueIdentifier>{ffc17862-7837-4630-bb7d-585d4dc3ae72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Misc files">
+      <UniqueIdentifier>{b37ebc9b-2d78-47ae-8dfb-db07612c3dc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Games\GSDefend">
+      <UniqueIdentifier>{fb31ccd4-e004-4464-9502-728fb4b94b28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Games\GSDefend\Objects">
+      <UniqueIdentifier>{cc776464-1d79-4c30-9d40-b11886a30ba0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -151,6 +160,12 @@
     <ClCompile Include="Test_Ticker.cpp">
       <Filter>Source files\Test\Tests</Filter>
     </ClCompile>
+    <ClCompile Include="GSDefend.cpp">
+      <Filter>Source files\Games\GSDefend</Filter>
+    </ClCompile>
+    <ClCompile Include="GSDefend_Ship.cpp">
+      <Filter>Source files\Games\GSDefend\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Explosion.hpp">
@@ -240,6 +255,12 @@
     <ClInclude Include="Test.hpp">
       <Filter>Source files\Test</Filter>
     </ClInclude>
+    <ClInclude Include="GSDefend.hpp">
+      <Filter>Source files\Games\GSDefend</Filter>
+    </ClInclude>
+    <ClInclude Include="GSDefend_Ship.hpp">
+      <Filter>Source files\Games\GSDefend\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BrickGame9999.rc">
@@ -250,5 +271,15 @@
     <Image Include="icon1.ico">
       <Filter>Resources</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.gitignore">
+      <Filter>Misc files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\TODO.txt">
+      <Filter>Misc files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

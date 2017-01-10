@@ -8,3 +8,4 @@ using namespace std;
 
 const SDL_Rect scrRect = { 0, 0, 233, 215 };
 extern Logger l;
+const SDL_Rect logicalScreen = { 0, 0, 10, 20 };

@@ -130,7 +130,11 @@ void BrickGame::checkKeyboardState()
 	{
 		if (keyboardState[keyMap[i]] != prevKeyboardState[i])
 		{
-			gameState->parseEvent(*device, static_cast<Key>(i), (keyboardState[keyMap[i]] == 0 ? STATE_UP : STATE_DOWN));
+			gameState->parseEvent(*device, static_cast<Key>(i), keyboardState[keyMap[i]] == 0 ? STATE_UP : STATE_DOWN);
+		}
+		else if (keyboardState[keyMap[i]] != 0)
+		{
+			gameState->parseEvent(*device, static_cast<Key>(i), STATE_HELD);
 		}
 
 		prevKeyboardState[i] = keyboardState[keyMap[i]];

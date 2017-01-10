@@ -14,8 +14,8 @@ namespace GSSnake
 	void Snake::reset(Device &dev)
 	{
 		length = 3;
-		snakeHeadX = 5;
-		snakeHeadY = 10;
+		snakeHeadX = logicalScreen.w / 2;
+		snakeHeadY = logicalScreen.h / 2;
 
 		segments[0] = { snakeHeadX, snakeHeadY };
 		segments[1] = { snakeHeadX - 1, snakeHeadY };
@@ -36,7 +36,7 @@ namespace GSSnake
 
 	void Snake::parseEvent(Key k, KeyState state)
 	{
-		if (state == STATE_DOWN)
+		if (key_pressed(state))
 		{
 			if (!didTurn)
 			{
@@ -80,7 +80,7 @@ namespace GSSnake
 			}
 		}
 
-		if (state == STATE_UP)
+		if (key_depressed(state))
 		{
 			if (k == KEY_ACTION)
 			{
@@ -107,24 +107,24 @@ namespace GSSnake
 		case LEFT:
 			snakeHeadX--;
 			if (snakeHeadX < 0)
-				snakeHeadX = 9;
+				snakeHeadX = logicalScreen.w - 1;
 			break;
 
 		case UP:
 			snakeHeadY--;
 			if (snakeHeadY < 0)
-				snakeHeadY = 19;
+				snakeHeadY = logicalScreen.h - 1;
 			break;
 
 		case RIGHT:
 			snakeHeadX++;
-			if (snakeHeadX >= 10)
+			if (snakeHeadX >= logicalScreen.w)
 				snakeHeadX = 0;
 			break;
 
 		case DOWN:
 			snakeHeadY++;
-			if (snakeHeadY >= 20)
+			if (snakeHeadY >= logicalScreen.h)
 				snakeHeadY = 0;
 			break;
 

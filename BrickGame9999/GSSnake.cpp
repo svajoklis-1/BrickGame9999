@@ -94,7 +94,7 @@ namespace GSSnake
 	void State::tickSnake(Device &dev)
 	{
 		/*******************************************   LOGIC   *********************************/
-		bool movingOn = false;
+		bool crashed = false;
 		// move snake
 
 		if (snakeTicker.triggered())
@@ -109,7 +109,7 @@ namespace GSSnake
 		if ((levels[dev.getLevel() % levelCount][head.y * 10 + head.x] != ' '))
 		{
 			dev.lives--;
-			movingOn = true;
+			crashed = true;
 		}
 
 		for (int i = 1; i < snake.getLength(); i++)
@@ -117,7 +117,7 @@ namespace GSSnake
 			if (snake.getHead() == snake.getSegment(i))
 			{
 				dev.lives--;
-				movingOn = true;
+				crashed = true;
 				break;
 			}
 		}
@@ -146,7 +146,7 @@ namespace GSSnake
 		}
 		
 
-		if (movingOn)
+		if (crashed)
 		{
 			dev.speaker.playSound(Sound::SND_EXPLODE);
 			explosion.setCoord(snake.getHead());
@@ -157,8 +157,6 @@ namespace GSSnake
 
 		snakeTicker.tick();
 	}
-
-
 
 	void State::tickPause(Device &dev)
 	{

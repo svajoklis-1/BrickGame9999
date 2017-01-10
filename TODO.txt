@@ -1,0 +1,12 @@
+=== Heavy tasks  ===
+Refactor project to use single thread for logic and keep rendering on main thread (since it works on windowing).
+
+=== Medium tasks ===
+Investigate shadows for screen elements. Maybe just leave the shadow for the painted border?
+
+=== Minor tasks  ===
+Write tests for other game logic items.
+Properly refactor Arkanoid items.
+Decide what games to write next.
+
+===     Done     ===

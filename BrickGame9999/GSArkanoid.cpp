@@ -107,7 +107,7 @@ namespace GSArkanoid
 		{
 			paddleTicker.reset();
 
-			if (paddleDX != 0 && ballDY == 1 && ballY == 18 && (ballX >= paddleX && ballX <= paddleX + paddleW - 1) && !slid)
+			if (paddleDX != 0 && ballDY == 1 && ballY == (logicalScreen.h - 2) && (ballX >= paddleX && ballX <= paddleX + paddleW - 1) && !slid)
 			{
 				ballX += paddleDX;
 				if (ballX < 0)
@@ -133,7 +133,7 @@ namespace GSArkanoid
 		if (ballTicker.triggered())
 		{
 			ballTicker.reset();
-			if (paddleDX != 0 && ballDY == 1 && ballY == 18 && (ballX >= paddleX && ballX <= paddleX + paddleW - 1) && !slid)
+			if (paddleDX != 0 && ballDY == 1 && ballY == (logicalScreen.h - 2) && (ballX >= paddleX && ballX <= paddleX + paddleW - 1) && !slid)
 			{
 				dev.speaker.playSound(SND_BOUNCE);
 				ballX += paddleDX;
@@ -164,20 +164,20 @@ namespace GSArkanoid
 
 				// hit detection with paddle
 				// block below
-				if (ballY == 18 && (ballX >= paddleX && ballX <= paddleX + paddleW - 1) && (ballDY == 1))
+				if (ballY == (logicalScreen.h - 2) && (ballX >= paddleX && ballX <= paddleX + paddleW - 1) && (ballDY == 1))
 				{
 					dev.speaker.playSound(SND_BOUNCE);
 					ballDY = -ballDY;
 				}
 				else // diagonal from left
-					if (ballY == 18 && (ballX == paddleX - 1) && (ballDX == 1) && (ballDY == 1) && !slid)
+					if (ballY == (logicalScreen.h - 2) && (ballX == paddleX - 1) && (ballDX == 1) && (ballDY == 1) && !slid)
 					{
 						dev.speaker.playSound(SND_BOUNCE);
 						ballDY = -ballDY;
 						ballDX = -ballDX;
 					}
 					else // diagonal from right
-						if (ballY == 18 && (ballX == paddleX + paddleW) && (ballDX == -1) && (ballDY == 1) && !slid)
+						if (ballY == (logicalScreen.h - 2) && (ballX == paddleX + paddleW) && (ballDX == -1) && (ballDY == 1) && !slid)
 						{
 							dev.speaker.playSound(SND_BOUNCE);
 							ballDY = -ballDY;
@@ -198,9 +198,9 @@ namespace GSArkanoid
 					bool collidedWithLevel = false;
 					// on y
 
-					if (currentLevel[(ballY + ballDY) * 10 + ballX] != ' ')
+					if (currentLevel[(ballY + ballDY) * (logicalScreen.w) + ballX] != ' ')
 					{
-						currentLevel[(ballY + ballDY) * 10 + ballX] = ' ';
+						currentLevel[(ballY + ballDY) * (logicalScreen.w) + ballX] = ' ';
 						currentCount--;
 						dev.increaseScore(10, highScoreLetter);
 						newBallDY = -ballDY;
@@ -208,9 +208,9 @@ namespace GSArkanoid
 						clearedBlock = true;
 					}
 
-					if (currentLevel[(ballY) * 10 + ballX + ballDX] != ' ')
+					if (currentLevel[(ballY) * (logicalScreen.w) + ballX + ballDX] != ' ')
 					{
-						currentLevel[(ballY) * 10 + ballX + ballDX] = ' ';
+						currentLevel[(ballY) * (logicalScreen.w) + ballX + ballDX] = ' ';
 						currentCount--;
 						dev.increaseScore(10, highScoreLetter);
 						newBallDX = -ballDX;
@@ -220,9 +220,9 @@ namespace GSArkanoid
 
 					// only collide diagonally if clear on vertical/horizontal
 
-					if (!collidedWithLevel && currentLevel[(ballY + ballDY) * 10 + ballX + ballDX] != ' ')
+					if (!collidedWithLevel && currentLevel[(ballY + ballDY) * (logicalScreen.w) + ballX + ballDX] != ' ')
 					{
-						currentLevel[(ballY + ballDY) * 10 + ballX + ballDX] = ' ';
+						currentLevel[(ballY + ballDY) * (logicalScreen.w) + ballX + ballDX] = ' ';
 						currentCount--;
 						dev.increaseScore(10, highScoreLetter);
 						newBallDY = -ballDY;
@@ -240,13 +240,13 @@ namespace GSArkanoid
 				ballDX = newBallDX;
 				ballDY = newBallDY;
 
-				if (ballX + ballDX < 0 || ballX + ballDX >= 10)
+				if (ballX + ballDX < 0 || ballX + ballDX >= (logicalScreen.w))
 				{
 					dev.speaker.playSound(SND_BLIP);
 					ballDX = -ballDX;
 				}
 
-				if (ballY + ballDY < 0 || ballY + ballDY >= 20)
+				if (ballY + ballDY < 0 || ballY + ballDY >= (logicalScreen.h))
 				{
 					dev.speaker.playSound(SND_BLIP);
 					ballDY = -ballDY;
@@ -266,7 +266,7 @@ namespace GSArkanoid
 					reset(dev);
 				}
 
-				if (ballY == 19)
+				if (ballY >= logicalScreen.h)
 				{
 					dev.pauseable = false;
 					dev.lives--;
@@ -305,7 +305,7 @@ namespace GSArkanoid
 
 	void State::parseEvent(Device& dev, Key k, KeyState state)
 	{
-		if (state == STATE_DOWN)
+		if (key_pressed(state))
 		{
 			switch (k)
 			{
@@ -323,7 +323,7 @@ namespace GSArkanoid
 			}
 		}
 
-		if (state == STATE_UP)
+		if (key_depressed(state))
 		{
 			switch (k)
 			{

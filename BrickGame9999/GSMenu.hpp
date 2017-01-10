@@ -28,6 +28,7 @@ namespace GSMenu
 			A,
 			B,
 			C,
+			D,
 			R,
 			LETTER_COUNT
 		};

@@ -171,6 +171,8 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="GSArkanoid.cpp" />
+    <ClCompile Include="GSDefend.cpp" />
+    <ClCompile Include="GSDefend_Ship.cpp" />
     <ClCompile Include="GSGameOver.cpp" />
     <ClCompile Include="GSMenu.cpp" />
     <ClCompile Include="GSMenu_graphics.cpp" />
@@ -201,6 +203,8 @@
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="Global.hpp" />
     <ClInclude Include="GSArkanoid.hpp" />
+    <ClInclude Include="GSDefend.hpp" />
+    <ClInclude Include="GSDefend_Ship.hpp" />
     <ClInclude Include="GSGameOver.hpp" />
     <ClInclude Include="GSMenu.hpp" />
     <ClInclude Include="GSRain.hpp" />
@@ -230,6 +234,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\TODO.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
