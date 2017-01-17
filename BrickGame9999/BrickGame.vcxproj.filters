@@ -166,6 +166,9 @@
     <ClCompile Include="GSDefend_Ship.cpp">
       <Filter>Source files\Games\GSDefend\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="GSDefend_Level.cpp">
+      <Filter>Source files\Games\GSDefend\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Explosion.hpp">
@@ -259,6 +262,9 @@
       <Filter>Source files\Games\GSDefend</Filter>
     </ClInclude>
     <ClInclude Include="GSDefend_Ship.hpp">
+      <Filter>Source files\Games\GSDefend\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GSDefend_Level.hpp">
       <Filter>Source files\Games\GSDefend\Objects</Filter>
     </ClInclude>
   </ItemGroup>

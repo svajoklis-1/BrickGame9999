@@ -46,7 +46,7 @@ void BrickGame::handleNextGameState(GameStates nextState)
 	case GS_DEFEND:
 		l.log(Logger::INFO, "Switching to state (GS_DEFEND)");
 		gameState = new GSDefend::State(*device);
-		currentState = GS_ARKANOID;
+		currentState = GS_DEFEND;
 		break;
 
 	case GS_GAMEOVER:

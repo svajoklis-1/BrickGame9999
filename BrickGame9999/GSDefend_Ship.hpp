@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Ticker.hpp"
+
 namespace GSDefend
 {
 	class Ship
@@ -7,10 +9,16 @@ namespace GSDefend
 	public:
 		Ship();
 
-		void move(int cells);
+		void startMoving(int dx);
+		void stopMoving();
+		void tick();
+
+		int getX() const;
 
 	private:
+		Ticker t;
 		int x;
+		int dx;
 		int w;
 	};
 }
