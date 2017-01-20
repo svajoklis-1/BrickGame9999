@@ -26,126 +26,101 @@ namespace GSArkanoid
 		{
 			t.reset();
 
-			if (s.p.getDX() != 0 && dy == 1 && y == (logicalScreen.h - 2) && (x >= s.p.getX() && x <= s.p.getX() + s.p.getW() - 1) && !s.slid)
+			if (s.p.isMoving() && dy == 1 && y == (logicalScreen.h - 2) && (x >= s.p.getX() && x <= s.p.getX() + s.p.getW() - 1) && !s.slid)
 			{
 				dev.speaker.playSound(SND_BOUNCE);
-				x += s.p.getDX();
-				if (x < 0)
-				{
-					x = 0;
-				}
-				else
-					if (x >= logicalScreen.w)
-					{
-						x = logicalScreen.w - 1;
-					}
 
-				dy = -dy;
+				this->setX(this->getX() + s.p.getDX());
+				this->setDY(-this->getDY());
 
 				s.slid = true;
 			}
 			else
 			{
-				/*while (true)
-				{
-					
-				}*/
-
-				if (x == logicalScreen.w - 1 || x == 0)
-				{
-					dx = -dx;
-				}
-				if (y == 0 || y == logicalScreen.h - 1)
-				{
-					dy = -dy;
-				}
-
-				// hit detection with paddle
-				// block below
-				if (y == (logicalScreen.h - 2) && (x >= s.p.getX() && x <= s.p.getX() + s.p.getW() - 1) && (dy == 1))
-				{
-					dev.speaker.playSound(SND_BOUNCE);
-					dy = -dy;
-				}
-				else // diagonal from left
-				if (y == (logicalScreen.h - 2) && (x == s.p.getX() - 1) && (dx == 1) && (dy == 1) && !s.slid)
-				{
-					dev.speaker.playSound(SND_BOUNCE);
-					dy = -dy;
-					dx = -dx;
-				}
-				else // diagonal from right
-				if (y == (logicalScreen.h - 2) && (x == s.p.getX() + s.p.getW()) && (dx == -1) && (dy == 1) && !s.slid)
-				{
-					dev.speaker.playSound(SND_BOUNCE);
-					dy = -dy;
-					dx = -dx;
-				}
-
-				int newBallDX = dx;
-				int newBallDY = dy;
-
 				bool clearedBlock = false;
+				bool hitPaddle = false;
 
-				do
+				while (true)
 				{
-					dx = newBallDX;
-					dy = newBallDY;
+					// detection with walls
+					if (x == logicalScreen.w - 1 && dx > 0 || x == 0 && dx < 0)
+					{
+						this->setDX(-this->getDX());
+						continue;
+					}
+					if (y == logicalScreen.h - 1 && dy > 0 || y == 0 && dy < 0)
+					{
+						this->setDY(-this->getDY());
+						continue;
+					}
 
-					// collision with level
-					bool collidedWithLevel = false;
-					// on y
+					// detection with paddle
+					// block below
+					if (y == (logicalScreen.h - 2) && (x >= s.p.getX() && x <= s.p.getX() + s.p.getW() - 1) && (dy > 0))
+					{
+						hitPaddle = true;
+						this->setDY(-this->getDY());
+						continue;
+					}
+					// diagonal from left
+					if (y == (logicalScreen.h - 2) && (x == s.p.getX() - 1) && (dx > 0) && (dy > 0) && !s.slid)
+					{
+						hitPaddle = true;
+						this->setDY(-this->getDY());
+						this->setDX(-this->getDX());
+						continue;
+					}
+					// diagonal from right
+					if (y == (logicalScreen.h - 2) && (x == s.p.getX() + s.p.getW()) && (dx < 0) && (dy > 0) && !s.slid)
+					{
+						hitPaddle = true;
+						this->setDY(-this->getDY());
+						this->setDX(-this->getDX());
+						continue;
+					}
 
+					// detection with level
 					if (s.isBlockOccupied(dev, (y + dy) * logicalScreen.w + x))
 					{
 						s.clearBlock(dev, (y + dy) * logicalScreen.w + x);
-						newBallDY = -dy;
-						collidedWithLevel = true;
+						this->setDY(-this->getDY());
 						clearedBlock = true;
+						continue;
 					}
 
 					if (s.isBlockOccupied(dev, (y) * (logicalScreen.w) + x + dx))
 					{
 						s.clearBlock(dev, y * logicalScreen.w + x + dx);
-						newBallDX = -dx;
-						collidedWithLevel = true;
+						this->setDX(-this->getDX());
 						clearedBlock = true;
+						continue;
 					}
 
 					// only collide diagonally if clear on vertical/horizontal
 
-					if (!collidedWithLevel && s.isBlockOccupied(dev, (y + dy) * (logicalScreen.w) + x + dx))
+					if (s.isBlockOccupied(dev, (y + dy) * (logicalScreen.w) + x + dx))
 					{
 						s.clearBlock(dev, (y + dy) * (logicalScreen.w) + x + dx);
-						newBallDY = -dy;
-						newBallDX = -dx;
-						collidedWithLevel = true;
+						this->setDY(-this->getDY());
+						this->setDX(-this->getDX());
 						clearedBlock = true;
+						continue;
 					}
 
-				} while (newBallDX != dx || newBallDY != dy);
-
-				if (clearedBlock) {
-					dev.speaker.playSound(SND_BLIP);
+					break;
 				}
 
-				dx = newBallDX;
-				dy = newBallDY;
-
-				if (x + dx < 0 || x + dx >= (logicalScreen.w))
+				if (clearedBlock)
 				{
 					dev.speaker.playSound(SND_BLIP);
-					dx = -dx;
 				}
-
-				if (y + dy < 0 || y + dy >= (logicalScreen.h))
+				else if (hitPaddle)
 				{
-					dev.speaker.playSound(SND_BLIP);
-					dy = -dy;
+					dev.speaker.playSound(SND_BOUNCE);
 				}
 
-				x += dx;
-				y += dy;
+				this->setX(this->getX() + this->getDX());
+				this->setY(this->getY() + this->getDY());
 
 				s.slid = false;
 			}
@@ -227,7 +202,7 @@ namespace GSArkanoid
 		t.setLength(isSpeeding ? speedingSpeed : speed);
 	}
 
-	bool Ball::isSpeeding()
+	bool Ball::isSpeeding() const
 	{
 		return this->speeding;
 	}

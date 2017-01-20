@@ -21,6 +21,9 @@ namespace GSArkanoid
 		int getDX() const;
 		int getW() const;
 
+		bool isMoving() const;
+		bool isMoving(Direction d) const;
+
 		void startMoving(int dx);
 
 	private:

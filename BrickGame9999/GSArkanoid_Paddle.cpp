@@ -67,4 +67,22 @@ namespace GSArkanoid
 	{
 		return w;
 	}
+
+	bool Paddle::isMoving() const
+	{
+		return dx != 0;
+	}
+
+	bool Paddle::isMoving(Direction d) const
+	{
+		switch (d)
+		{
+		case DIR_LEFT:
+			return dx < 0;
+		case DIR_RIGHT:
+			return dx > 0;
+		default:
+			return false;
+		}
+	}
 }

@@ -14,6 +14,14 @@ struct coord
 	}
 };
 
+enum Direction
+{
+	DIR_UP,
+	DIR_DOWN,
+	DIR_LEFT,
+	DIR_RIGHT
+};
+
 enum Key
 {
 	KEY_UP = 0,

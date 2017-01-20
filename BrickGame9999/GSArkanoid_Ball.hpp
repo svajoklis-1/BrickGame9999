@@ -26,7 +26,7 @@ namespace GSArkanoid
 		void setDX(int dx);
 		void setDY(int dy);
 
-		bool isSpeeding();
+		bool isSpeeding() const;
 		void setSpeeding(bool isSpeeding);
 
 	private:
