@@ -59,6 +59,9 @@
     <Filter Include="Source files\Games\GSDefend\Objects">
       <UniqueIdentifier>{cc776464-1d79-4c30-9d40-b11886a30ba0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\Games\GSArkanoid\Objects">
+      <UniqueIdentifier>{6e9cc787-cd8b-4ae5-8eca-848129180acc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -169,6 +172,12 @@
     <ClCompile Include="GSDefend_Level.cpp">
       <Filter>Source files\Games\GSDefend\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="GSArkanoid_Ball.cpp">
+      <Filter>Source files\Games\GSArkanoid\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="GSArkanoid_Paddle.cpp">
+      <Filter>Source files\Games\GSArkanoid\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Explosion.hpp">
@@ -266,6 +275,12 @@
     </ClInclude>
     <ClInclude Include="GSDefend_Level.hpp">
       <Filter>Source files\Games\GSDefend\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GSArkanoid_Ball.hpp">
+      <Filter>Source files\Games\GSArkanoid\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GSArkanoid_Paddle.hpp">
+      <Filter>Source files\Games\GSArkanoid\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,11 @@
+#pragma once
+
 #include "GameState.hpp"
 #include "Ticker.hpp"
 #include "Explosion.hpp"
+
+#include "GSArkanoid_Ball.hpp"
+#include "GSArkanoid_Paddle.hpp"
 
 namespace GSArkanoid
 {
@@ -19,7 +24,12 @@ namespace GSArkanoid
 		void render(Device& dev) override;
 		~State() override;
 
+		Ball b;
+		Paddle p;
+		bool slid = false;
 
+		void clearBlock(Device &dev, int location);
+		bool isBlockOccupied(Device &deve, int location);
 
 	private:
 		Variant currentVariant;
@@ -47,20 +57,7 @@ namespace GSArkanoid
 
 		void postEvents(Device &device) override;
 
-		Ticker ballTicker;
-		Ticker paddleTicker;
-
-		int paddleX = 3;
-		int paddleW = 4;
-		int paddleDX = 0;
-
-		int ballSpeed = 10;
-		int ballX = 5;
-		int ballY = 18;
-		int ballDX = 1;
-		int ballDY = -1;
-		bool slid = false;
-		bool speeding = false;
+		int directionKeysPressed = 0;
 
 		int levelCount = 0;
 

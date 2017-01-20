@@ -171,6 +171,8 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="GSArkanoid.cpp" />
+    <ClCompile Include="GSArkanoid_Ball.cpp" />
+    <ClCompile Include="GSArkanoid_Paddle.cpp" />
     <ClCompile Include="GSDefend.cpp" />
     <ClCompile Include="GSDefend_Level.cpp" />
     <ClCompile Include="GSDefend_Ship.cpp" />
@@ -204,6 +206,8 @@
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="Global.hpp" />
     <ClInclude Include="GSArkanoid.hpp" />
+    <ClInclude Include="GSArkanoid_Ball.hpp" />
+    <ClInclude Include="GSArkanoid_Paddle.hpp" />
     <ClInclude Include="GSDefend.hpp" />
     <ClInclude Include="GSDefend_Level.hpp" />
     <ClInclude Include="GSDefend_Ship.hpp" />
