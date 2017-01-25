@@ -9,8 +9,7 @@ namespace GSMenu
 	{
 		defineGraphics();
 
-		if (!dev.inGame)
-			dev.screen.highScore.dash();
+		dev.screen.highScore.setLink(&dev.highScore[letterChars[currentL]]);
 
 		dev.screen.score.dash();
 		dev.screen.level.setLink(&dev.getLevelRef());
@@ -74,6 +73,8 @@ namespace GSMenu
 				currentL += 1;
 				if (currentL >= letterCount)
 					currentL = 0;
+
+				dev.screen.highScore.setLink(&dev.highScore[letterChars[currentL]]);
 
 				resetAnim();
 				break;
@@ -268,6 +269,8 @@ namespace GSMenu
 
 		dev.screen.level.setLinked();
 		dev.screen.speed.setLinked();
+
+		dev.screen.highScore.setLinked();
 
 		drawLetter(dev);
 		drawNumber(dev);

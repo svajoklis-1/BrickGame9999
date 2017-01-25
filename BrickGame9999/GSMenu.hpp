@@ -33,6 +33,8 @@ namespace GSMenu
 			LETTER_COUNT
 		};
 
+		char letterChars[5] = { 'A', 'B', 'C', 'D', 'R' };
+
 		void defineGraphics();
 
 		int stage = 0;
