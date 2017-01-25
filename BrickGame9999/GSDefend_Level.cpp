@@ -15,12 +15,9 @@ namespace GSDefend
 		for (int i = 0; i < this->mapH; i++)
 		{
 			this->map[i] = new bool[this->mapW];
-
-			for (int j = 0; j < this->mapW; j++)
-			{
-				this->map[i][j] = false;
-			}
 		}
+
+		this->reset();
 	}
 
 	Level::~Level()
@@ -53,9 +50,14 @@ namespace GSDefend
 		return this->map[y][x];
 	}
 
-	void Level::clearXY(int x, int y)
+	bool Level::clearXY(int x, int y)
 	{
+		bool didClear = this->map[y][x];
 		this->map[y][x] = false;
+
+		this->recalculateHeight();
+
+		return didClear;
 	}
 
 	void Level::setXY(int x, int y, bool val)
@@ -65,7 +67,7 @@ namespace GSDefend
 
 	void Level::setSpeed(int speed)
 	{
-		this->t.setLength(50 + (9 - speed) * 10);
+		this->t.setLength(50 + (9 - speed) * 7);
 	}
 
 	void Level::tick()
@@ -100,6 +102,34 @@ namespace GSDefend
 			};
 		}
 
-		this->mapHeight += 1;
+		this->recalculateHeight();
+	}
+
+	void Level::recalculateHeight()
+	{
+		for (int h = this->mapH - 1; h >= 0; h--)
+		{
+			for (int x = 0; x < this->mapW; x++)
+			{
+				if (this->getXY(x, h))
+				{
+					this->mapHeight = h + 1;
+					return;
+				}
+			}
+		}
+	}
+
+	void Level::reset()
+	{
+		for (int i = 0; i < this->mapH; i++)
+		{
+			for (int j = 0; j < this->mapW; j++)
+			{
+				this->map[i][j] = false;
+			}
+		}
+
+		this->recalculateHeight();
 	}
 }

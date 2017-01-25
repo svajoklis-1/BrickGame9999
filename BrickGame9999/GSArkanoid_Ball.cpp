@@ -4,7 +4,13 @@
 
 namespace GSArkanoid
 {
-	void Ball::setSpeed(int deviceSpeed)
+	Ball::Ball() :
+	pos(5, 18, -1, 1)
+	{
+		
+	}
+
+	void Ball::setSpeed(int deviceSpeed) 
 	{
 		this->speed = 10 - deviceSpeed;
 		this->t.setLength(this->speed);
@@ -12,10 +18,10 @@ namespace GSArkanoid
 
 	void Ball::reset()
 	{
-		x = 5;
-		y = 18;
-		dx = 1;
-		dy = -1;
+		pos.x = 5;
+		pos.y = 18;
+		pos.dx = 1;
+		pos.dy = -1;
 
 		t.reset();
 	}
@@ -26,7 +32,7 @@ namespace GSArkanoid
 		{
 			t.reset();
 
-			if (s.p.isMoving() && dy == 1 && y == (logicalScreen.h - 2) && (x >= s.p.getX() && x <= s.p.getX() + s.p.getW() - 1) && !s.slid)
+			if (s.p.isMoving() && pos.dy == 1 && pos.y == (logicalScreen.h - 2) && (pos.x >= s.p.getX() && pos.x <= s.p.getX() + s.p.getW() - 1) && !s.slid)
 			{
 				dev.speaker.playSound(SND_BOUNCE);
 
@@ -43,12 +49,12 @@ namespace GSArkanoid
 				while (true)
 				{
 					// detection with walls
-					if (x == logicalScreen.w - 1 && dx > 0 || x == 0 && dx < 0)
+					if (pos.x == logicalScreen.w - 1 && pos.dx > 0 || pos.x == 0 && pos.dx < 0)
 					{
 						this->setDX(-this->getDX());
 						continue;
 					}
-					if (y == logicalScreen.h - 1 && dy > 0 || y == 0 && dy < 0)
+					if (pos.y == logicalScreen.h - 1 && pos.dy > 0 || pos.y == 0 && pos.dy < 0)
 					{
 						this->setDY(-this->getDY());
 						continue;
@@ -56,14 +62,14 @@ namespace GSArkanoid
 
 					// detection with paddle
 					// block below
-					if (y == (logicalScreen.h - 2) && (x >= s.p.getX() && x <= s.p.getX() + s.p.getW() - 1) && (dy > 0))
+					if (pos.y == (logicalScreen.h - 2) && (pos.x >= s.p.getX() && pos.x <= s.p.getX() + s.p.getW() - 1) && (pos.dy > 0))
 					{
 						hitPaddle = true;
 						this->setDY(-this->getDY());
 						continue;
 					}
 					// diagonal from left
-					if (y == (logicalScreen.h - 2) && (x == s.p.getX() - 1) && (dx > 0) && (dy > 0) && !s.slid)
+					if (pos.y == (logicalScreen.h - 2) && (pos.x == s.p.getX() - 1) && (pos.dx > 0) && (pos.dy > 0) && !s.slid)
 					{
 						hitPaddle = true;
 						this->setDY(-this->getDY());
@@ -71,7 +77,7 @@ namespace GSArkanoid
 						continue;
 					}
 					// diagonal from right
-					if (y == (logicalScreen.h - 2) && (x == s.p.getX() + s.p.getW()) && (dx < 0) && (dy > 0) && !s.slid)
+					if (pos.y == (logicalScreen.h - 2) && (pos.x == s.p.getX() + s.p.getW()) && (pos.dx < 0) && (pos.dy > 0) && !s.slid)
 					{
 						hitPaddle = true;
 						this->setDY(-this->getDY());
@@ -80,17 +86,17 @@ namespace GSArkanoid
 					}
 
 					// detection with level
-					if (s.isBlockOccupied(dev, (y + dy) * logicalScreen.w + x))
+					if (s.isBlockOccupied(dev, (pos.y + pos.dy) * logicalScreen.w + pos.x))
 					{
-						s.clearBlock(dev, (y + dy) * logicalScreen.w + x);
+						s.clearBlock(dev, (pos.y + pos.dy) * logicalScreen.w + pos.x);
 						this->setDY(-this->getDY());
 						clearedBlock = true;
 						continue;
 					}
 
-					if (s.isBlockOccupied(dev, (y) * (logicalScreen.w) + x + dx))
+					if (s.isBlockOccupied(dev, (pos.y) * (logicalScreen.w) + pos.x + pos.dx))
 					{
-						s.clearBlock(dev, y * logicalScreen.w + x + dx);
+						s.clearBlock(dev, pos.y * logicalScreen.w + pos.x + pos.dx);
 						this->setDX(-this->getDX());
 						clearedBlock = true;
 						continue;
@@ -98,9 +104,9 @@ namespace GSArkanoid
 
 					// only collide diagonally if clear on vertical/horizontal
 
-					if (s.isBlockOccupied(dev, (y + dy) * (logicalScreen.w) + x + dx))
+					if (s.isBlockOccupied(dev, (pos.y + pos.dy) * (logicalScreen.w) + pos.x + pos.dx))
 					{
-						s.clearBlock(dev, (y + dy) * (logicalScreen.w) + x + dx);
+						s.clearBlock(dev, (pos.y + pos.dy) * (logicalScreen.w) + pos.x + pos.dx);
 						this->setDY(-this->getDY());
 						this->setDX(-this->getDX());
 						clearedBlock = true;
@@ -134,66 +140,66 @@ namespace GSArkanoid
 
 	int Ball::getX() const
 	{
-		return x;
+		return pos.x;
 	}
 
 	int Ball::getY() const
 	{
-		return y;
+		return pos.y;
 	}
 
 	int Ball::getDX() const
 	{
-		return dx;
+		return pos.dx;
 	}
 
 	int Ball::getDY() const
 	{
-		return dy;
+		return pos.dy;
 	}
 
 	void Ball::setX(int x)
 	{
 		if (x < 0)
 		{
-			this->x = 0;
+			this->pos.setX(0);
 			return;
 		}
 
 		if (x >= logicalScreen.w)
 		{
-			this->x = logicalScreen.w - 1;
+			this->pos.setX(logicalScreen.w - 1);
 			return;
 		}
 
-		this->x = x;
+		this->pos.setX(x);
 	}
 
 	void Ball::setY(int y)
 	{
 		if (y < 0)
 		{
-			this->y = 0;
+			this->pos.setY(0);
 			return;
 		}
 
 		if (y >= logicalScreen.h)
 		{
-			this->y = logicalScreen.h - 1;
+			this->pos.setY(logicalScreen.h - 1);
 			return;
 		}
 
-		this->y = y;
+		this->pos.setY(y);
 	}
 
 	void Ball::setDX(int dx)
 	{
-		this->dx = dx;
+		this->pos.setDX(dx);
 	}
 
 	void Ball::setDY(int dy)
 	{
-		this->dy = dy;
+		this->pos.setDY(dy);
 	}
 
 	void Ball::setSpeeding(bool isSpeeding)

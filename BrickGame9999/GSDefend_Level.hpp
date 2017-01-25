@@ -19,11 +19,12 @@ namespace GSDefend
 		int getHeight() const;
 		int getCurrentHeight() const;
 		bool getXY(int x, int y) const;
-		void clearXY(int x, int y);
+		bool clearXY(int x, int y);
 
 		void setSpeed(int speed);
 
 		void tick();
+		void reset();
 
 	private:
 		void generateRow();
@@ -37,6 +38,8 @@ namespace GSDefend
 
 		boost::random::mt19937 rng;
 		boost::random::uniform_int_distribution<> doAddCell;
+
+		void recalculateHeight();
 
 	};
 }

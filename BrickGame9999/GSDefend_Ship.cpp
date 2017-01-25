@@ -6,10 +6,7 @@ namespace GSDefend
 	Ship::Ship() :
 	t(5)
 	{
-		this->w = 3;
-
-		this->x = logicalScreen.w / 2;
-		this->dx = 0;
+		this->reset();
 	}
 
 	void Ship::tick()
@@ -49,5 +46,13 @@ namespace GSDefend
 	int Ship::getX() const
 	{
 		return this->x;
+	}
+
+	void Ship::reset()
+	{
+		this->w = 3;
+
+		this->x = logicalScreen.w / 2;
+		this->dx = 0;
 	}
 }

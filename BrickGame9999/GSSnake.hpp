@@ -25,9 +25,7 @@ namespace GSSnake
 		void render(Device &dev) override;
 
 	private:
-
 		Variant currentVariant;
-		char highScoreLetter;
 
 		Ticker snakeTicker;
 		Snake snake;

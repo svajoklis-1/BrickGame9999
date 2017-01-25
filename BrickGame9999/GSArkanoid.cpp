@@ -13,10 +13,10 @@ namespace GSArkanoid
 		switch (variant)
 		{
 		case VARIANT_NORMAL:
-			highScoreLetter = 'C';
+			dev.highScoreLetter = 'C';
 			break;
 		case VARIANT_DOUBLE:
-			highScoreLetter = 'D';
+			dev.highScoreLetter = 'D';
 			break;
 		default: 
 			l.log(Logger::ERR, "Invalid game variant: %d", variant);
@@ -35,7 +35,7 @@ namespace GSArkanoid
 		dev.screen.level.setLink(&dev.getLevelRef());
 		dev.screen.speed.setLink(&dev.getSpeedRef());
 		dev.screen.score.setLink(&dev.score);
-		dev.screen.highScore.setLink(&dev.highScore[highScoreLetter]);
+		dev.screen.highScore.setLink(&dev.highScore[dev.highScoreLetter]);
 
 		reset(dev);
 
@@ -159,10 +159,12 @@ namespace GSArkanoid
 					this->b.setSpeeding(true);
 				}
 				break;
+
+			default: break;
 			}
 		}
 
-		if (key_depressed(state))
+		if (key_released(state))
 		{
 			switch (k)
 			{
@@ -180,6 +182,8 @@ namespace GSArkanoid
 					this->b.setSpeeding(false);
 				}
 				break;
+
+			default: break;
 			}
 		}
 	}
@@ -250,7 +254,7 @@ namespace GSArkanoid
 	{
 		currentLevel[location] = ' ';
 		currentCount--;
-		dev.increaseScore(10, highScoreLetter);
+		dev.increaseScore(10);
 	}
 
 	bool State::isBlockOccupied(Device &dev, int location)

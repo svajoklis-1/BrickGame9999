@@ -178,6 +178,9 @@
     <ClCompile Include="GSArkanoid_Paddle.cpp">
       <Filter>Source files\Games\GSArkanoid\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="GSDefend_Bullet.cpp">
+      <Filter>Source files\Games\GSDefend\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Explosion.hpp">
@@ -281,6 +284,12 @@
     </ClInclude>
     <ClInclude Include="GSArkanoid_Paddle.hpp">
       <Filter>Source files\Games\GSArkanoid\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GSDefend_Bullet.hpp">
+      <Filter>Source files\Games\GSDefend\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Types_Points.hpp">
+      <Filter>Source files\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

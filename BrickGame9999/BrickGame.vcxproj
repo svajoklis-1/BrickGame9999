@@ -174,6 +174,7 @@
     <ClCompile Include="GSArkanoid_Ball.cpp" />
     <ClCompile Include="GSArkanoid_Paddle.cpp" />
     <ClCompile Include="GSDefend.cpp" />
+    <ClCompile Include="GSDefend_Bullet.cpp" />
     <ClCompile Include="GSDefend_Level.cpp" />
     <ClCompile Include="GSDefend_Ship.cpp" />
     <ClCompile Include="GSGameOver.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="GSArkanoid_Ball.hpp" />
     <ClInclude Include="GSArkanoid_Paddle.hpp" />
     <ClInclude Include="GSDefend.hpp" />
+    <ClInclude Include="GSDefend_Bullet.hpp" />
     <ClInclude Include="GSDefend_Level.hpp" />
     <ClInclude Include="GSDefend_Ship.hpp" />
     <ClInclude Include="GSGameOver.hpp" />
@@ -234,6 +236,7 @@
     <ClInclude Include="Test_Ticker.hpp" />
     <ClInclude Include="Ticker.hpp" />
     <ClInclude Include="Types.hpp" />
+    <ClInclude Include="Types_Points.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BrickGame9999.rc" />

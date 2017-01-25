@@ -10,7 +10,7 @@ namespace GSArkanoid
 	class Ball
 	{
 	public:
-		Ball() {};
+		Ball();
 		void setSpeed(int deviceSpeed);
 		void reset();
 
@@ -31,12 +31,10 @@ namespace GSArkanoid
 
 	private:
 		int speed = 10;
-		bool speeding;
+		bool speeding = false;
 		int speedingSpeed = 2;
-		int x = 5;
-		int y = 18;
-		int dx = 1;
-		int dy = -1;
+
+		moving_point pos = moving_point(5, 18, 1, -1);
 
 		Ticker t;
 	};

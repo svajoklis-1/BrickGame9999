@@ -15,7 +15,10 @@ namespace GSDefend
 
 		int getX() const;
 
+		void reset();
+
 	private:
+
 		Ticker t;
 		int x;
 		int dx;

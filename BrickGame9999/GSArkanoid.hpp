@@ -48,7 +48,6 @@ namespace GSArkanoid
 		static int currentCount;
 
 		int stateSegment = 0;
-		char highScoreLetter;
 
 		void tickPause(Device &dev);
 		void tickGame(Device &dev);

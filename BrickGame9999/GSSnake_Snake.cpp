@@ -80,7 +80,7 @@ namespace GSSnake
 			}
 		}
 
-		if (key_depressed(state))
+		if (key_released(state))
 		{
 			if (k == KEY_ACTION)
 			{

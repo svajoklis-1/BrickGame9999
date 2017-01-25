@@ -71,8 +71,8 @@ void Device::reset()
 	screen.clear();
 }
 
-void Device::increaseScore(int amount, char hiScoreLetter)
+void Device::increaseScore(int amount)
 {
 	score += amount;
-	if (highScore[hiScoreLetter] < score) highScore[hiScoreLetter] = score;
+	if (highScore[this->highScoreLetter] < score) highScore[this->highScoreLetter] = score;
 }

@@ -27,20 +27,20 @@ namespace GSSnake
 
 		if (variant == VARIANT_NORMAL)
 		{
-			highScoreLetter = 'A';
+			dev.highScoreLetter = 'A';
 			snakeLengthRequired = 20 + 3;
 		}
 		else if (variant == VARIANT_INFINITE)
 		{
-			highScoreLetter = 'B';
-			snakeLengthRequired = 999;
+			dev.highScoreLetter = 'B';
+			snakeLengthRequired = logicalScreen.w * logicalScreen.h;
 		}
 
 		dev.inGame = true;
 
 		dev.screen.score.setNumber(dev.score);
 
-		dev.screen.highScore.setNumber(dev.highScore[highScoreLetter]);
+		dev.screen.highScore.setNumber(dev.highScore[dev.highScoreLetter]);
 
 		dev.screen.speed.setLink(&dev.getSpeedRef());
 		dev.screen.speed.setLinked();
@@ -126,25 +126,19 @@ namespace GSSnake
 		if (snake.getHead() == food)
 		{
 			dev.speaker.playSound(Sound::SND_BOUNCE);
-			dev.score += 10;
+			dev.increaseScore(10);
 
 			genFood(dev.getLevel() % levelCount);
 			snake.setLength(snake.getLength() + 1);
 
 			if (snake.getLength() == snakeLengthRequired)
 			{
-				dev.score += 50;
+				dev.increaseScore(50);
 				dev.setLevel(dev.getLevel() + 1);
 				dev.setSpeed(dev.getSpeed() + 1);
 				reset(dev);
 			}
 		}
-
-		if (dev.highScore[highScoreLetter] < dev.score)
-		{
-			dev.highScore[highScoreLetter] = dev.score;
-		}
-		
 
 		if (crashed)
 		{
@@ -221,7 +215,7 @@ namespace GSSnake
 	{
 		dev.screen.mainArray.clear();
 		dev.screen.score.setNumber(dev.score);
-		dev.screen.highScore.setNumber(dev.highScore[highScoreLetter]);
+		dev.screen.highScore.setNumber(dev.highScore[dev.highScoreLetter]);
 
 		dev.screen.hintArray.clear();
 		dev.screen.hintArray.setCount(dev.lives);
