@@ -180,6 +180,7 @@
     <ClCompile Include="GSGameOver.cpp" />
     <ClCompile Include="GSMenu.cpp" />
     <ClCompile Include="GSMenu_graphics.cpp" />
+    <ClCompile Include="GSMenu_LetterRenderer.cpp" />
     <ClCompile Include="GSRain.cpp" />
     <ClCompile Include="GSSnake.cpp" />
     <ClCompile Include="GSSnake_levels.cpp" />
@@ -196,6 +197,7 @@
     <ClCompile Include="BrickGame.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
     <ClCompile Include="Speaker.cpp" />
+    <ClCompile Include="Test_LetterRenderer.cpp" />
     <ClCompile Include="Test_Runner.cpp" />
     <ClCompile Include="Test_Ticker.cpp" />
     <ClCompile Include="Ticker.cpp" />
@@ -215,6 +217,7 @@
     <ClInclude Include="GSDefend_Ship.hpp" />
     <ClInclude Include="GSGameOver.hpp" />
     <ClInclude Include="GSMenu.hpp" />
+    <ClInclude Include="GSMenu_LetterRenderer.hpp" />
     <ClInclude Include="GSRain.hpp" />
     <ClInclude Include="GSSnake.hpp" />
     <ClInclude Include="GSSnake_Snake.hpp" />
@@ -232,6 +235,7 @@
     <ClInclude Include="SoundPlayer.hpp" />
     <ClInclude Include="Speaker.hpp" />
     <ClInclude Include="Test.hpp" />
+    <ClInclude Include="Test_LetterRenderer.hpp" />
     <ClInclude Include="Test_Runner.hpp" />
     <ClInclude Include="Test_Ticker.hpp" />
     <ClInclude Include="Ticker.hpp" />

@@ -25,6 +25,17 @@ void Ticker::reset()
 	periodCount += 1;
 }
 
+int Ticker::getPeriodCount()
+{
+	return this->periodCount;
+}
+
+void Ticker::resetPeriodCount()
+{
+	this->periodCount = 0;
+}
+
+
 bool Ticker::getState(int periodLength) const {
 	return periodCount % periodLength == periodLength - 1;
 }

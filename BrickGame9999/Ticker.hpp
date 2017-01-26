@@ -20,6 +20,9 @@ public:
 	void setLength(int length);
 	int getTickCount();
 
+	int getPeriodCount();
+	void resetPeriodCount();
+
 private:
 	int tickLength;
 	int tickCount = 0;

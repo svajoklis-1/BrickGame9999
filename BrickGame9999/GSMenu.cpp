@@ -1,10 +1,13 @@
 #include "GSMenu.hpp"
+#include "GSMenu_LetterRenderer.hpp"
 
 namespace GSMenu
 {
 	int State::currentL = 0;
 
 	State::State(Device &dev) :
+		letterTurnDelay(60),
+		letterTurn(10),
 		animTicker(60)
 	{
 		defineGraphics();
@@ -24,11 +27,6 @@ namespace GSMenu
 
 	void State::resetAnim()
 	{
-		flipState = 1;
-		turning = false;
-		turnDelayTick = 0;
-		flipTick = 0;
-		flipDir = 1;
 		animFrame = 0;
 		animTicker.reset();
 	}
@@ -77,6 +75,10 @@ namespace GSMenu
 				dev.screen.highScore.setLink(&dev.highScore[letterChars[currentL]]);
 
 				resetAnim();
+				letterTurnDelay.reset();
+				letterTurnDelay.resetPeriodCount();
+				letterTurn.reset();
+				letterTurn.resetPeriodCount();
 				break;
 
 			case KEY_START: break;
@@ -122,131 +124,32 @@ namespace GSMenu
 			if (animFrame >= 4)
 				animFrame = 0;
 		}
-
-		animTicker.tick();
-
-		if (turning)
+		else
 		{
-			flipTick++;
+			animTicker.tick();
+		}
+
+		if (letterTurnDelay.triggered())
+		{
+			if (letterTurn.triggered())
+			{
+				letterTurn.reset();
+				if (letterTurn.getPeriodCount() == 8)
+				{
+					letterTurn.resetPeriodCount();
+					letterTurnDelay.reset();
+				}
+			}
+			else
+			{
+				letterTurn.tick();
+			}
 		}
 		else
 		{
-			turnDelayTick++;
-		}
-	}
-
-	void State::drawLetter(Device &dev)
-	{
-		if (turnDelayTick >= turnDelay)
-		{
-			turning = true;
-			turnDelayTick = 0;
+			letterTurnDelay.tick();
 		}
 
-		if (turning)
-		{
-			if (flipTick >= 5)
-			{
-				flipState += flipDir;
-
-				if (flipState >= 5)
-				{
-					flipState = 3;
-					flipDir = -flipDir;
-				}
-
-				if (flipState <= 0)
-				{
-					flipState = 1;
-					turning = false;
-					flipDir = -flipDir;
-				}
-
-				flipTick = 0;
-			}
-
-			int middle = int(letterW / 2);
-			int actualX, actualY;
-			for (int y = 0; y < letterH; y++)
-			{
-				actualY = y;
-				if (flipState <= 2)
-				{
-					for (int x = 0; x < letterW; x++)
-					{
-						actualX = x;
-						if (x < middle)
-						{
-							if (flipState == 1)
-							{
-								actualX = actualX + 1;
-							}
-
-							if (flipState == 2)
-							{
-								actualX = middle;
-							}
-						}
-
-						if (x > middle)
-						{
-							if (flipState == 1)
-							{
-								actualX = actualX - 1;
-							}
-
-							if (flipState == 2)
-							{
-								actualX = middle;
-							}
-						}
-
-						if (letters[currentL][y * letterW + x] == '*')
-							dev.screen.mainArray.setPixel(actualX + letterX, actualY + letterY, PXARRAY_ON);
-					}
-				}
-				else
-				{
-					for (int x = letterW - 1; x >= 0; x--)
-					{
-						actualX = letterW - 1 - x;
-
-						if (x < middle)
-						{
-							if (flipState == 3)
-							{
-								actualX = actualX - 1;
-							}
-						}
-
-						if (x > middle)
-						{
-							if (flipState == 3)
-							{
-								actualX = actualX + 1;
-							}
-						}
-
-						if (letters[currentL][y * letterW + x] == '*')
-							dev.screen.mainArray.setPixel(actualX + letterX, actualY + letterY, PXARRAY_ON);
-					}
-				}
-
-			}
-
-		}
-		else
-		{
-			for (int y = 0; y < letterH; y++)
-			{
-				for (int x = 0; x < letterW; x++)
-				{
-					if (letters[currentL][y * letterW + x] == '*')
-						dev.screen.mainArray.setPixel(x + letterX, y + letterY, PXARRAY_ON);
-				}
-
-			}
-		}
 	}
 
 	void State::drawNumber(Device& dev)
@@ -272,7 +175,8 @@ namespace GSMenu
 
 		dev.screen.highScore.setLinked();
 
-		drawLetter(dev);
+		LetterRenderer::renderHorizontallyRotatedLetter(dev, letters[currentL], letterW, letterH, letterX, letterY, letterTurn.getPeriodCount() % 8);
+
 		drawNumber(dev);
 
 		renderAnim(dev);

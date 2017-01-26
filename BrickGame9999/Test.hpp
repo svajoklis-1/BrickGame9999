@@ -8,5 +8,6 @@ namespace Test
 	{
 	public:
 		virtual void runTest(Test::Runner &tr) = 0;
+		virtual ~AbstractTest() { };
 	};
 }

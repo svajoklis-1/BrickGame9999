@@ -62,6 +62,9 @@
     <Filter Include="Source files\Games\GSArkanoid\Objects">
       <UniqueIdentifier>{6e9cc787-cd8b-4ae5-8eca-848129180acc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\Games\GSMenu\Letters">
+      <UniqueIdentifier>{2fc8cfc7-d9b6-4293-91cb-b017699aad23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -181,6 +184,12 @@
     <ClCompile Include="GSDefend_Bullet.cpp">
       <Filter>Source files\Games\GSDefend\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="GSMenu_LetterRenderer.cpp">
+      <Filter>Source files\Games\GSMenu\Letters</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_LetterRenderer.cpp">
+      <Filter>Source files\Test\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Explosion.hpp">
@@ -290,6 +299,12 @@
     </ClInclude>
     <ClInclude Include="Types_Points.hpp">
       <Filter>Source files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="GSMenu_LetterRenderer.hpp">
+      <Filter>Source files\Games\GSMenu\Letters</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_LetterRenderer.hpp">
+      <Filter>Source files\Test\Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

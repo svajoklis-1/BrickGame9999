@@ -16,7 +16,7 @@ Speaker::~Speaker()
 
 void Speaker::playSound(Sound sound)
 {
-	if (muted)
+	if (muted || this->pl == nullptr)
 	{
 		return;
 	}

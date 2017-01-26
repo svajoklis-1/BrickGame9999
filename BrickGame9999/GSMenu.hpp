@@ -60,19 +60,15 @@ namespace GSMenu
 		const int letterX = 2;
 		const int letterY = 0;
 		const int letterCount = LETTER_COUNT;
-		const int letterW = 5;
+		const int letterW = 6;
 		const int letterH = 5;
 
 		void drawLetter(Device &dev);
 		void renderAnim(Device &dev);
 		void resetAnim();
 
-		int flipTick = 0;
-		int flipState = 1;
-		int flipDir = 1;
-		const int turnDelay = 60; //was60
-		int turnDelayTick = 0;
-		bool turning = false;
+		Ticker letterTurnDelay;
+		Ticker letterTurn;
 
 		Ticker animTicker;
 		int animFrame = 0;
