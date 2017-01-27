@@ -155,6 +155,7 @@ namespace GSSnake
 
 	void Snake::render(Device &dev)
 	{
+		snakeHeadBlinkTicker.tick();
 		// blink head
 		if (snakeHeadBlinkTicker.triggered())
 		{
@@ -166,9 +167,7 @@ namespace GSSnake
 			if (i != 0 || snakeHeadBlinkTicker.getState(2) == true || speeding)
 				dev.screen.mainArray.setPixel(segments[i], PXARRAY_ON);
 		}
-
-		// display tick
-		snakeHeadBlinkTicker.tick();
+		
 	}
 
 	coord Snake::getSegment(int index)

@@ -29,11 +29,8 @@ namespace GSDefend
 	{
 		if (this->shipExploded)
 		{
-			if (!this->shipExplodedPause.triggered())
-			{
-				this->shipExplodedPause.tick();
-			}
-			else
+			this->shipExplodedPause.tick();
+			if (this->shipExplodedPause.triggered())
 			{
 				if (dev.lives == 0)
 				{
@@ -61,14 +58,11 @@ namespace GSDefend
 
 		if (this->isShooting)
 		{
+			this->shootT.tick();
 			if (this->shootT.triggered())
 			{
 				this->shootT.reset();
 				bullets.push_back(Bullet(DIR_UP, this->ship.getX(), logicalScreen.h - 2));
-			}
-			else
-			{
-				this->shootT.tick();
 			}
 		}
 

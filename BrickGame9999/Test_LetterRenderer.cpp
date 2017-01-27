@@ -1,6 +1,5 @@
 #include "Test_LetterRenderer.hpp"
 
-#include "Test_Mock_Device.hpp"
 #include "Device.hpp"
 
 namespace Test

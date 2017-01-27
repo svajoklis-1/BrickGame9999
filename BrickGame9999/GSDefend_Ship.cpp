@@ -11,6 +11,7 @@ namespace GSDefend
 
 	void Ship::tick()
 	{
+		this->t.tick();
 		if (this->t.triggered())
 		{
 			this->t.reset();
@@ -24,10 +25,6 @@ namespace GSDefend
 			{
 				this->x = 0;
 			}
-		}
-		else
-		{
-			this->t.tick();
 		}
 	}
 

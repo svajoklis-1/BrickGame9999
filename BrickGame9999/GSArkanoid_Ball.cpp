@@ -28,6 +28,7 @@ namespace GSArkanoid
 
 	void Ball::tick(Device &dev, State &s)
 	{
+		t.tick();
 		if (t.triggered())
 		{
 			t.reset();
@@ -131,10 +132,6 @@ namespace GSArkanoid
 				s.slid = false;
 			}
 
-		}
-		else
-		{
-			t.tick();
 		}
 	}
 

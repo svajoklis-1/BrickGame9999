@@ -22,6 +22,7 @@ Explosion::Explosion() :
 
 void Explosion::render(Device& dev)
 {
+	displayTicker.tick();
 	if (displayTicker.triggered())
 	{
 		displayTicker.reset();
@@ -29,6 +30,4 @@ void Explosion::render(Device& dev)
 	}
 
 	dev.screen.mainArray.copyString(explosionPosition.x, explosionPosition.y, frames[currentFrame], 4, 4, true);
-
-	displayTicker.tick();
 }

@@ -20,7 +20,7 @@ public:
 	void setLength(int length);
 	int getTickCount();
 
-	int getPeriodCount();
+	int getPeriodCount() const;
 	void resetPeriodCount();
 
 private:

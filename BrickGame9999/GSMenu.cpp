@@ -116,6 +116,7 @@ namespace GSMenu
 
 	void State::tick(Device &/*dev*/)
 	{
+		animTicker.tick();
 		if (animTicker.triggered())
 		{
 			animTicker.reset();
@@ -124,13 +125,11 @@ namespace GSMenu
 			if (animFrame >= 4)
 				animFrame = 0;
 		}
-		else
-		{
-			animTicker.tick();
-		}
 
+		letterTurnDelay.tick();
 		if (letterTurnDelay.triggered())
 		{
+			letterTurn.tick();
 			if (letterTurn.triggered())
 			{
 				letterTurn.reset();
@@ -140,14 +139,6 @@ namespace GSMenu
 					letterTurnDelay.reset();
 				}
 			}
-			else
-			{
-				letterTurn.tick();
-			}
-		}
-		else
-		{
-			letterTurnDelay.tick();
 		}
 
 	}

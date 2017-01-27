@@ -25,7 +25,7 @@ void Ticker::reset()
 	periodCount += 1;
 }
 
-int Ticker::getPeriodCount()
+int Ticker::getPeriodCount() const
 {
 	return this->periodCount;
 }

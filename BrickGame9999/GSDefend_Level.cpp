@@ -72,14 +72,11 @@ namespace GSDefend
 
 	void Level::tick()
 	{
+		this->t.tick();
 		if (this->t.triggered())
 		{
 			this->generateRow();
 			this->t.reset();
-		}
-		else
-		{
-			this->t.tick();
 		}
 	}
 

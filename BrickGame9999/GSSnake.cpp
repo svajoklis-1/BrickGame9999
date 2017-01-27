@@ -97,6 +97,7 @@ namespace GSSnake
 		bool crashed = false;
 		// move snake
 
+		snakeTicker.tick();
 		if (snakeTicker.triggered())
 		{
 			snake.tick(dev);
@@ -148,8 +149,6 @@ namespace GSSnake
 			stateSegment++;
 			dev.pauseable = false;
 		}
-
-		snakeTicker.tick();
 	}
 
 	void State::tickPause(Device &dev)
@@ -244,6 +243,7 @@ namespace GSSnake
 
 		snake.render(dev);
 
+		foodTicker.tick();
 		// draw food
 		if (foodTicker.triggered())
 		{
@@ -255,7 +255,6 @@ namespace GSSnake
 			dev.screen.mainArray.setPixel(food, PXARRAY_ON);
 		}
 
-		foodTicker.tick();
 	}
 }
 

@@ -32,6 +32,7 @@ namespace GSGameOver
 
 	void State::tickCurtain(Device &dev)
 	{
+		lineTicker.tick();
 		if (lineTicker.triggered())
 		{
 			lineTicker.reset();
@@ -51,8 +52,6 @@ namespace GSGameOver
 		{
 			transitionState++;
 		}
-
-		lineTicker.tick();
 	}
 
 	void State::parseEvent(Device& /*dev*/, Key /*k*/, KeyState /*state*/)
