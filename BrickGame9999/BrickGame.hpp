@@ -43,6 +43,8 @@ private:
 	bool devicePausedExternally = false;
 	bool previousPauseState = false;
 
+	int *fpsHistory;
+	int fpsHistoryCount = 60;
 	int gameLoopStartTicks = 0;
 	int gameLoopEndTicks = 0;
 

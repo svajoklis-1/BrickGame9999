@@ -3,11 +3,11 @@ Refactor project to use single thread for logic and keep rendering on main threa
 Work on Defend
 
 === Medium tasks ===
-Investigate shadows for screen elements. Maybe just leave the shadow for the painted border?
-Add bullets to Defend
 
 === Minor tasks  ===
 Write tests for other game logic items.
-Properly refactor Arkanoid items.
 
 ===     Done     ===
+Properly refactor Arkanoid items.
+Investigate shadows for screen elements. Maybe just leave the shadow for the painted border?
+Add bullets to Defend

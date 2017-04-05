@@ -29,7 +29,7 @@ void SaveManager::readSave(int &windowScale, int &framerateControl, Device &devi
 
 		try
 		{
-			BOOST_FOREACH(pt::ptree::value_type &v, saveFile.get_child("highScore"))
+			BOOST_FOREACH(auto &v, saveFile.get_child("highScore"))
 			{
 				device.highScore[v.first.c_str()[0]] = v.second.get_value<int>();
 			}

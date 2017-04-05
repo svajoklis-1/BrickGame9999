@@ -43,9 +43,7 @@ namespace GSSnake
 		dev.screen.highScore.setNumber(dev.highScore[dev.highScoreLetter]);
 
 		dev.screen.speed.setLink(&dev.getSpeedRef());
-		dev.screen.speed.setLinked();
 		dev.screen.level.setLink(&dev.getLevelRef());
-		dev.screen.level.setLinked();
 
 		dev.screen.mainArray.clear();
 		dev.screen.hintArray.clear();

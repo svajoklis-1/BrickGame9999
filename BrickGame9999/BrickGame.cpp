@@ -29,12 +29,19 @@ BrickGame::BrickGame()
 
 	initDevice();
 
+	this->fpsHistory = new int[fpsHistoryCount];
+
+	for (int i = 0; i < fpsHistoryCount; i++)
+	{
+		this->fpsHistory[i] = 0;
+	}
+
 	// switch which gamestate is the startup one
 #ifdef DEBUG_9999
 	gameState = new GSMenu::State(*device);
 	currentState = GS_MENU;
 #else
-	gameState = new GSMenu(*device);
+	gameState = new GSMenu::State(*device);
 	currentState = GS_MENU;
 #endif
 }
@@ -53,7 +60,7 @@ void BrickGame::run()
 			device->reset();
 		}
 
-		gameLoopStartTicks = SDL_GetTicks();
+		this->gameLoopStartTicks = SDL_GetTicks();
 
 		if (gameState->nextState != GS_NONE)
 		{
@@ -80,8 +87,9 @@ void BrickGame::run()
 			}
 			render();
 			deviceTick();
-			gameLoopEndTicks = SDL_GetTicks();
 		}
+
+		this->gameLoopEndTicks = SDL_GetTicks();
 
 		updateWindowTitle();
 	}
@@ -99,7 +107,6 @@ void BrickGame::run()
 		SaveManager::defaultSave(windowScale, framerateControl, *device);
 		throw string("Writing save data failed, reverting to default...");
 	}
-	
 }
 
 void BrickGame::updateWindowTitle() const
@@ -115,7 +122,21 @@ void BrickGame::updateWindowTitle() const
 	{
 		if (gameLoopEndTicks - gameLoopStartTicks != 0)
 		{
-			sprintf_s(title, "BrickGame-9999 FPS:%d", int(1000.0 / (gameLoopEndTicks - gameLoopStartTicks)));
+			for (int i = 0; i < fpsHistoryCount - 1; i++)
+			{
+				this->fpsHistory[i] = this->fpsHistory[i + 1];
+			}
+			this->fpsHistory[fpsHistoryCount - 1] = int(1000.0 / float(gameLoopEndTicks - gameLoopStartTicks));
+
+			int sum = 0;
+			double average = 0.0;
+			for (int i = 0; i < fpsHistoryCount; i++)
+			{
+				sum = sum + fpsHistory[i];
+			}
+
+			average = sum / fpsHistoryCount;
+			sprintf_s(title, "BrickGame-9999 FPS:%d", lround(average));
 		}
 		else
 		{

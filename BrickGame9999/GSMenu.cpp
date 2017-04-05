@@ -16,9 +16,7 @@ namespace GSMenu
 
 		dev.screen.score.dash();
 		dev.screen.level.setLink(&dev.getLevelRef());
-		dev.screen.level.setLinked();
 		dev.screen.speed.setLink(&dev.getSpeedRef());
-		dev.screen.speed.setLinked();
 
 		dev.screen.hintArray.clear();
 

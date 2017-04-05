@@ -69,20 +69,27 @@ void BrickGame::initSystem()
 
 	l.logPartial(Logger::INFO, "Creating SDL renderer... ");
 
-	if (framerateControl == FRC_VSYNC)
+	switch (framerateControl)
 	{
+	case FRC_VSYNC:
 		l.logContinue("(vsynced)");
 		r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		SDL_RenderSetScale(r, windowScaleActualW, windowScaleActualH);
-		SDL_RenderSetLogicalSize(r, scrRect.w, scrRect.h);
-	}
-	else
-	{
+		break;
+
+	default:
 		l.logContinue("(non-vsynced)");
 		r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED);
-		SDL_RenderSetScale(r, windowScaleActualW, windowScaleActualH);
-		SDL_RenderSetLogicalSize(r, scrRect.w, scrRect.h);
+		break;
 	}
+
+	if (!r)
+	{
+		l.logLabel(Logger::FAIL);
+		throw string("Failed to create an SDL renderer.");
+	}
+
+	SDL_RenderSetScale(r, windowScaleActualW, windowScaleActualH);
+	SDL_RenderSetLogicalSize(r, scrRect.w, scrRect.h);
 
 	l.logLabel(Logger::OK);
 
@@ -99,11 +106,6 @@ void BrickGame::initSystem()
 	l.logLabel(Logger::OK);
 
 	SDL_SetWindowIcon(w, icon);
-
-	if (!r)
-	{
-		throw string("Failed to create SDL renderer.");
-	}
 
 	res->setRenderer(r);
 

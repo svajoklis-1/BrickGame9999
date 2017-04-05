@@ -1,6 +1,6 @@
 #include "Logger.hpp"
 #include <time.h>
-#include <cstring>
+#include <cstdio>
 
 Logger::Logger()
 {
@@ -170,8 +170,6 @@ void Logger::_log(const char *format, va_list args, bool addEndl)
 #ifdef DEBUG_9999
 
 	vprintf(format, args);
-	
-	// "^cf0%s [%8s^cf0] ^c70My Text Here!"
 
 	if (addEndl)
 	{
