@@ -28,9 +28,6 @@ public:
 	void setNumber(int value);
 	void setSegments(int *segments, int segmentCount);
 
-	void setLink(int *value);
-	void setLinked();
-
 	int getSegment(int index);
 	int getSegmentCount();
 private:

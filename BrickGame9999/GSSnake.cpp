@@ -38,13 +38,6 @@ namespace GSSnake
 
 		dev.inGame = true;
 
-		dev.screen.score.setNumber(dev.score);
-
-		dev.screen.highScore.setNumber(dev.highScore[dev.highScoreLetter]);
-
-		dev.screen.speed.setLink(&dev.getSpeedRef());
-		dev.screen.level.setLink(&dev.getLevelRef());
-
 		dev.screen.mainArray.clear();
 		dev.screen.hintArray.clear();
 
@@ -217,8 +210,8 @@ namespace GSSnake
 		dev.screen.hintArray.clear();
 		dev.screen.hintArray.setCount(dev.lives);
 
-		dev.screen.level.setLinked();
-		dev.screen.speed.setLinked();
+		dev.screen.speed.setNumber(dev.getSpeed());
+		dev.screen.level.setNumber(dev.getLevel());
 
 		switch (stateSegment)
 		{

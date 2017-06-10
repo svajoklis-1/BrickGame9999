@@ -129,13 +129,12 @@ void BrickGame::updateWindowTitle() const
 			this->fpsHistory[fpsHistoryCount - 1] = int(1000.0 / float(gameLoopEndTicks - gameLoopStartTicks));
 
 			int sum = 0;
-			double average = 0.0;
 			for (int i = 0; i < fpsHistoryCount; i++)
 			{
 				sum = sum + fpsHistory[i];
 			}
+			double average = sum / fpsHistoryCount;
 
-			average = sum / fpsHistoryCount;
 			sprintf_s(title, "BrickGame-9999 FPS:%d", lround(average));
 		}
 		else

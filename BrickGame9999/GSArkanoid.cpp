@@ -32,11 +32,6 @@ namespace GSArkanoid
 			resetLevel(dev);
 		}
 
-		dev.screen.level.setLink(&dev.getLevelRef());
-		dev.screen.speed.setLink(&dev.getSpeedRef());
-		dev.screen.score.setLink(&dev.score);
-		dev.screen.highScore.setLink(&dev.highScore[dev.highScoreLetter]);
-
 		reset(dev);
 
 		dev.inGame = true;
@@ -195,11 +190,11 @@ namespace GSArkanoid
 		dev.screen.mainArray.clear();
 		dev.screen.hintArray.setCount(dev.lives);
 
-		dev.screen.level.setLinked();
-		dev.screen.speed.setLinked();
+		dev.screen.level.setNumber(dev.getLevel());
+		dev.screen.speed.setNumber(dev.getSpeed());
 
-		dev.screen.score.setLinked();
-		dev.screen.highScore.setLinked();
+		dev.screen.score.setNumber(dev.score);
+		dev.screen.highScore.setNumber(dev.highScore[dev.highScoreLetter]);
 
 		switch (stateSegment)
 		{

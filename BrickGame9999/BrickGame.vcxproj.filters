@@ -321,6 +321,9 @@
     <None Include="..\.gitignore">
       <Filter>Misc files</Filter>
     </None>
+    <None Include="..\README.md">
+      <Filter>Misc files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\TODO.txt">

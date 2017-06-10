@@ -88,8 +88,10 @@ void PixelArrayRenderer::render(PixelArray &array, ResourceStore &res, string lo
 
 			if (numShadows > 0) prevScreen[0][y * sizeX + x] = pixelVal;
 			if (!pixelVal)
+			{
 				continue;
-
+			}
+				
 			SDL_Rect pixel;
 			pixel.x = res.location[location].x + (x * (res.item[item].w + 1));
 			pixel.y = res.location[location].y + (y * (res.item[item].h + 1));
@@ -100,18 +102,23 @@ void PixelArrayRenderer::render(PixelArray &array, ResourceStore &res, string lo
 				res.getRenderer(),
 				res.img("items.png"),
 				&res.item[item],
-				&pixel);
+				&pixel
+			);
 		}
 	}
 }
 
 void PixelArrayRenderer::pushPrevs()
 {
-	for (int i = numShadows - 2; i >= 0; i--)
+	for (
+		int secondToLast = numShadows - 2, last = numShadows - 1;
+		secondToLast >= 0 && last >= 1;
+		secondToLast--, last--
+	)
 	{
 		for (int n = 0; n < sizeX * sizeY; n++)
 		{
-			prevScreen[i + 1][n] = prevScreen[i][n];
+			prevScreen[last][n] = prevScreen[secondToLast][n];
 		}
 	}
 }

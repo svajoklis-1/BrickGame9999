@@ -10,15 +10,12 @@ namespace GSDefend
 		this->shipExplodedPause.setLength(60);
 		if (!dev.inGame)
 		{
+			dev.score = 0;
 			dev.lives = 3;
 		}
 
-		dev.screen.score.setLink(&dev.score);
 		dev.highScoreLetter = 'D';
-		dev.screen.highScore.setLink(&dev.highScore[dev.highScoreLetter]);
-
 		this->level.setSpeed(dev.getSpeed());
-		dev.screen.speed.setLink(&dev.getSpeedRef());
 
 		this->reset(dev);
 
@@ -107,11 +104,11 @@ namespace GSDefend
 		Screen &s = dev.screen;
 		s.clear();
 
-		dev.screen.score.setLinked();
-		dev.screen.highScore.setLinked();
+		dev.screen.score.setNumber(dev.score);
+		dev.screen.highScore.setNumber(dev.highScore[dev.highScoreLetter]);
 		dev.screen.hintArray.setCount(dev.lives);
 		dev.screen.level.dash();
-		dev.screen.speed.setLinked();
+		dev.screen.speed.setNumber(dev.getSpeed());
 
 		for (int x = 0; x < this->level.getWidth(); x++)
 		{

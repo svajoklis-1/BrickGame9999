@@ -2,16 +2,16 @@
 
 Ticker::Ticker(int length)
 {
-	tickLength = length;
+	periodLength = length;
 };
 
 bool Ticker::triggered() const
 {
-	return tickCount >= tickLength;
+	return tickCount >= periodLength;
 }
 void Ticker::forceTrigger()
 {
-	tickCount = tickLength;
+	tickCount = periodLength;
 }
 
 void Ticker::tick()
@@ -36,16 +36,16 @@ void Ticker::resetPeriodCount()
 }
 
 
-bool Ticker::getState(int periodLength) const {
-	return periodCount % periodLength == periodLength - 1;
+bool Ticker::getState(int lengthInPeriods) const {
+	return periodCount % lengthInPeriods == lengthInPeriods - 1;
 }
 
-void Ticker::setState(bool state, int periodLength)
+void Ticker::setState(bool state, int lengthInPeriods)
 {
 	tickCount = 0;
 	if (state)
 	{
-		if (getState(periodLength))
+		if (getState(lengthInPeriods))
 		{
 			return;
 		}
@@ -56,7 +56,7 @@ void Ticker::setState(bool state, int periodLength)
 	}
 	else
 	{
-		if (!getState(periodLength))
+		if (!getState(lengthInPeriods))
 		{
 			return;
 		}
@@ -69,7 +69,7 @@ void Ticker::setState(bool state, int periodLength)
 
 void Ticker::setLength(int length)
 {
-	tickLength = length;
+	periodLength = length;
 }
 
 int Ticker::getTickCount()

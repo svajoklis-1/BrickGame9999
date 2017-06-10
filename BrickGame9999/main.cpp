@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
 	{
 		BrickGame b;
 		b.run();
-}
+	}
 	catch (string ex)
 	{
 		l.log(Logger::ERR, ex.c_str());

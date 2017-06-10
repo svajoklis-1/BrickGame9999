@@ -1,7 +1,6 @@
 #include "PixelArray.hpp"
 #include "Types.hpp"
 
-
 PixelArray::PixelArray(int sizeX, int sizeY) :
 	sizeX(sizeX), sizeY(sizeY)
 {
@@ -34,12 +33,12 @@ void PixelArray::setPixel(int x, int y, bool state)
 	pixels[xyToIndex(x, y)] = state;
 }
 
-int PixelArray::xyToIndex(int x, int y)
+int PixelArray::xyToIndex(int x, int y) const
 {
 	return y * sizeX + x;
 }
 
-bool PixelArray::getPixel(int x, int y)
+bool PixelArray::getPixel(int x, int y) const
 {
 	if (x < 0 || x >= sizeX || y < 0 || y >= sizeY)
 		return false;

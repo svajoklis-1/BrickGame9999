@@ -17,8 +17,6 @@ public:
 
 	int getLevel() const { return this->level; }
 	int getSpeed() const { return this->speed; }
-	int &getLevelRef() { return this->level; }
-	int &getSpeedRef() { return this->speed; }
 	void setLevel(int level);
 	void setSpeed(int speed);
 	int score = 0;

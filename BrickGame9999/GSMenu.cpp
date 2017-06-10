@@ -12,11 +12,7 @@ namespace GSMenu
 	{
 		defineGraphics();
 
-		dev.screen.highScore.setLink(&dev.highScore[letterChars[currentL]]);
-
 		dev.screen.score.dash();
-		dev.screen.level.setLink(&dev.getLevelRef());
-		dev.screen.speed.setLink(&dev.getSpeedRef());
 
 		dev.screen.hintArray.clear();
 
@@ -33,8 +29,8 @@ namespace GSMenu
 	{
 		if (state == STATE_DOWN)
 		{
-			int &speed = dev.getSpeedRef();
-			int &level = dev.getLevelRef();
+			int currentSpeed = 0;
+			int currentLevel = 0;
 			switch (k)
 			{
 			case KEY_LEFT:
@@ -53,24 +49,26 @@ namespace GSMenu
 
 			case KEY_UP:
 				dev.speaker.playSound(SND_BLIP);
-				speed++;
-				if (speed == 10)
-					speed = 0;
+				currentSpeed = dev.getSpeed();
+				if (currentSpeed == 9)
+					dev.setSpeed(0);
+				else
+					dev.setSpeed(currentSpeed + 1);
 				break;
 
 			case KEY_DOWN:
 				dev.speaker.playSound(SND_BLIP);
-				level++;
-				if (level == 10)
-					level = 0;
+				currentLevel = dev.getLevel();
+				if (currentLevel == 9)
+					dev.setLevel(0);
+				else
+					dev.setLevel(currentLevel + 1);
 				break;
 
 			case KEY_ACTION:
 				currentL += 1;
 				if (currentL >= letterCount)
 					currentL = 0;
-
-				dev.screen.highScore.setLink(&dev.highScore[letterChars[currentL]]);
 
 				resetAnim();
 				letterTurnDelay.reset();
@@ -159,10 +157,10 @@ namespace GSMenu
 	{
 		dev.screen.mainArray.clear();
 
-		dev.screen.level.setLinked();
-		dev.screen.speed.setLinked();
+		dev.screen.speed.setNumber(dev.getSpeed());
+		dev.screen.level.setNumber(dev.getLevel());
 
-		dev.screen.highScore.setLinked();
+		dev.screen.highScore.setNumber(dev.highScore[letterChars[currentL]]);
 
 		LetterRenderer::renderHorizontallyRotatedLetter(dev, letters[currentL], letterW, letterH, letterX, letterY, letterTurn.getPeriodCount() % 8);
 
