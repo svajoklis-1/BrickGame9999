@@ -49,11 +49,14 @@ namespace GSRain
 		this->ticks++;
 		this->rainTicks++;
 
-		this->inputTick.tick();
 		if (this->inputTick.triggered())
 		{
 			this->inputTick.reset();
 			this->onInputTick();
+		}
+		else
+		{
+			this->inputTick.tick();
 		}
 	}
 

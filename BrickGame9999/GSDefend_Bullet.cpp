@@ -10,11 +10,14 @@ namespace GSDefend
 
 	void Bullet::tick()
 	{
-		t.tick();
 		if (t.triggered())
 		{
 			t.reset();
 			this->pos.moveByDelta();
+		}
+		else
+		{
+			t.tick();
 		}
 	}
 

@@ -22,11 +22,14 @@ Explosion::Explosion() :
 
 void Explosion::render(Device& dev)
 {
-	displayTicker.tick();
 	if (displayTicker.triggered())
 	{
 		displayTicker.reset();
 		currentFrame++; if (currentFrame == 2) currentFrame = 0;
+	}
+	else
+	{
+		displayTicker.tick();
 	}
 
 	dev.screen.mainArray.copyString(explosionPosition.x, explosionPosition.y, frames[currentFrame], 4, 4, true);

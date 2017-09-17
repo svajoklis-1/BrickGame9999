@@ -26,7 +26,6 @@ namespace GSDefend
 	{
 		if (this->shipExploded)
 		{
-			this->shipExplodedPause.tick();
 			if (this->shipExplodedPause.triggered())
 			{
 				if (dev.lives == 0)
@@ -37,6 +36,10 @@ namespace GSDefend
 				{
 					nextState = GS_GAMEOVER_TOCURRENT;
 				}
+			}
+			else
+			{
+				this->shipExplodedPause.tick();
 			}
 
 			return;
@@ -55,11 +58,14 @@ namespace GSDefend
 
 		if (this->isShooting)
 		{
-			this->shootT.tick();
 			if (this->shootT.triggered())
 			{
 				this->shootT.reset();
 				bullets.push_back(Bullet(DIR_UP, this->ship.getX(), logicalScreen.h - 2));
+			}
+			else
+			{
+				this->shootT.tick();
 			}
 		}
 

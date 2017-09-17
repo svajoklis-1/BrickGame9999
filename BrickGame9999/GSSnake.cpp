@@ -88,11 +88,14 @@ namespace GSSnake
 		bool crashed = false;
 		// move snake
 
-		snakeTicker.tick();
 		if (snakeTicker.triggered())
 		{
 			snake.tick(dev);
 			snakeTicker.reset();
+		}
+		else
+		{
+			snakeTicker.tick();
 		}
 
 		// check for collision with itself and walls

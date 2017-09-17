@@ -79,12 +79,15 @@ namespace GSArkanoid
 
 	void State::tickPause(Device &dev)
 	{
-		pauseTicker.tick();
 		if (pauseTicker.triggered())
 		{
 			pauseTicker.reset();
 			stateSegment = SEG_GAME;
 			return;
+		}
+		else
+		{
+			pauseTicker.tick();
 		}
 	}
 
@@ -114,7 +117,6 @@ namespace GSArkanoid
 
 	void State::tickExplosion(Device &dev)
 	{
-		pauseTicker.tick();
 		if (pauseTicker.triggered())
 		{
 			pauseTicker.reset();
@@ -129,6 +131,10 @@ namespace GSArkanoid
 			}
 
 			return;
+		}
+		else
+		{
+			pauseTicker.tick();
 		}
 	}
 

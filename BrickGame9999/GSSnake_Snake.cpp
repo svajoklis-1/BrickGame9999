@@ -155,11 +155,14 @@ namespace GSSnake
 
 	void Snake::render(Device &dev)
 	{
-		snakeHeadBlinkTicker.tick();
 		// blink head
 		if (snakeHeadBlinkTicker.triggered())
 		{
 			snakeHeadBlinkTicker.reset();
+		}
+		else
+		{
+			snakeHeadBlinkTicker.tick();
 		}
 
 		for (int i = 0; i < length; i++)

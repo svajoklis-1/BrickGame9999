@@ -32,11 +32,14 @@ namespace GSGameOver
 
 	void State::tickCurtain(Device &dev)
 	{
-		lineTicker.tick();
 		if (lineTicker.triggered())
 		{
 			lineTicker.reset();
 			lineState++;
+		}
+		else
+		{
+			lineTicker.tick();
 		}
 
 		if (lineState <= 20)

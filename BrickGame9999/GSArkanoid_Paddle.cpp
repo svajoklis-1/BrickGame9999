@@ -21,7 +21,6 @@ namespace GSArkanoid
 
 	void Paddle::tick(Device &dev, State &s)
 	{
-		t.tick();
 		if (t.triggered())
 		{
 			t.reset();
@@ -42,6 +41,10 @@ namespace GSArkanoid
 			if (x > 10 - w)
 				x = 10 - w;
 
+		}
+		else
+		{
+			t.tick();
 		}
 	}
 
